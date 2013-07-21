@@ -27,6 +27,7 @@ package com.shrimp.ui.controls.core
 				parent.addChild(this);
 			}
 			_listeners=[];
+			mouseChildren=false;
 		}
 
 		public function move(xpos:Number, ypos:Number):void
@@ -115,5 +116,7 @@ package com.shrimp.ui.controls.core
 			}
 			return listeners;
 		}
+		
+		
 	}
 }
