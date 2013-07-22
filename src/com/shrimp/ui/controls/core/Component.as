@@ -33,7 +33,10 @@ package com.shrimp.ui.controls.core
 		protected function init():void
 		{
 			_listeners=[];
+
 			createChildren();
+
+			mouseChildren=false;
 		}
 		
 		protected function createChildren():void
@@ -132,5 +135,7 @@ package com.shrimp.ui.controls.core
 			}
 			return listeners;
 		}
+		
+		
 	}
 }
