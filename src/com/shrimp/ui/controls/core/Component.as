@@ -26,9 +26,22 @@ package com.shrimp.ui.controls.core
 			{
 				parent.addChild(this);
 			}
-			_listeners=[];
+			
+			init();
 		}
-
+		
+		protected function init():void
+		{
+			_listeners=[];
+			createChildren();
+		}
+		
+		protected function createChildren():void
+		{
+			
+		}
+		
+		/**	移动*/
 		public function move(xpos:Number, ypos:Number):void
 		{
 			x=Math.round(xpos);
@@ -67,14 +80,14 @@ package com.shrimp.ui.controls.core
 			return this._tooltip;
 		}
 
-		//复写添加监听的方法，将监听对象，类型， 函数注册到listeners中。方便集中管理，销毁
+		/**复写添加监听的方法，将监听对象，类型， 函数注册到listeners中。方便集中管理，销毁*/
 		override public function addEventListener(type:String, listener:Function, useCapture:Boolean=false, priority:int=0, useWeakReference:Boolean=false):void
 		{
 			super.addEventListener(type, listener, useCapture, priority, useWeakReference);
 			this._listeners.push({type: type, listener: listener, useCapture: useCapture});
 		}
 
-		//复写移除监听方法，将监听的事件移除，并且从listeners中移除
+		/**复写移除监听方法，将监听的事件移除，并且从listeners中移除*/
 		override public function removeEventListener(type:String, listener:Function, useCapture:Boolean=false):void
 		{
 			super.removeEventListener(type, listener, useCapture);
@@ -93,6 +106,10 @@ package com.shrimp.ui.controls.core
 			}
 		}
 
+		/**
+		 *	移除组件所有的监听事件 
+		 * 
+		 */		
 		public function removeListeners():void
 		{
 			for each (var event:Object in _listeners)
