@@ -1,6 +1,8 @@
 package com.shrimp.ui.controls
 {
-	public class Label
+	import com.shrimp.ui.controls.core.Component;
+
+	public class Label extends Component
 	{
 		public function Label()
 		{

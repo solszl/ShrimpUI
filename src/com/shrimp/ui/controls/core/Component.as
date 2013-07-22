@@ -36,7 +36,7 @@ package com.shrimp.ui.controls.core
 
 			createChildren();
 
-			mouseChildren=false;
+			mouseChildren=tabChildren=tabEnabled=false;
 		}
 		
 		protected function createChildren():void
