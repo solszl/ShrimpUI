@@ -6,6 +6,7 @@ package com.shrimp.ui.controls.core
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Shape;
 	import flash.display.Sprite;
+	import flash.events.Event;
 
 	/**
 	 *	组件基类
@@ -18,6 +19,15 @@ package com.shrimp.ui.controls.core
 
 		protected var _listeners:Array;
 
+		protected var _height:Number;
+		protected var _width:Number;
+
+		private var _sizeChanged:Boolean=false;
+
+		private var mPivotX:Number;
+		private var mPivotY:Number;
+		private var mOrientationChanged:Boolean;
+
 		public function Component(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
 		{
 			super();
@@ -26,10 +36,38 @@ package com.shrimp.ui.controls.core
 			{
 				parent.addChild(this);
 			}
-			
+
 			init();
 		}
-		
+
+		override public function get width():Number
+		{
+			return _width;
+		}
+
+		override public function set width(value:Number):void
+		{
+			if (_width == value)
+				return;
+			_width=value;
+			_sizeChanged=true;
+			invalidateDisplayList();
+		}
+
+		override public function get height():Number
+		{
+			return _height;
+		}
+
+		override public function set height(value:Number):void
+		{
+			if (_height == value)
+				return;
+			_height=value;
+			_sizeChanged=true;
+			invalidateDisplayList();
+		}
+
 		protected function init():void
 		{
 			_listeners=[];
@@ -38,12 +76,12 @@ package com.shrimp.ui.controls.core
 
 			mouseChildren=tabChildren=tabEnabled=false;
 		}
-		
+
 		protected function createChildren():void
 		{
-			
+
 		}
-		
+
 		/**	移动*/
 		public function move(xpos:Number, ypos:Number):void
 		{
@@ -110,9 +148,9 @@ package com.shrimp.ui.controls.core
 		}
 
 		/**
-		 *	移除组件所有的监听事件 
-		 * 
-		 */		
+		 *	移除组件所有的监听事件
+		 *
+		 */
 		public function removeListeners():void
 		{
 			for each (var event:Object in _listeners)
@@ -135,7 +173,43 @@ package com.shrimp.ui.controls.core
 			}
 			return listeners;
 		}
-		
-		
+
+		public function invalidateDisplayList():void
+		{
+			if (_sizeChanged)
+			{
+				dispatchEvent(new Event(Event.RESIZE));
+			}
+		}
+
+		/** X轴注册点*/
+		public function get pivotX():Number
+		{
+			return mPivotX;
+		}
+
+		public function set pivotX(value:Number):void
+		{
+			if (mPivotX != value)
+			{
+				mPivotX=value;
+				mOrientationChanged=true;
+			}
+		}
+
+		/** Y轴注册点*/
+		public function get pivotY():Number
+		{
+			return mPivotY;
+		}
+
+		public function set pivotY(value:Number):void
+		{
+			if (mPivotY != value)
+			{
+				mPivotY=value;
+				mOrientationChanged=true;
+			}
+		}
 	}
 }
