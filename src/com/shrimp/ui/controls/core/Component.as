@@ -1,7 +1,8 @@
 package com.shrimp.ui.controls.core
 {
 	import com.shrimp.interfaces.ITooltip;
-
+	import com.shrimp.managers.ComponentManager;
+	
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Shape;
@@ -21,13 +22,9 @@ package com.shrimp.ui.controls.core
 
 		protected var _height:Number;
 		protected var _width:Number;
-
-		private var _sizeChanged:Boolean=false;
-
-		private var mPivotX:Number;
-		private var mPivotY:Number;
-		private var mOrientationChanged:Boolean;
-
+		
+		protected var _explicitHeight:Number=NaN;
+		protected var _explicitWidth:Number=NaN;
 		public function Component(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
 		{
 			super();
@@ -40,32 +37,93 @@ package com.shrimp.ui.controls.core
 			init();
 		}
 
+		public function get explicitHeight():Number
+		{
+			return _explicitHeight;
+		}
+		
+		public function get explicitWidth():Number
+		{
+			return _explicitWidth;
+		}
 		override public function get width():Number
 		{
-			return _width;
+			return !isNaN(_explicitWidth) ? _explicitWidth : _width;
 		}
 
+
+		public function get measuredWidth():Number
+		{
+			measure();
+			var max:Number=0;
+			for (var i:int=numChildren - 1; i > -1; i--)
+			{
+				var comp:DisplayObject=getChildAt(i);
+				max=Math.max(comp.x + comp.width, max);
+			}
+			return max;
+		}
+
+		
+		public function set measuredWidth(value:Number):void
+		{
+			_measuredWidth=value;
+			if (isNaN(_explicitWidth))
+			{
+				if (_width != _measuredWidth)
+				{
+					_width=_measuredWidth;
+					dispatchEvent(new Event(Event.RESIZE))
+				}
+			}
+		}
 		override public function set width(value:Number):void
 		{
 			if (_width == value)
 				return;
 			_width=value;
-			_sizeChanged=true;
+			_explicitWidth=value;
 			invalidateDisplayList();
+			dispatchEvent(new Event(Event.RESIZE));
 		}
 
 		override public function get height():Number
 		{
-			return _height;
+			return !isNaN(_explicitHeight) ? _explicitHeight : _height;
 		}
 
+		public function get measuredHeight():Number
+		{
+			measure();
+			var max:Number=0;
+			for (var i:int=numChildren - 1; i > -1; i--)
+			{
+				var comp:DisplayObject=getChildAt(i);
+				max=Math.max(comp.y + comp.height, max);
+			}
+			return max;
+		}
+
+		public function set measuredHeight(value:Number):void
+		{
+			_measuredHeight = value;
+			if (isNaN(_explicitHeight))
+			{
+				if (_height != _measuredHeight)
+				{
+					_height=_measuredHeight;
+					dispatchEvent(new Event(Event.RESIZE))
+				}
+			}
+		}
 		override public function set height(value:Number):void
 		{
 			if (_height == value)
 				return;
 			_height=value;
-			_sizeChanged=true;
+			_explicitHeight=value;
 			invalidateDisplayList();
+			dispatchEvent(new Event(Event.RESIZE));
 		}
 
 		protected function init():void
@@ -74,7 +132,10 @@ package com.shrimp.ui.controls.core
 
 			createChildren();
 
+			invalidateDisplayList();
+			invalidateProperties();
 			mouseChildren=tabChildren=tabEnabled=false;
+			ComponentManager.addPreInitComponent(this);
 		}
 
 		protected function createChildren():void
@@ -87,6 +148,18 @@ package com.shrimp.ui.controls.core
 		{
 			x=Math.round(xpos);
 			y=Math.round(ypos);
+		}
+
+		public function setActualSize(w:Number, h:Number):void
+		{
+			_explicitWidth=w;
+			_explicitHeight=h;
+			
+			_width=isNaN(w) ? _measuredWidth : w;
+			
+			_height=isNaN(h) ? _measuredHeight : h;
+			
+			invalidateDisplayList();
 		}
 
 		/**根据名字删除子对象，如找不到不会抛出异常*/
@@ -108,7 +181,6 @@ package com.shrimp.ui.controls.core
 			border.graphics.lineStyle(1, color);
 			border.graphics.drawRect(0, 0, width, height);
 			addChild(border);
-
 		}
 
 		public function set toolTip(value:Object):void
@@ -119,6 +191,87 @@ package com.shrimp.ui.controls.core
 		public function get toolTip():Object
 		{
 			return this._tooltip;
+		}
+
+		private var _initialized:Boolean=false;
+		private var _measuredHeight:Number;
+		private var _measuredWidth:Number;
+
+		public function get initialized():Boolean
+		{
+			return _initialized;
+		}
+
+		public function set initialized(value:Boolean):void
+		{
+			_initialized=value;
+
+			if (value)
+			{
+				addEventListener("createComplete", creationCompleteHandler, false, 0, true);
+				dispatchEvent(new Event("createComplete"));
+			}
+		}
+
+		protected function creationCompleteHandler(event:Event):void
+		{
+			trace("creationCompleteHandler");
+		}
+
+		public function validateNow():void
+		{
+			trace("validateNow");
+			validateProperties();
+			validateDisplayList();
+		}
+
+		public function validateDisplayList():void
+		{
+			updateDisplayList();
+			ComponentManager.removePaddingDisplay(this);
+			trace("validateDisplayList");
+		}
+
+
+		public function validateProperties():void
+		{
+			commitProperties();
+			ComponentManager.removePaddingProperty(this)
+			trace("validateProperties");
+		}
+
+		public function invalidateDisplayList():void
+		{
+			ComponentManager.addPaddingDisplay(this);
+			trace("invalidateDisplayList");
+		}
+
+		public function invalidateProperties():void
+		{
+			ComponentManager.addPaddingProperty(this);
+			trace("invalidateProperties");
+		}
+
+		protected function measure():void
+		{
+			trace("measure");
+		}
+
+		protected function updateDisplayList():void
+		{
+			measure();
+			trace("updateDisplayList");
+		}
+
+		protected function commitProperties():void
+		{
+			trace("commitProperties");
+		}
+
+		/**执行影响宽高的延迟函数*/
+		public function commitMeasure():void
+		{
+
 		}
 
 		/**复写添加监听的方法，将监听对象，类型， 函数注册到listeners中。方便集中管理，销毁*/
@@ -172,44 +325,6 @@ package com.shrimp.ui.controls.core
 
 			}
 			return listeners;
-		}
-
-		public function invalidateDisplayList():void
-		{
-			if (_sizeChanged)
-			{
-				dispatchEvent(new Event(Event.RESIZE));
-			}
-		}
-
-		/** X轴注册点*/
-		public function get pivotX():Number
-		{
-			return mPivotX;
-		}
-
-		public function set pivotX(value:Number):void
-		{
-			if (mPivotX != value)
-			{
-				mPivotX=value;
-				mOrientationChanged=true;
-			}
-		}
-
-		/** Y轴注册点*/
-		public function get pivotY():Number
-		{
-			return mPivotY;
-		}
-
-		public function set pivotY(value:Number):void
-		{
-			if (mPivotY != value)
-			{
-				mPivotY=value;
-				mOrientationChanged=true;
-			}
 		}
 	}
 }
