@@ -3,7 +3,7 @@ package com.shrimp.ui.controls
 	import com.shrimp.ui.controls.core.Component;
 	import com.shrimp.ui.controls.core.Style;
 	import com.shrimp.utils.StringUtil;
-	
+
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
 	import flash.text.TextField;
@@ -11,6 +11,12 @@ package com.shrimp.ui.controls
 	import flash.text.TextFormat;
 	import flash.text.TextFormatAlign;
 
+	/**
+	 *	label组件,暂不支持HTML
+	 * @author Sol
+	 * 2013-07-26
+	 *
+	 */
 	public class Label extends Component
 	{
 		protected var _text:String="";
@@ -44,6 +50,11 @@ package com.shrimp.ui.controls
 			this.addChild(_tf);
 		}
 
+		/**
+		 *	取到当前设置的textFormat
+		 * @return
+		 *
+		 */
 		public function get textFormat():TextFormat
 		{
 			return _format;
@@ -56,6 +67,11 @@ package com.shrimp.ui.controls
 			_tf.setTextFormat(value);
 		}
 
+		/**
+		 *	描边
+		 * @return
+		 *
+		 */
 		public function get stroke():uint
 		{
 			return _stroke;
@@ -169,6 +185,9 @@ package com.shrimp.ui.controls
 
 		public function set indent(value:int):void
 		{
+			if (_indent == value)
+				return;
+
 			_indent=value;
 			_textPropertyChanged=true;
 			invalidateProperties();
@@ -186,14 +205,14 @@ package com.shrimp.ui.controls
 			if (_textPropertyChanged)
 			{
 				_textPropertyChanged=false;
-				_tf.defaultTextFormat=new TextFormat(Style.fontFamily, _fontSize, _color, _bold, null, null, null,null, _align,null,null,_indent);
+				_tf.defaultTextFormat=new TextFormat(Style.fontFamily, _fontSize, _color, _bold, null, null, null, null, _align, null, null, _indent);
 				_tf.text=_text;
 			}
 		}
 
 		override protected function measure():void
 		{
-			measuredWidth=_tf.textWidth + 4+_indent;
+			measuredWidth=_tf.textWidth + 4 + _indent;
 			measuredHeight=Math.max(_tf.textHeight + 4, 15);
 		}
 
