@@ -46,6 +46,7 @@ package com.shrimp.ui.controls
 			_tf.mouseEnabled=true;
 			_tf.tabEnabled=false;
 			_tf.text=_text;
+			_tf.defaultTextFormat=new TextFormat(Style.fontFamily, _fontSize, _color, _bold, null, null, null, null, _align, null, null, _indent);
 			_tf.height=_height;
 			this.addChild(_tf);
 		}
