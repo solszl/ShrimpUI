@@ -42,7 +42,7 @@ package com.shrimp.ui.controls.core
 		/**	默认字号*/
 		public static var fontSize:int = 14;
 		/**	默认字体*/
-		public static var fontFamily:String="微软雅黑";
+		public static var fontFamily:String="Microsoft yahei";
 		/**	描边颜色*/
 		public static const stroke:uint=0x292317;
 		/**	默认字体滤镜*/

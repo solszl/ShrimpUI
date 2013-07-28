@@ -3,7 +3,7 @@ package com.shrimp.ui.controls
 	import com.shrimp.ui.controls.core.Component;
 	import com.shrimp.ui.controls.core.Style;
 	import com.shrimp.utils.StringUtil;
-
+	
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
 	import flash.text.TextField;
@@ -201,6 +201,7 @@ package com.shrimp.ui.controls
 			{
 				_textChanged=false;
 				_tf.text=_text;
+				invalidateDisplayList();
 			}
 
 			if (_textPropertyChanged)

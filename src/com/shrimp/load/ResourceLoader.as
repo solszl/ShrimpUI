@@ -1,7 +1,8 @@
 package com.shrimp.load
 {
 	import com.shrimp.log.Logger;
-
+	import com.shrimp.managers.AssetsManager;
+	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.Loader;
@@ -70,8 +71,8 @@ package com.shrimp.load
 			var content:*=null;
 			if (_type == ResourceType.SWF)
 			{
+				content=_loader.content;
 				_loader.unloadAndStop();
-				content=1;
 			}
 			else if (_type == ResourceType.BMD)
 			{
@@ -106,6 +107,7 @@ package com.shrimp.load
 			{
 				content=_urlLoader.data;
 			}
+			
 			if (_useCache)
 			{
 				loadedCache[_url]=content;
@@ -118,6 +120,10 @@ package com.shrimp.load
 		{
 			Logger.getLogger("resourceLoader").error("downLoad error:: while url is:" + _url);
 			onComplete(null);
+			if(onFailedCallBack !=null)
+			{
+				onFailedCallBack(url);
+			}
 		}
 
 		/**	网络状态*/
