@@ -205,5 +205,10 @@ package com.shrimp.load
 				checkNext();
 			}
 		}
+		
+		public static function hadLoaded(url:String):Boolean
+		{
+			return url in ResourceLoader.loadedCache
+		}
 	}
 }

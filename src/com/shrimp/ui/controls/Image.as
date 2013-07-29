@@ -33,7 +33,7 @@ package com.shrimp.ui.controls
 			
 			if(value is String)
 			{
-				if(AssetsManager.hasLoaded(ResourceType.BMD,String(value)))
+				if(AssetsManager.hasLoaded(String(value)))
 				{
 					_img.bitmapData = AssetsManager.getInstance().getBitmapData(String(value));
 					invalidateDisplayList();

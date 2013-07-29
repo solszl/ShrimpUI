@@ -1,8 +1,10 @@
 package com.shrimp.managers
 {
+	import com.shrimp.load.LoaderManager;
 	import com.shrimp.load.ResourceType;
 	import com.shrimp.log.Logger;
-	
+	import com.shrimp.utils.ClassUtils;
+
 	import flash.display.BitmapData;
 	import flash.system.ApplicationDomain;
 	import flash.utils.Dictionary;
@@ -23,7 +25,9 @@ package com.shrimp.managers
 		/**	byteArray、AMF,压缩后的byteArray缓存*/
 		private static var byteArrayCache:Dictionary=new Dictionary();
 		/**	txt文本，XML内容缓存*/
-		private static var txtCache:Dictionary = new Dictionary();
+		private static var txtCache:Dictionary=new Dictionary();
+		/**	其他缓存*/
+		private static var otherCache:Dictionary=new Dictionary();
 
 		private static var _domain:ApplicationDomain=ApplicationDomain.currentDomain;
 		private static var _instance:AssetsManager;
@@ -45,35 +49,13 @@ package com.shrimp.managers
 			return _domain.hasDefinition(name);
 		}
 
-		/**获取类*/
-		public function getClass(name:String):Class
-		{
-			if (hasClass(name))
-			{
-				return _domain.getDefinition(name) as Class;
-			}
-			Logger.getLogger("AssetManager").error("Miss Asset:", name);
-			return null;
-		}
-
-		/**获取资源*/
-		public function getAsset(name:String):*
-		{
-			var clazz:Class=getClass(name);
-			if (clazz != null)
-			{
-				return new clazz();
-			}
-			return null;
-		}
-
 		/**获取位图数据*/
 		public function getBitmapData(name:String):BitmapData
 		{
 			var bmd:BitmapData=bmdCache[name];
 			if (bmd == null)
 			{
-				var bmdClass:Class=getClass(name);
+				var bmdClass:Class=ClassUtils.getClass(name);
 				if (bmdClass == null)
 				{
 					return null;
@@ -99,23 +81,25 @@ package com.shrimp.managers
 				clipCache[name]=clips;
 			}
 		}
-		
-		public function cacheObject(name:String,content:*):void
+
+		public function cacheObject(name:String, content:*):void
 		{
-			if(content)
+			if (content)
 			{
 				byteArrayCache[name]=content;
 			}
 		}
+
 		/**	文本缓存
 		 * dictionary内缓存的是不定性的Object，取出来的时候。手动as 转换一下 需要*/
-		public function cacheTxtXML(name:String,content:*):void
+		public function cacheTxtXML(name:String, content:*):void
 		{
-			if(content)
+			if (content)
 			{
 				txtCache[name]=content;
 			}
 		}
+
 		/**销毁位图数据*/
 		public function disposeBitmapData(name:String):void
 		{
@@ -127,19 +111,63 @@ package com.shrimp.managers
 			}
 		}
 
-		public static function hasLoaded(type:int, url:String):Boolean
+		public static function hasLoaded(url:String):Boolean
+		{
+			return LoaderManager.hadLoaded(url);
+		}
+
+		public static function loadItem(url:String, type:int, complete:Function=null, progress:Function=null, error:Function=null, useCache:Boolean=true):void
+		{
+			LoaderManager.load(url, type, loadedItem, progress, error, useCache);
+			function loadedItem(content:*):void
+			{
+				if (complete != null)
+				{
+					complete(content);
+				}
+				if (useCache)
+				{
+					cacheConent(type, url, content);
+				}
+			}
+		}
+
+		public static function loadAssets(arr:Array, complete:Function=null, progress:Function=null, onAllComplete:Function=null, onFailed:Function=null, useCache:Boolean=true):void
+		{
+			LoaderManager.loadAssets(arr, itemComplete, progress, onAllComplete, onFailed, useCache);
+			function itemComplete(content:*):void
+			{
+				if(complete!=null)
+				{
+					complete(content);
+				}
+				if(useCache)
+				{
+//					cacheConent(type, url, content);
+				}
+			}
+		}
+
+		private static function cacheConent(type:int, url:String, content:*):void
 		{
 			switch (type)
 			{
+				case ResourceType.AMF:
+					otherCache[url]=content;
+					break;
 				case ResourceType.BMD:
-					if (url in bmdCache)
-						return true;
-				case ResourceType.TXT:
-					return false;
+					bmdCache[url]=content;
+					break;
+				case ResourceType.BYTE:
+				case ResourceType.DB:
 				case ResourceType.SWF:
-					return false
+					otherCache[url]=content;
+				case ResourceType.TXT:
+					txtCache[url]=content;
+				default:
+					otherCache[url]=content;
+					break;
 			}
-			return false;
 		}
 	}
 }
