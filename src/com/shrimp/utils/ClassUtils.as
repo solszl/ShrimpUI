@@ -9,13 +9,17 @@ package com.shrimp.utils
 	public class ClassUtils
 	{
 		/**获取类的实例**/
-		public static function getClassInstance(className:String):*
+		public static function getClassInstance(className:String,domain:ApplicationDomain=null):*
 		{
 			var instance:*;
 
-			if (ApplicationDomain.currentDomain.hasDefinition(className))
+			if(domain==null)
 			{
-				var getClass:Class=ApplicationDomain.currentDomain.getDefinition(className) as Class;
+				domain = ApplicationDomain.currentDomain;
+			}
+			if (domain.hasDefinition(className))
+			{
+				var getClass:Class=domain.getDefinition(className) as Class;
 				instance=new getClass();
 				return instance;
 			}
@@ -26,17 +30,22 @@ package com.shrimp.utils
 		}
 
 		/**获取类**/
-		public static function getClass(className:String):Class
+		public static function getClass(className:String,domain:ApplicationDomain=null):Class
 		{
-			if (ApplicationDomain.currentDomain.hasDefinition(className))
+			if(domain==null)
 			{
-				var getClass:Class=ApplicationDomain.currentDomain.getDefinition(className) as Class;
+				domain = ApplicationDomain.currentDomain;
+			}
+			
+			if (domain.hasDefinition(className))
+			{
+				var getClass:Class=domain.getDefinition(className) as Class;
 				return getClass;
 			}
 			else
 			{
-				return null;
 				trace("未找到类" + className);
+				return null;
 			}
 		}
 	}
