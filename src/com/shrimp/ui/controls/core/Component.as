@@ -1,5 +1,6 @@
 package com.shrimp.ui.controls.core
 {
+	import com.sg.game.framework.core.IGuide;
 	import com.shrimp.interfaces.ITooltip;
 	import com.shrimp.managers.ComponentManager;
 	
@@ -14,7 +15,7 @@ package com.shrimp.ui.controls.core
 	 * @author Sol
 	 *
 	 */
-	public class Component extends Sprite implements ITooltip
+	public class Component extends Sprite implements ITooltip,IGuide
 	{
 		private var _tooltip:Object;
 
@@ -325,6 +326,57 @@ package com.shrimp.ui.controls.core
 
 			}
 			return listeners;
+		}
+		
+		private var guideTypeArr:Array;
+		private var guideContainer:Sprite;
+		private var guidePosition:String;
+		//		[Inspectable(category="General", enumeration="arrow,rectangle,circle,bubble", defaultValue="left")]
+		/**
+		 *	对组件添加新手引导 类型与位置， 
+		 * @param type	arrow,rectangle,circle,bubble,other
+		 * @param position	top,left,bottom,right,center
+		 * 
+		 */		
+		public function addType(type:String,position:String):void
+		{
+			if(!guideTypeArr)
+				guideTypeArr=[];
+			guidePosition = position;
+			guideTypeArr.push(type+position);
+			guideContainer = new Sprite();
+			guideContainer.name = type+position;
+			addChild(guideContainer);
+		}
+		
+		public function addGuide(disObj:DisplayObject):void
+		{
+			guideContainer.addChild(disObj);
+			switch(guidePosition)
+			{
+				case "left":
+					disObj.x = -disObj.width;
+					break;
+				case  "right":
+					disObj.x = width;
+					break;
+				case "top":
+					disObj.y = -disObj.height;
+					break;
+				case "bottom":
+					disObj.y = height;
+					break;
+				default:break;
+			}
+		}
+		
+		public function removeGuide():void
+		{
+			for each(var name:String in guideTypeArr)
+			{
+				removeChildByName(name);
+			}
+			guideTypeArr=[];
 		}
 	}
 }
