@@ -117,18 +117,18 @@ package com.shrimp.framework.managers
 
 		public static function loadItem(url:String, type:int, complete:Function=null, progress:Function=null, error:Function=null, useCache:Boolean=true):void
 		{
-			LoaderManager.load(url, type, loadedItem, progress, error, useCache);
-			function loadedItem(content:*):void
-			{
-				if (complete != null)
-				{
-					complete(content);
-				}
-				if (useCache)
-				{
-					cacheConent(type, url, content);
-				}
-			}
+//			LoaderManager.load(url, type, loadedItem, progress, error, useCache);
+//			function loadedItem(content:*):void
+//			{
+//				if (complete != null)
+//				{
+//					complete(content);
+//				}
+//				if (useCache)
+//				{
+//					cacheConent(type, url, content);
+//				}
+//			}
 		}
 
 		public static function loadAssets(arr:Array, complete:Function=null, progress:Function=null, onAllComplete:Function=null, onFailed:Function=null, useCache:Boolean=true):void

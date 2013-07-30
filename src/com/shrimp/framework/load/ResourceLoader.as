@@ -1,7 +1,6 @@
 package com.shrimp.framework.load
 {
 	import com.shrimp.framework.log.Logger;
-	import com.shrimp.framework.managers.AssetsManager;
 	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
@@ -32,14 +31,12 @@ package com.shrimp.framework.load
 		private var _urlRequest:URLRequest=new URLRequest();
 		private var _loaderContext:LoaderContext=new LoaderContext(false, ApplicationDomain.currentDomain);
 
-
-		private var _url:String;
-		private var _type:int;
 		private var onCompleteCallBack:Function;
 		private var onProgressCallBack:Function;
 		private var onFailedCallBack:Function;
 		private var _useCache:Boolean;
 
+		private var currentItem:Object;
 		private var _isLoading:Boolean;
 
 		/**	已经加载过的文件列表，以文件url为Key*/
@@ -48,12 +45,12 @@ package com.shrimp.framework.load
 		public function ResourceLoader()
 		{
 			_loader.contentLoaderInfo.addEventListener(ProgressEvent.PROGRESS, onProgressHandler);
-			_loader.contentLoaderInfo.addEventListener(Event.COMPLETE, onCompleteHandler);
+			_loader.contentLoaderInfo.addEventListener(Event.COMPLETE, onLoaderCompleteHandler);
 			_loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, onErrorHandler);
 			_loader.contentLoaderInfo.addEventListener(HTTPStatusEvent.HTTP_STATUS, onStatusHandler);
 
 			_urlLoader.addEventListener(ProgressEvent.PROGRESS, onProgressHandler);
-			_urlLoader.addEventListener(Event.COMPLETE, onCompleteHandler);
+			_urlLoader.addEventListener(Event.COMPLETE, onUrlLoaderCompleteHandler);
 			_urlLoader.addEventListener(IOErrorEvent.IO_ERROR, onErrorHandler);
 			_urlLoader.addEventListener(HTTPStatusEvent.HTTP_STATUS, onStatusHandler);
 			_urlLoader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, onErrorHandler);
@@ -65,16 +62,67 @@ package com.shrimp.framework.load
 			onProgress(e.bytesTotal, e.bytesLoaded);
 		}
 
-		/**加载完成*/
-		private function onCompleteHandler(e:Event):void
+		/**
+		 *	load加载完成回调
+		 * @param e
+		 *
+		 */
+		private function onLoaderCompleteHandler(e:Event):void
 		{
 			var content:*=null;
-			if (_type == ResourceType.SWF)
+			if (currentItem.type == ResourceType.SWF)
 			{
 				content=_loader.content;
-				_loader.unloadAndStop();
 			}
-			else if (_type == ResourceType.BMD)
+			else if (currentItem.type == ResourceType.BMD)
+			{
+				if (_urlLoader.data != null)
+				{
+					_loader.loadBytes(_urlLoader.data);
+					_urlLoader.data=null;
+					return;
+				}
+				content=Bitmap(_loader.content).bitmapData;
+			}
+			
+			if (_useCache)
+			{
+				loadedCache[url]=content;
+			}
+			onComplete(currentItem,content,_loader.contentLoaderInfo.applicationDomain);
+//			_loader.unloadAndStop();
+		}
+
+		/**
+		 *	urlLoader 加载完成回调
+		 * @param e
+		 *
+		 */
+		private function onUrlLoaderCompleteHandler(e:Event):void
+		{
+			var content:*=null;
+			if (currentItem.type == ResourceType.AMF)
+			{
+				if (_urlLoader.data && _urlLoader.data.length > 0 && _urlLoader.data.readByte() == 0x11)
+				{
+					content=_urlLoader.data.readObject();
+				}
+			}
+			else if (currentItem.type == ResourceType.DB)
+			{
+				var bytes:ByteArray=_urlLoader.data as ByteArray;
+				bytes.uncompress();
+				content=bytes.readObject();
+			}
+			else if (currentItem.type == ResourceType.BYTE)
+			{
+				content=_urlLoader.data as ByteArray;
+			}
+			else if (currentItem.type == ResourceType.TXT)
+			{
+				content=_urlLoader.data;
+			}
+			else if (currentItem.type == ResourceType.BMD)
 			{
 				if (_urlLoader.data != null)
 				{
@@ -85,44 +133,20 @@ package com.shrimp.framework.load
 				content=Bitmap(_loader.content).bitmapData;
 				_loader.unloadAndStop();
 			}
-			else if (_type == ResourceType.AMF)
-			{
-
-				if (_urlLoader.data && _urlLoader.data.length > 0 && _urlLoader.data.readByte() == 0x11)
-				{
-					content=_urlLoader.data.readObject();
-				}
-			}
-			else if (_type == ResourceType.DB)
-			{
-				var bytes:ByteArray=_urlLoader.data as ByteArray;
-				bytes.uncompress();
-				content=bytes.readObject();
-			}
-			else if (_type == ResourceType.BYTE)
-			{
-				content=_urlLoader.data as ByteArray;
-			}
-			else if (_type == ResourceType.TXT)
-			{
-				content=_urlLoader.data;
-			}
-			
 			if (_useCache)
 			{
-				loadedCache[_url]=content;
+				loadedCache[url]=content;
 			}
-			onComplete(content);
+			onComplete(currentItem,content,null);
 		}
 
 		/**	加载失败*/
 		private function onErrorHandler(e:Event):void
 		{
-			Logger.getLogger("resourceLoader").error("downLoad error:: while url is:" + _url);
-			onComplete(null);
-			if(onFailedCallBack !=null)
+			Logger.getLogger("resourceLoader").error("downLoad error:: while url is:" + url);
+			if (onFailedCallBack != null)
 			{
-				onFailedCallBack(url);
+				onFailedCallBack(currentItem,url);
 			}
 		}
 
@@ -140,12 +164,12 @@ package com.shrimp.framework.load
 			}
 		}
 
-		protected function onComplete(item:*):void
+		protected function onComplete(item:Object,content:*,domain:ApplicationDomain):void
 		{
-			_isLoading = false;
+			_isLoading=false;
 			if (onCompleteCallBack != null)
 			{
-				onCompleteCallBack(item);
+				onCompleteCallBack(item,content,domain);
 			}
 		}
 
@@ -158,14 +182,13 @@ package com.shrimp.framework.load
 		 * @param useCache
 		 *
 		 */
-		public function load(url:String, type:int, onItemComplete:Function, onProgress:Function, onFailed:Function, useCache:Boolean=true):void
+		public function load(loadItem:Object, onItemComplete:Function, onProgress:Function, onFailed:Function, useCache:Boolean=true):void
 		{
 			if (_isLoading)
 			{
 				tryToCloseLoad();
 			}
-			_url=url;
-			_type=type;
+			currentItem=loadItem;
 			_useCache=useCache;
 
 			this.onCompleteCallBack=onItemComplete;
@@ -176,7 +199,7 @@ package com.shrimp.framework.load
 			var content:*=getResLoaded(url);
 			if (content != null)
 			{
-				return onComplete(content);
+				return onComplete(loadItem,content,null);
 			}
 
 			startLoad();
@@ -184,20 +207,20 @@ package com.shrimp.framework.load
 
 		private function startLoad():void
 		{
-			_isLoading = true;
-			_urlRequest.url=_url;
-			if (_type == ResourceType.SWF)
+			_isLoading=true;
+			_urlRequest.url=url;
+			if (currentItem.type == ResourceType.SWF)
 			{
 				_loader.load(_urlRequest, _loaderContext);
 				return;
 			}
-			if (_type == ResourceType.BMD || _type == ResourceType.AMF || _type == ResourceType.DB || _type == ResourceType.BYTE)
+			if (currentItem.type == ResourceType.BMD || currentItem.type == ResourceType.AMF || currentItem.type == ResourceType.DB || currentItem.type == ResourceType.BYTE)
 			{
 				_urlLoader.dataFormat=URLLoaderDataFormat.BINARY;
 				_urlLoader.load(_urlRequest);
 				return;
 			}
-			if (_type == ResourceType.TXT)
+			if (currentItem.type == ResourceType.TXT)
 			{
 				_urlLoader.dataFormat=URLLoaderDataFormat.TEXT;
 				_urlLoader.load(_urlRequest);
@@ -243,7 +266,7 @@ package com.shrimp.framework.load
 		/**加载资源的地址*/
 		public function get url():String
 		{
-			return _url;
+			return currentItem.url;
 		}
 	}
 }

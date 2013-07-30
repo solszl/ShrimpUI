@@ -2,6 +2,8 @@ package com.shrimp.framework.load
 {
 	import com.shrimp.framework.log.Logger;
 
+	import flash.system.ApplicationDomain;
+
 	/**
 	 *	加载管理器。 再程序初始化的时候。 实例化该类
 	 * @author Sol
@@ -15,12 +17,16 @@ package com.shrimp.framework.load
 		private static var _failRes:Object={};
 		private static var _isLoading:Boolean;
 
+		private static var currentItem:Object;
+		private static var onCompleteCallBack:Function;
+		private static var onProgressCallBack:Function;
+		private static var onFailedCallBack:Function;
+
 		/**	默认函数构造器*/
 		public function LoaderManager()
 		{
 		}
 
-		private static var vo:ResourceVo;
 		/**
 		 *	 加载单一文件
 		 * @param url	文件路径
@@ -31,59 +37,65 @@ package com.shrimp.framework.load
 		 * @param useCache	是否缓存数据
 		 *
 		 */
-		public static function load(url:String, type:int, complete:Function=null, progress:Function=null, error:Function=null, useCache:Boolean=true):void
+		public static function load(loadItem:Object, complete:Function=null, progress:Function=null, error:Function=null, useCache:Boolean=true):void
 		{
-			vo=new ResourceVo();
-			vo.url=url;
-			vo.type=type;
-			vo.complete=complete;
-			vo.progress=progress;
-			vo.error=error;
-
-			var content:*=ResourceLoader.getResLoaded(vo.url);
+			var content:*=ResourceLoader.getResLoaded(loadItem.url);
+			onCompleteCallBack=complete;
+			onProgressCallBack=progress;
+			onFailedCallBack=error;
 			if (content != null)
 			{
-				endLoad(vo, content);
+				endLoad(loadItem, content, null);
 			}
 			else
 			{
-				_resInfos.push(vo);
+				_resInfos.push(loadItem);
 				checkNext();
 			}
 		}
 
 		private static function checkNext():void
 		{
-			if (_isLoading) {
+			if (_isLoading)
+			{
 				return;
 			}
-			_isLoading = true;
+			_isLoading=true;
 			//检测加载队列是否还存在待加载的
 			while (_resInfos.length > 0)
 			{
-				var info:ResourceVo=_resInfos.shift();
-				var content:*=ResourceLoader.getResLoaded(info.url);
+				currentItem=_resInfos.shift();
+				var content:*=ResourceLoader.getResLoaded(currentItem.url);
 				if (content != null)
 				{
-					endLoad(info, content);
+					endLoad(currentItem, content, null);
 				}
 				else
 				{
-					_resLoader.load(info.url, info.type, loadComplete, info.progress, info.error, true);
+					_resLoader.load(currentItem, itemLoadComplete, onprogress, onFailed, true);
+					function itemLoadComplete(item:Object, content:*, domain:ApplicationDomain):void
+					{
+						endLoad(item, content, domain);
+						_isLoading=false;
+						checkNext();
+					}
+
+					function onprogress():void
+					{
+
+					}
+
+					function onFailed():void
+					{
+
+					}
 					return;
 				}
 			}
-			_isLoading = false;
+			_isLoading=false;
 		}
 
-		private static function loadComplete(content:*):void
-		{
-			endLoad(vo, content);
-			_isLoading = false;
-			checkNext();
-		}
-
-		private static function endLoad(info:ResourceVo, content:*):void
+		private static function endLoad(info:Object, content:*, domain:ApplicationDomain):void
 		{
 			//如果加载后为空，放入队列末尾重试一次
 			if (content == null)
@@ -99,55 +111,74 @@ package com.shrimp.framework.load
 					Logger.getLogger("loaderManager").error("load error:", info.url);
 					if (info.error != null)
 					{
-						info.error(info.url);
+						info.error(info, info.url);
 					}
 				}
 			}
-			if (info.complete != null)
+
+			if (onCompleteCallBack)
 			{
-				info.complete(content);
+				onCompleteCallBack(info, content, domain)
 			}
 		}
 
 		/**加载SWF，返回1*/
 		public static function loadSWF(url:String, complete:Function=null, progress:Function=null, error:Function=null, isCacheContent:Boolean=true):void
 		{
-			load(url, ResourceType.SWF, complete, progress, error, isCacheContent);
+			var obj:Object={};
+			obj.url=url;
+			obj.type=ResourceType.SWF;
+			load(obj, complete, progress, error, isCacheContent);
 		}
 
 		/**加载位图，返回Bitmapdata*/
 		public static function loadBMD(url:String, complete:Function=null, progress:Function=null, error:Function=null, isCacheContent:Boolean=true):void
 		{
-			load(url, ResourceType.BMD, complete, progress, error, isCacheContent);
+			var obj:Object={};
+			obj.url=url;
+			obj.type=ResourceType.BMD;
+			load(obj, complete, progress, error, isCacheContent);
 		}
 
 		/**加载AMF，返回Object*/
 		public static function loadAMF(url:String, complete:Function=null, progress:Function=null, error:Function=null, isCacheContent:Boolean=true):void
 		{
-			load(url, ResourceType.AMF, complete, progress, error, isCacheContent);
+			var obj:Object={};
+			obj.url=url;
+			obj.type=ResourceType.AMF;
+			load(obj, complete, progress, error, isCacheContent);
 		}
 
 		/**加载TXT，返回String*/
 		public static function loadTXT(url:String, complete:Function=null, progress:Function=null, error:Function=null, isCacheContent:Boolean=true):void
 		{
-			load(url, ResourceType.TXT, complete, progress, error, isCacheContent);
+			var obj:Object={};
+			obj.url=url;
+			obj.type=ResourceType.TXT;
+			load(obj, complete, progress, error, isCacheContent);
 		}
 
 		/**加载 压缩过的二进制数据，返回Object*/
 		public static function loadDB(url:String, complete:Function=null, progress:Function=null, error:Function=null, isCacheContent:Boolean=true):void
 		{
-			load(url, ResourceType.DB, complete, progress, error, isCacheContent);
+			var obj:Object={};
+			obj.url=url;
+			obj.type=ResourceType.DB;
+			load(obj, complete, progress, error, isCacheContent);
 		}
 
 		/**加载BYTE，返回ByteArray*/
 		public static function loadBYTE(url:String, complete:Function=null, progress:Function=null, error:Function=null, isCacheContent:Boolean=true):void
 		{
-			load(url, ResourceType.BYTE, complete, progress, error, isCacheContent);
+			var obj:Object={};
+			obj.url=url;
+			obj.type=ResourceType.BYTE;
+			load(obj, complete, progress, error, isCacheContent);
 		}
 
 		/**加载数组里面的资源
 		 * @param arr 简单：["a.swf","b.swf"]，复杂[{url:"a.swf",type:ResLoader.SWF,size:100},{url:"a.png",type:ResLoader.BMD,size:50}]*/
-		public static function loadAssets(arr:Array, complete:Function=null, progress:Function=null,onAllComplete:Function=null, error:Function=null, isCacheContent:Boolean=true):void
+		public static function loadAssets(arr:Array, complete:Function=null, progress:Function=null, onAllComplete:Function=null, error:Function=null, isCacheContent:Boolean=true):void
 		{
 			var itemCount:int=arr.length;
 			var itemloaded:int=0;
@@ -161,19 +192,19 @@ package com.shrimp.framework.load
 					item={url: item, type: item.type};
 				}
 				totalSize+=1;
-				load(item.url, item.type, loadAssetsComplete, loadAssetsProgress, error, isCacheContent);
+				load(item, loadAssetsComplete, loadAssetsProgress, error, isCacheContent);
 			}
 
-			function loadAssetsComplete(content:*):void
+			function loadAssetsComplete(item:Object, content:*, domain:ApplicationDomain):void
 			{
 				itemloaded++;
 				if (complete != null)
 				{
-					complete(content);
+					complete(item, content, domain);
 				}
-				if(itemloaded == itemCount)
+				if (itemloaded == itemCount)
 				{
-					if(onAllComplete!=null)
+					if (onAllComplete != null)
 					{
 						onAllComplete();
 					}
@@ -195,17 +226,19 @@ package com.shrimp.framework.load
 		{
 			ResourceLoader.getResLoaded(url);
 		}
-		
+
 		/**尝试关闭加载*/
-		public static function tryToCloseLoad(url:String):void {
-			if (_resLoader.url == url) {
+		public static function tryToCloseLoad(url:String):void
+		{
+			if (_resLoader.url == url)
+			{
 				_resLoader.tryToCloseLoad();
 				Logger.getLogger("loaderManager").warning("Try to close load:", url);
-				_isLoading = false;
+				_isLoading=false;
 				checkNext();
 			}
 		}
-		
+
 		public static function hadLoaded(url:String):Boolean
 		{
 			return url in ResourceLoader.loadedCache
