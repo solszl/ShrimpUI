@@ -116,7 +116,7 @@ package com.shrimp.framework.load
 				}
 			}
 
-			if (onCompleteCallBack)
+			if (onCompleteCallBack!=null)
 			{
 				onCompleteCallBack(info, content, domain)
 			}
