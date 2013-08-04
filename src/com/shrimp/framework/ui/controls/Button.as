@@ -1,10 +1,22 @@
 package com.shrimp.framework.ui.controls
 {
+	import com.shrimp.framework.event.MouseEvents;
 	import com.shrimp.framework.ui.controls.core.Component;
 	
 	import flash.display.DisplayObjectContainer;
+	import flash.events.Event;
+	
+	import org.gestouch.events.GestureEvent;
+	import org.gestouch.gestures.Gesture;
+	import org.gestouch.gestures.LongPressGesture;
+	import org.gestouch.gestures.TapGesture;
 
-	[Event(name="sClick", type="flash.events.Event")]
+	/**	单击事件*/
+	[Event(name="singleClick", type="com.shrimp.framework.event.MouseEvents")]
+	/**	双击事件*/
+	[Event(name="doubleClick", type="com.shrimp.framework.event.MouseEvents")]
+	/**	长按事件*/
+	[Event(name="longPress", type="com.shrimp.framework.event.MouseEvents")]
 	public class Button extends Component
 	{
 		public function Button(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0, label:String="")
@@ -21,12 +33,15 @@ package com.shrimp.framework.ui.controls
 			_label.mouseEnabled=false;
 			_label.mouseChildren=false;
 			_labelColor = _label.color;
-
 		}
 		
 		protected var _label:Label;
 		protected var _labelText:String="";
 		private var _labelChanged:Boolean=false;
+		
+		private var _singleTap:TapGesture;
+		private var _doubleTap:TapGesture;
+		private var _longTap:LongPressGesture;
 		
 		public function get label():String
 		{
@@ -141,5 +156,54 @@ package com.shrimp.framework.ui.controls
 		}
 		
 		private var _labelAlign:String="middle-center";
+		
+		override public function addEventListener(type:String, listener:Function, useCapture:Boolean=false, priority:int=0, useWeakReference:Boolean=false):void
+		{
+			super.addEventListener(type,listener,useCapture,priority,useWeakReference);
+			gestureBuilder(type);
+		}
+		
+		private function gestureBuilder(type:String):void
+		{
+			switch(type)
+			{
+				case MouseEvents.SINGLE_CLICK:
+					_singleTap = new TapGesture(this);
+					_singleTap.addEventListener(GestureEvent.GESTURE_RECOGNIZED,onGesture);
+					break;
+				case MouseEvents.DOUBLE_CLICK:
+					_doubleTap = new TapGesture(this);
+					_doubleTap.maxTapDelay = 300;
+					_doubleTap.numTapsRequired = 2;
+					_singleTap.requireGestureToFail(_doubleTap);
+					_doubleTap.addEventListener(GestureEvent.GESTURE_RECOGNIZED,onGesture);
+					break;
+				case MouseEvents.LONG_PRESS:
+					_longTap = new LongPressGesture(this);
+					_longTap.addEventListener(GestureEvent.GESTURE_STATE_CHANGE,onGesture);
+					break;
+			}
+		}
+		
+		private function onGesture(event:GestureEvent):void
+		{
+			var g:Gesture = event.target as Gesture;
+			if(g == _singleTap)
+			{
+				dispatchEvent(new GestureEvent(MouseEvents.SINGLE_CLICK,event.newState,event.oldState));
+			}
+			else if(g == _doubleTap)
+			{
+				dispatchEvent(new GestureEvent(MouseEvents.DOUBLE_CLICK,event.newState,event.oldState));
+			}
+			else if(g == _longTap)
+			{
+				dispatchEvent(new GestureEvent(MouseEvents.LONG_PRESS,event.newState,event.oldState));
+			}
+			else
+			{
+				trace("no such gesture");
+			}
+		}
 	}
 }
