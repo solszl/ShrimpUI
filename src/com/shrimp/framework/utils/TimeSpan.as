@@ -1,4 +1,4 @@
-package com.sg.game.framework.utils
+package com.shrimp.framework.utils
 {
 	/**
 	 * Represents an interval of time 

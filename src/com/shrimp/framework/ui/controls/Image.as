@@ -6,9 +6,12 @@ package com.shrimp.framework.ui.controls
 	import com.shrimp.framework.managers.AssetsManager;
 	import com.shrimp.framework.ui.controls.core.Component;
 	
+	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.DisplayObjectContainer;
 	import flash.geom.Rectangle;
+	import flash.utils.getQualifiedClassName;
+	import flash.utils.getQualifiedSuperclassName;
 	
 	public class Image extends Component
 	{
@@ -45,7 +48,19 @@ package com.shrimp.framework.ui.controls
 			}
 			else if(value is Class)
 			{
-				
+				var bit:BitmapData;
+				if (getQualifiedSuperclassName(value) == getQualifiedClassName(BitmapData))
+				{
+					bit=new value(1, 1);
+				}
+				else
+				{
+					bit=Bitmap(new value()).bitmapData;
+				}
+				_img.bitmapData=bit;
+				_img.width=bit.width;
+				_img.height=bit.height;
+				invalidateDisplayList();
 			}
 			else if(value is BitmapData)
 			{
@@ -59,6 +74,7 @@ package com.shrimp.framework.ui.controls
 		protected function onComplete(content:*):void
 		{
 			_img.bitmapData = (content as BitmapData);
+			AssetsManager.getInstance().cacheBitmapData(String(_source),content);
 			invalidateDisplayList();
 		}
 		

@@ -378,5 +378,12 @@ package com.shrimp.framework.ui.controls.core
 			}
 			guideTypeArr=[];
 		}
+		
+		public function dispose():void
+		{
+			removeChildByName("border");
+			removeListeners();
+			removeGuide();
+		}
 	}
 }
