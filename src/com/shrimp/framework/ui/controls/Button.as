@@ -180,7 +180,7 @@ package com.shrimp.framework.ui.controls
 					break;
 				case MouseEvents.LONG_PRESS:
 					_longTap = new LongPressGesture(this);
-					_longTap.addEventListener(GestureEvent.GESTURE_STATE_CHANGE,onGesture);
+					_longTap.addEventListener(GestureEvent.GESTURE_BEGAN,onGesture);
 					break;
 			}
 		}
