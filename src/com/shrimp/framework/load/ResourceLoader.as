@@ -164,7 +164,7 @@ package com.shrimp.framework.load
 			}
 		}
 
-		protected function onComplete(item:Object,content:*,domain:ApplicationDomain):void
+		protected function onComplete(item:Object,content:Object,domain:ApplicationDomain):void
 		{
 			_isLoading=false;
 			if (onCompleteCallBack != null)
@@ -196,7 +196,7 @@ package com.shrimp.framework.load
 			this.onFailedCallBack=onFailed;
 
 			//检测是否已经加载过，如果加载过了。直接从缓存中取出并返回，否则进行加载逻辑
-			var content:*=getResLoaded(url);
+			var content:Object=getResLoaded(url);
 			if (content != null)
 			{
 				return onComplete(loadItem,content,null);
@@ -243,7 +243,7 @@ package com.shrimp.framework.load
 		}
 
 		/**获取已加载的资源*/
-		public static function getResLoaded(url:String):*
+		public static function getResLoaded(url:String):Object
 		{
 			return loadedCache[url];
 		}

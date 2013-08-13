@@ -81,7 +81,7 @@ package com.shrimp.framework.managers
 			}
 		}
 
-		public function cacheObject(name:String, content:*):void
+		public function cacheObject(name:String, content:Object):void
 		{
 			if (content)
 			{
@@ -91,7 +91,7 @@ package com.shrimp.framework.managers
 
 		/**	文本缓存
 		 * dictionary内缓存的是不定性的Object，取出来的时候。手动as 转换一下 需要*/
-		public function cacheTxtXML(name:String, content:*):void
+		public function cacheTxtXML(name:String, content:Object):void
 		{
 			if (content)
 			{
@@ -118,7 +118,7 @@ package com.shrimp.framework.managers
 		public static function loadItem(url:String, type:int, complete:Function=null, progress:Function=null, error:Function=null, useCache:Boolean=true):void
 		{
 //			LoaderManager.load(url, type, loadedItem, progress, error, useCache);
-//			function loadedItem(content:*):void
+//			function loadedItem(content:Object):void
 //			{
 //				if (complete != null)
 //				{
@@ -134,7 +134,7 @@ package com.shrimp.framework.managers
 		public static function loadAssets(arr:Array, complete:Function=null, progress:Function=null, onAllComplete:Function=null, onFailed:Function=null, useCache:Boolean=true):void
 		{
 			LoaderManager.loadAssets(arr, itemComplete, progress, onAllComplete, onFailed, useCache);
-			function itemComplete(content:*):void
+			function itemComplete(content:Object):void
 			{
 				if(complete!=null)
 				{
@@ -147,7 +147,7 @@ package com.shrimp.framework.managers
 			}
 		}
 
-		private static function cacheConent(type:int, url:String, content:*):void
+		private static function cacheConent(type:int, url:String, content:Object):void
 		{
 			switch (type)
 			{

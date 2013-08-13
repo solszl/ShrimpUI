@@ -1,15 +1,12 @@
 package com.shrimp.framework.ui.controls
 {
 	import com.shrimp.framework.load.LoaderManager;
-	import com.shrimp.framework.load.ResourceLoader;
-	import com.shrimp.framework.load.ResourceType;
 	import com.shrimp.framework.managers.AssetsManager;
 	import com.shrimp.framework.ui.controls.core.Component;
 	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.DisplayObjectContainer;
-	import flash.geom.Rectangle;
 	import flash.utils.getQualifiedClassName;
 	import flash.utils.getQualifiedSuperclassName;
 	
@@ -71,10 +68,10 @@ package com.shrimp.framework.ui.controls
 			_source=value;
 		}
 		
-		protected function onComplete(content:*):void
+		protected function onComplete(content:Object):void
 		{
 			_img.bitmapData = (content as BitmapData);
-			AssetsManager.getInstance().cacheBitmapData(String(_source),content);
+			AssetsManager.getInstance().cacheBitmapData(String(_source),_img.bitmapData);
 			invalidateDisplayList();
 		}
 		

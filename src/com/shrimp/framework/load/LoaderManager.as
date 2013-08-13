@@ -1,7 +1,7 @@
 package com.shrimp.framework.load
 {
 	import com.shrimp.framework.log.Logger;
-
+	
 	import flash.system.ApplicationDomain;
 
 	/**
@@ -39,7 +39,7 @@ package com.shrimp.framework.load
 		 */
 		public static function load(loadItem:Object, complete:Function=null, progress:Function=null, error:Function=null, useCache:Boolean=true):void
 		{
-			var content:*=ResourceLoader.getResLoaded(loadItem.url);
+			var content:Object=ResourceLoader.getResLoaded(loadItem.url);
 			onCompleteCallBack=complete;
 			onProgressCallBack=progress;
 			onFailedCallBack=error;
@@ -65,7 +65,7 @@ package com.shrimp.framework.load
 			while (_resInfos.length > 0)
 			{
 				currentItem=_resInfos.shift();
-				var content:*=ResourceLoader.getResLoaded(currentItem.url);
+				var content:Object=ResourceLoader.getResLoaded(currentItem.url);
 				if (content != null)
 				{
 					endLoad(currentItem, content, null);
@@ -73,7 +73,7 @@ package com.shrimp.framework.load
 				else
 				{
 					_resLoader.load(currentItem, itemLoadComplete, onprogress, onFailed, true);
-					function itemLoadComplete(item:Object, content:*, domain:ApplicationDomain):void
+					function itemLoadComplete(item:Object, content:Object, domain:ApplicationDomain):void
 					{
 						endLoad(item, content, domain);
 						_isLoading=false;
@@ -95,7 +95,7 @@ package com.shrimp.framework.load
 			_isLoading=false;
 		}
 
-		private static function endLoad(info:Object, content:*, domain:ApplicationDomain):void
+		private static function endLoad(info:Object, content:Object, domain:ApplicationDomain):void
 		{
 			//如果加载后为空，放入队列末尾重试一次
 			if (content == null)
@@ -195,7 +195,7 @@ package com.shrimp.framework.load
 				load(item, loadAssetsComplete, loadAssetsProgress, error, isCacheContent);
 			}
 
-			function loadAssetsComplete(item:Object, content:*, domain:ApplicationDomain):void
+			function loadAssetsComplete(item:Object, content:Object, domain:ApplicationDomain):void
 			{
 				itemloaded++;
 				if (complete != null)
