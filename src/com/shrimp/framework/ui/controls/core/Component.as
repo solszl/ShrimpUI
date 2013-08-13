@@ -1,5 +1,6 @@
 package com.shrimp.framework.ui.controls.core
 {
+	import com.shrimp.framework.event.MouseEvents;
 	import com.shrimp.framework.interfaces.IGuide;
 	import com.shrimp.framework.interfaces.ITooltip;
 	import com.shrimp.framework.managers.ComponentManager;
@@ -9,7 +10,18 @@ package com.shrimp.framework.ui.controls.core
 	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	
+	import org.gestouch.events.GestureEvent;
+	import org.gestouch.gestures.Gesture;
+	import org.gestouch.gestures.LongPressGesture;
+	import org.gestouch.gestures.TapGesture;
 
+	/**	单击事件*/
+	[Event(name="singleClick", type="com.shrimp.framework.event.MouseEvents")]
+	/**	双击事件*/
+	[Event(name="doubleClick", type="com.shrimp.framework.event.MouseEvents")]
+	/**	长按事件*/
+	[Event(name="longPress", type="com.shrimp.framework.event.MouseEvents")]
 	/**
 	 *	组件基类
 	 * @author Sol
@@ -26,6 +38,11 @@ package com.shrimp.framework.ui.controls.core
 		
 		protected var _explicitHeight:Number=NaN;
 		protected var _explicitWidth:Number=NaN;
+		
+		private var _singleTap:TapGesture;
+		private var _doubleTap:TapGesture;
+		private var _longTap:LongPressGesture;
+		
 		public function Component(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
 		{
 			super();
@@ -280,6 +297,8 @@ package com.shrimp.framework.ui.controls.core
 		{
 			super.addEventListener(type, listener, useCapture, priority, useWeakReference);
 			this._listeners.push({type: type, listener: listener, useCapture: useCapture});
+			//手势构造器
+			gestureBuilder(type);
 		}
 
 		/**复写移除监听方法，将监听的事件移除，并且从listeners中移除*/
@@ -384,6 +403,49 @@ package com.shrimp.framework.ui.controls.core
 			removeChildByName("border");
 			removeListeners();
 			removeGuide();
+		}
+		
+		private function gestureBuilder(type:String):void
+		{
+			switch(type)
+			{
+				case MouseEvents.SINGLE_CLICK:
+					_singleTap = new TapGesture(this);
+					_singleTap.addEventListener(GestureEvent.GESTURE_RECOGNIZED,onGesture);
+					break;
+				case MouseEvents.DOUBLE_CLICK:
+					_doubleTap = new TapGesture(this);
+					_doubleTap.maxTapDelay = 300;
+					_doubleTap.numTapsRequired = 2;
+					_singleTap.requireGestureToFail(_doubleTap);
+					_doubleTap.addEventListener(GestureEvent.GESTURE_RECOGNIZED,onGesture);
+					break;
+				case MouseEvents.LONG_PRESS:
+					_longTap = new LongPressGesture(this);
+					_longTap.addEventListener(GestureEvent.GESTURE_BEGAN,onGesture);
+					break;
+			}
+		}
+		
+		private function onGesture(event:GestureEvent):void
+		{
+			var g:Gesture = event.target as Gesture;
+			if(g == _singleTap)
+			{
+				dispatchEvent(new GestureEvent(MouseEvents.SINGLE_CLICK,event.newState,event.oldState));
+			}
+			else if(g == _doubleTap)
+			{
+				dispatchEvent(new GestureEvent(MouseEvents.DOUBLE_CLICK,event.newState,event.oldState));
+			}
+			else if(g == _longTap)
+			{
+				dispatchEvent(new GestureEvent(MouseEvents.LONG_PRESS,event.newState,event.oldState));
+			}
+			else
+			{
+				trace("no such gesture");
+			}
 		}
 	}
 }
