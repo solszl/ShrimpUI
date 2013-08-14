@@ -66,6 +66,11 @@ package com.shrimp.framework.ui.controls
 			}
 		}
 		
+		public function get scale9Rect():Rectangle
+		{
+			return this._scale9Grid;
+		}
+		
 		public function resizeBitmap(w:Number, h:Number):BitmapData
 		{
 			var bmpData:BitmapData=new BitmapData(w, h, true, 0x00000000);
