@@ -5,6 +5,8 @@ package com.shrimp.framework.log
 	import flash.events.ContextMenuEvent;
 	import flash.events.Event;
 	import flash.events.TextEvent;
+	import flash.system.Capabilities;
+	import flash.system.System;
 	import flash.text.StyleSheet;
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
@@ -78,20 +80,24 @@ package com.shrimp.framework.log
 			if(stage)
 				_stage = stage;
 			
-			var contentitem:ContextMenuItem=new ContextMenuItem("show/hide Log");
-			contentitem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, onItemClick)
-			var menu:ContextMenu=  _root.contextMenu;
-			if(!menu)
+			if(flash.system.Capabilities.os.toLowerCase().indexOf("windows")>0)
 			{
-				menu = new ContextMenu();
-			}
-			menu.hideBuiltInItems();
-			menu.customItems=menu.customItems.concat(contentitem);
-			_root.contextMenu=menu;
-			function onItemClick(e:ContextMenuEvent):void
-			{
-				toggle();
-				Mouse.show();
+
+				var contentitem:ContextMenuItem=new ContextMenuItem("show/hide Log");
+				contentitem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, onItemClick)
+				var menu:ContextMenu=  _root.contextMenu;
+				if(!menu)
+				{
+					menu = new ContextMenu();
+				}
+				menu.hideBuiltInItems();
+				menu.customItems=menu.customItems.concat(contentitem);
+				_root.contextMenu=menu;
+				function onItemClick(e:ContextMenuEvent):void
+				{
+					toggle();
+					Mouse.show();
+				}
 			}
 		}
 		
