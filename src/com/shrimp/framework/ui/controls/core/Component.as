@@ -173,9 +173,9 @@ package com.shrimp.framework.ui.controls.core
 			_explicitWidth=w;
 			_explicitHeight=h;
 			
-			_width=isNaN(w) ? _measuredWidth : w;
+			_width=isNaN(w) ? measuredWidth : w;
 			
-			_height=isNaN(h) ? _measuredHeight : h;
+			_height=isNaN(h) ? measuredHeight : h;
 			
 			invalidateDisplayList();
 		}
@@ -233,12 +233,12 @@ package com.shrimp.framework.ui.controls.core
 
 		protected function creationCompleteHandler(event:Event):void
 		{
-			trace("creationCompleteHandler");
+//			trace("creationCompleteHandler");
 		}
 
 		public function validateNow():void
 		{
-			trace("validateNow");
+//			trace("validateNow");
 			validateProperties();
 			validateDisplayList();
 		}
@@ -247,7 +247,7 @@ package com.shrimp.framework.ui.controls.core
 		{
 			updateDisplayList();
 			ComponentManager.removePaddingDisplay(this);
-			trace("validateDisplayList");
+//			trace("validateDisplayList");
 		}
 
 
@@ -255,35 +255,35 @@ package com.shrimp.framework.ui.controls.core
 		{
 			commitProperties();
 			ComponentManager.removePaddingProperty(this)
-			trace("validateProperties");
+//			trace("validateProperties");
 		}
 
 		public function invalidateDisplayList():void
 		{
 			ComponentManager.addPaddingDisplay(this);
-			trace("invalidateDisplayList");
+//			trace("invalidateDisplayList");
 		}
 
 		public function invalidateProperties():void
 		{
 			ComponentManager.addPaddingProperty(this);
-			trace("invalidateProperties");
+//			trace("invalidateProperties");
 		}
 
 		protected function measure():void
 		{
-			trace("measure");
+//			trace("measure");
 		}
 
 		protected function updateDisplayList():void
 		{
 			measure();
-			trace("updateDisplayList");
+//			trace("updateDisplayList");
 		}
 
 		protected function commitProperties():void
 		{
-			trace("commitProperties");
+//			trace("commitProperties");
 		}
 
 		/**执行影响宽高的延迟函数*/

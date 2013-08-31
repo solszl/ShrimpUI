@@ -55,7 +55,6 @@ package com.shrimp.framework.ui.controls
 					if (AssetsManager.hasLoaded(String(value)))
 					{
 						_img.bitmapData=AssetsManager.getInstance().getBitmapData(String(value));
-						invalidateDisplayList();
 					}
 					else
 					{
@@ -77,14 +76,14 @@ package com.shrimp.framework.ui.controls
 				_img.bitmapData=bit;
 				_img.width=bit.width;
 				_img.height=bit.height;
-				invalidateDisplayList();
 			}
 			else if (value is BitmapData)
 			{
 				_img.bitmapData=value as BitmapData;
-				invalidateDisplayList();
 			}
-
+			width=_img.bitmapData.width;
+			height=_img.bitmapData.height;
+			invalidateDisplayList();
 			_source=value;
 		}
 
@@ -149,13 +148,9 @@ package com.shrimp.framework.ui.controls
 				else
 				{
 					if (_img.width != _width)
-					{
 						_img.width=_width;
-					}
 					if (_img.height != height)
-					{
 						_img.height=height;
-					}
 				}
 
 			}
