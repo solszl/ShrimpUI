@@ -1,9 +1,11 @@
 package com.shrimp.framework.ui.controls
 {
+	import com.greensock.TweenMax;
 	import com.shrimp.framework.ui.controls.core.Component;
 	import com.shrimp.framework.ui.controls.core.Style;
 	
 	import flash.display.DisplayObjectContainer;
+	import flash.events.MouseEvent;
 
 	public class Button extends Component
 	{
@@ -18,6 +20,15 @@ package com.shrimp.framework.ui.controls
 			
 		}
 		
+		override protected function init():void
+		{
+			super.init();
+			buttonMode=true;
+			useHandCursor=true;
+			addEventListener(MouseEvent.MOUSE_DOWN,onMouseDown);
+			addEventListener(MouseEvent.ROLL_OVER,onMouseOver);
+		}
+		
 		override protected function createChildren():void
 		{
 			bg=new Image(this);
@@ -25,8 +36,6 @@ package com.shrimp.framework.ui.controls
 			_label.mouseEnabled=false;
 			_label.mouseChildren=false;
 			_labelColor = _label.color;
-			buttonMode=true;
-			useHandCursor=true;
 		}
 		
 		protected var _label:Label;
@@ -89,6 +98,24 @@ package com.shrimp.framework.ui.controls
 				_label.text=_labelText;
 				_label.validateNow();
 				invalidateDisplayList();
+			}
+			
+			if(_skinDirty)
+			{
+				//根据状态 更新按钮皮肤 0：normal  1：over 2:down
+				switch(state)
+				{
+					case 0:
+						TweenMax.to(this,.2,{tint:null,alpha:1});
+						break;
+					case 1:
+						TweenMax.to(this,.2,{tint:0xFF0000,alpha:.4});
+						break;
+					case 2:
+						TweenMax.to(this,.2,{tint:0x000000,alpha:.4});
+						
+						break;
+				}
 			}
 		}
 		
@@ -154,6 +181,8 @@ package com.shrimp.framework.ui.controls
 		private var _skinClass:Object;
 		private var _overSkin:Object;
 		private var _selectedSkin:Object;
+		
+		private var _skinDirty:Boolean=false;
 		public function set skinClass(value:Object):void
 		{
 			if (value == null)
@@ -212,9 +241,61 @@ package com.shrimp.framework.ui.controls
 			super.measure();
 			var skinW:Number=bg ? bg.width : 0;
 			var skinH:Number=bg ? bg.height : 0;
-			trace(skinW);
 			measuredWidth=Math.max(_label.width + 10, skinW);
 			measuredHeight=Math.max(_label.height, skinH);
+		}
+		
+		private function onMouseDown(event:MouseEvent):void
+		{
+			if(stage)
+				stage.addEventListener(MouseEvent.MOUSE_UP,onMouseUp);
+			_skinDirty=true;
+			state = stateMap[event.type];
+			invalidateProperties();
+		}
+		private function onMouseOver(event:MouseEvent):void
+		{
+			_isOverIt=true;
+			_skinDirty=true;
+			addEventListener(MouseEvent.ROLL_OUT, onMouseOut);
+			state = stateMap[event.type];
+			invalidateProperties();
+		}
+		
+		private function onMouseUp(event:MouseEvent):void
+		{
+			if (stage)
+				stage.removeEventListener(MouseEvent.MOUSE_UP, onMouseUp);
+			_skinDirty=true;
+			if(_isOverIt)
+				state = stateMap[event.type];
+			else
+				state = stateMap["rollOut"];
+			invalidateProperties();
+		}
+		
+		private function onMouseOut(event:MouseEvent):void
+		{
+			_isOverIt=false;
+			removeEventListener(MouseEvent.ROLL_OUT,onMouseOut);
+			_skinDirty=true;
+			state = stateMap[event.type];
+			invalidateProperties();
+		}
+		
+		private var _isOverIt:Boolean=false;
+		private var _state:int;
+		private function set state(value:int):void
+		{
+			if(_state == value)
+				return;
+			
+			_state = value;
+		}
+		
+		private function get state():int
+		{
+			return _state;
 		}
 	}
 }
