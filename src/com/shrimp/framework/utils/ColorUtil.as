@@ -59,7 +59,6 @@ package com.shrimp.framework.utils
 		}
 
 		/**
-		 * 09-09-29
 		 * 使物体褪色，变为黑白色
 		 * @param displayObject 要被褪色的显示对象
 		 */
@@ -73,7 +72,6 @@ package com.shrimp.framework.utils
 		}
 
 		/**
-		 * 09-09-29
 		 * 使物体恢复彩色
 		 * @param displayObject 要恢复色彩的显示对象
 		 */

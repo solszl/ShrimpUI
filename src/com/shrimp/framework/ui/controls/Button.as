@@ -102,23 +102,30 @@ package com.shrimp.framework.ui.controls
 			
 			if(_skinDirty)
 			{
+				if(lastState==state)
+					return;
 				//根据状态 更新按钮皮肤 0：normal  1：over 2:down
 				switch(state)
 				{
 					case 0:
-						TweenMax.to(this,.2,{tint:null,alpha:1});
+//						TweenMax.to(this,.2,{tint:null,alpha:1});
+						bg.source = _skinClass;
 						break;
 					case 1:
-						TweenMax.to(this,.2,{tint:0xFF0000,alpha:.4});
+//						TweenMax.to(this,.2,{tint:0xFF0000,alpha:.4});
+						bg.source = _overSkin;
 						break;
 					case 2:
-						TweenMax.to(this,.2,{tint:0x000000,alpha:.4});
-						
+//						TweenMax.to(this,.2,{tint:0x000000,alpha:.4});
+						bg.source =_selectedSkin;
 						break;
 				}
+				
+				lastState=state;
 			}
 		}
 		
+		private var lastState:int;
 		override protected function updateDisplayList():void
 		{
 			super.updateDisplayList();
