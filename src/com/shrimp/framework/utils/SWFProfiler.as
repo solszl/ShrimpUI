@@ -26,7 +26,7 @@
 		public static var fpsList:Array=[];
 		public static var memList:Array=[];
 
-		private static var displayed:Boolean=false;
+		public static var displayed:Boolean=false;
 		private static var started:Boolean=false;
 		private static var inited:Boolean=false;
 		private static var frame:Sprite;
@@ -132,7 +132,7 @@
 			}
 		}
 
-		private static function show():void
+		public static function show():void
 		{
 			ci.caption="隐藏分析器";
 			displayed=true;
@@ -141,7 +141,7 @@
 			updateDisplay();
 		}
 
-		private static function hide():void
+		public static function hide():void
 		{
 			ci.caption="显示分析器";
 			displayed=false;

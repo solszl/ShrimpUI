@@ -40,6 +40,22 @@ package com.shrimp.framework.managers
 			}
 		}
 		
+		public static function stageWidth():Number
+		{
+			if(stage)
+				return stage.stageWidth;
+			
+			return 0;
+		}
+		
+		public static function stageHeight():Number
+		{
+			if(stage)
+				return stage.stageHeight;
+			
+			return 0;
+		}
+		
 		private static function onUncaughtErrorHandler(event:*):void
 		{
 			var msg:String=event.error.getStackTrace();
@@ -58,7 +74,7 @@ package com.shrimp.framework.managers
 					msg=event.error.toString();
 				}
 			}
-			var content:String="【Error】:\n It's probably a bug, please contact Terran::<a herf ='mailto:solszl@163.com'</a>" + msg;
+			var content:String="【Error】:\n It's probably a bug, please contact Sol::<a herf ='mailto:solszl@163.com'</a>" + msg;
 			Logger.getLogger().debug(content);
 		}
 	}
