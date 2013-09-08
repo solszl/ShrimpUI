@@ -4,9 +4,11 @@ package com.shrimp.framework.ui.controls
 	import com.shrimp.framework.load.ResourceLibrary;
 	import com.shrimp.framework.managers.AssetsManager;
 	import com.shrimp.framework.ui.controls.core.Component;
-
+	import com.shrimp.framework.utils.DisplayObjectUtils;
+	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
+	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.geom.Matrix;
 	import flash.geom.Rectangle;
@@ -71,7 +73,8 @@ package com.shrimp.framework.ui.controls
 				}
 				else
 				{
-					bit=Bitmap(new value()).bitmapData;
+					
+					bit=DisplayObjectUtils.getDisplayBmd(new value());
 				}
 				_img.bitmapData=bit;
 				_img.width=bit.width;

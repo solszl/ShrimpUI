@@ -1,5 +1,6 @@
 package com.shrimp.framework.utils
 {
+	import flash.display.BitmapData;
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.display.InteractiveObject;
@@ -84,6 +85,13 @@ package com.shrimp.framework.utils
 				}
 
 			}
+		}
+		
+		public static function getDisplayBmd(target:DisplayObject):BitmapData
+		{
+			var bmd:BitmapData = new BitmapData(target.width,target.height,true,0xFFFFFF);
+			bmd.draw(target);
+			return bmd;
 		}
 	}
 }

@@ -3,7 +3,10 @@ package com.shrimp.framework.ui.controls
 	import com.greensock.TweenMax;
 	import com.shrimp.framework.ui.controls.core.Component;
 	import com.shrimp.framework.ui.controls.core.Style;
+	import com.shrimp.framework.utils.DisplayObjectUtils;
 	
+	import flash.display.Bitmap;
+	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.events.MouseEvent;
 
@@ -32,6 +35,7 @@ package com.shrimp.framework.ui.controls
 		override protected function createChildren():void
 		{
 			bg=new Image(this);
+//			bg.source=new (Style.defaultBtnNormalSkin);
 			_label=new Label(this);
 			_label.mouseEnabled=false;
 			_label.mouseChildren=false;
@@ -108,24 +112,33 @@ package com.shrimp.framework.ui.controls
 				switch(state)
 				{
 					case 0:
-//						TweenMax.to(this,.2,{tint:null,alpha:1});
 						bg.source = _skinClass;
+						TweenMax.to(bg,0,{colorMatrixFilter:{remove:true}});
 						break;
 					case 1:
-//						TweenMax.to(this,.2,{tint:0xFF0000,alpha:.4});
-						bg.source = _overSkin;
+						if(_overSkin!=null)
+						{
+							bg.source = _overSkin;
+							break;
+						}
+						TweenMax.to(bg,0,{colorMatrixFilter:{brightness:1.1,saturation:1.2}});
 						break;
 					case 2:
-//						TweenMax.to(this,.2,{tint:0x000000,alpha:.4});
-						bg.source =_selectedSkin;
+						if(_selectedSkin)
+						{
+							bg.source =_selectedSkin;
+							break;
+						}
+						TweenMax.to(bg,0,{colorMatrixFilter:{brightness:.66,saturation:.8}});
 						break;
 				}
 				
 				lastState=state;
+				invalidateDisplayList();
 			}
 		}
 		
-		private var lastState:int;
+		private var lastState:int=-1;
 		override protected function updateDisplayList():void
 		{
 			super.updateDisplayList();
@@ -185,11 +198,11 @@ package com.shrimp.framework.ui.controls
 		
 		private var _labelAlign:String="middle-center";
 		
-		private var _skinClass:Object;
+		private var _skinClass:Object=Style.defaultBtnNormalSkin;
 		private var _overSkin:Object;
 		private var _selectedSkin:Object;
 		
-		private var _skinDirty:Boolean=false;
+		private var _skinDirty:Boolean=true;
 		public function set skinClass(value:Object):void
 		{
 			if (value == null)
@@ -201,7 +214,7 @@ package com.shrimp.framework.ui.controls
 				return;
 			
 			_skinClass=value;
-			
+
 			bg.source = value;
 			invalidateDisplayList();
 		}
@@ -262,7 +275,6 @@ package com.shrimp.framework.ui.controls
 		}
 		private function onMouseOver(event:MouseEvent):void
 		{
-			_isOverIt=true;
 			_skinDirty=true;
 			addEventListener(MouseEvent.ROLL_OUT, onMouseOut);
 			state = stateMap[event.type];
@@ -274,23 +286,18 @@ package com.shrimp.framework.ui.controls
 			if (stage)
 				stage.removeEventListener(MouseEvent.MOUSE_UP, onMouseUp);
 			_skinDirty=true;
-			if(_isOverIt)
-				state = stateMap[event.type];
-			else
-				state = stateMap["rollOut"];
+			state = stateMap["rollOut"];
 			invalidateProperties();
 		}
 		
 		private function onMouseOut(event:MouseEvent):void
 		{
-			_isOverIt=false;
 			removeEventListener(MouseEvent.ROLL_OUT,onMouseOut);
 			_skinDirty=true;
 			state = stateMap[event.type];
 			invalidateProperties();
 		}
 		
-		private var _isOverIt:Boolean=false;
 		private var _state:int;
 		private function set state(value:int):void
 		{
