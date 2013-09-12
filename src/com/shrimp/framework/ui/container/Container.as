@@ -5,7 +5,7 @@ package com.shrimp.framework.ui.container
 	import flash.display.DisplayObjectContainer;
 	
 	/**
-	 * 容器积累
+	 * 容器基类
 	 * @author Sol
 	 * 
 	 */	
