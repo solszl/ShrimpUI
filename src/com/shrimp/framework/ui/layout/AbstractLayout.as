@@ -37,6 +37,7 @@ package com.shrimp.framework.ui.layout
 
 		/**
 		 *	布局实现，所有子类布局都重载改方法
+		 * 默认布局
 		 * @param target
 		 *
 		 */

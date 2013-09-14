@@ -4,10 +4,16 @@ package com.shrimp.framework.ui.layout
 	
 	import flash.display.DisplayObject;
 
+	/**
+	 *	水平布局，还未实现对齐功能 
+	 * @author Sol
+	 * 
+	 */	
 	public class HorizontalLayout extends AbstractLayout
 	{
 		public function HorizontalLayout()
 		{
+			super();
 			type="HorizontalLayout";
 		}
 		protected var _gap:Number = 5;
