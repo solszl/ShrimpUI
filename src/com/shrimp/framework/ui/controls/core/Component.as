@@ -39,6 +39,9 @@ package com.shrimp.framework.ui.controls.core
 		protected var _explicitHeight:Number=NaN;
 		protected var _explicitWidth:Number=NaN;
 		
+		private var _horizontalCenter:Number=NaN;
+		private var _verticalCenter:Number=NaN;
+		
 		private var _singleTap:TapGesture;
 		private var _doubleTap:TapGesture;
 		private var _longTap:LongPressGesture;
@@ -47,12 +50,12 @@ package com.shrimp.framework.ui.controls.core
 		{
 			super();
 			move(xpos, ypos);
+			init();
 			if (parent != null)
 			{
 				parent.addChild(this);
 			}
 
-			init();
 		}
 
 		public function get explicitHeight():Number
@@ -292,6 +295,32 @@ package com.shrimp.framework.ui.controls.core
 
 		}
 
+		public function get horizontalCenter():Number
+		{
+			return _horizontalCenter;
+		}
+		
+		public function set horizontalCenter(value:Number):void
+		{
+			if (value == _horizontalCenter)
+				return;
+			_horizontalCenter=value;
+			invalidateDisplayList();
+		}
+		
+		public function get verticalCenter():Number
+		{
+			return _verticalCenter;
+		}
+		
+		public function set verticalCenter(value:Number):void
+		{
+			if (value == _verticalCenter)
+				return;
+			_verticalCenter=value;
+			invalidateDisplayList();
+		}
+		
 		/**复写添加监听的方法，将监听对象，类型， 函数注册到listeners中。方便集中管理，销毁*/
 		override public function addEventListener(type:String, listener:Function, useCapture:Boolean=false, priority:int=0, useWeakReference:Boolean=false):void
 		{
