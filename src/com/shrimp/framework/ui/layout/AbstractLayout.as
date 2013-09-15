@@ -26,6 +26,8 @@ package com.shrimp.framework.ui.layout
 		/**	目标组件*/
 		protected var target:Component;
 		
+		/**	visible为false的组件是否参加排列*/
+		protected var hideLayout:Boolean=false;
 		protected var _measureHeight:Number=0;
 		
 		protected var _measureWidth:Number=0;
