@@ -14,11 +14,9 @@ package com.shrimp.framework.ui.layout
 	{
 		protected var type:String;
 
-		/**布局中心点位置*/
-		protected var centerPoint:Point;
+		protected var _centerPoint:Point;
 
-		/**分布开始角度 默认0度开始分布*/
-		protected var startAngle:Number=0;
+		protected var _startAngle:Number=0;
 
 		/**每个元素之间的角度间隙*/
 		protected var disAngle:Number;
@@ -94,5 +92,35 @@ package com.shrimp.framework.ui.layout
 		{
 			return type;
 		}
+
+		/**布局中心点位置*/
+		public function get centerPoint():Point
+		{
+			return _centerPoint;
+		}
+
+		/**
+		 * @private
+		 */
+		public function set centerPoint(value:Point):void
+		{
+			_centerPoint = value;
+		}
+
+		/**分布开始角度 默认0度开始分布*/
+		public function get startAngle():Number
+		{
+			return _startAngle;
+		}
+
+		/**
+		 * @private
+		 */
+		public function set startAngle(value:Number):void
+		{
+			_startAngle = value;
+		}
+
+
 	}
 }
