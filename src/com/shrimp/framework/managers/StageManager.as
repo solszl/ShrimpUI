@@ -7,7 +7,7 @@ package com.shrimp.framework.managers
 	import flash.display.Stage;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
-	import flash.events.ErrorEvent;
+	import flash.events.*;
 	import flash.system.ApplicationDomain;
 
 	/**

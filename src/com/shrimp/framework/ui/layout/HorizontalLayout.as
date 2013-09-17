@@ -5,7 +5,7 @@ package com.shrimp.framework.ui.layout
 	import flash.display.DisplayObject;
 
 	/**
-	 *	水平布局，还未实现对齐功能
+	 *	水平布局
 	 * @author Sol
 	 *
 	 */
@@ -46,6 +46,8 @@ package com.shrimp.framework.ui.layout
 			this.target=target;
 
 			layoutChildren();
+			validataAlignH();
+			validataAlignV();
 		}
 
 		protected function layoutChildren():void
@@ -72,6 +74,52 @@ package com.shrimp.framework.ui.layout
 			_measureWidth+=_gap * (numChildren - 1);
 		}
 
+		protected function validataAlignH():void
+		{
+			if (isNaN(target.explicitWidth) || _horizontalAlign == "left")
+				return;
+			
+			var deltaX:Number=target.explicitWidth - _measureWidth;
+			var child:DisplayObject;
+			var i:int=0;
+			for (i=0; i < target.numChildren; i++)
+			{
+				child=target.getChildAt(i);
+				switch (_horizontalAlign)
+				{
+					case "center":
+						child.x+=deltaX >> 1;
+						break;
+					case "right":
+						child.x+=deltaX;
+						break;
+				}
+			}
+		}
+		
+		protected function validataAlignV():void
+		{
+			if (isNaN(target.explicitHeight) || _horizontalAlign == "top")
+				return;
+			
+			var acH:Number=isNaN(target.explicitHeight) ? _measureHeight : target.explicitHeight;
+			var child:DisplayObject;
+			var i:int=0;
+			for (i=0; i < target.numChildren; i++)
+			{
+				child=target.getChildAt(i);
+				switch (_verticalAlign)
+				{
+					case "bottom":
+						child.y=acH - child.height;
+						break;
+					case "middle":
+						child.y=(acH - child.height) >> 1;
+						break;
+				}
+			}
+		}
+		
 		[Inspectable(category="General", enumeration="left,right,center", defaultValue="left")]
 		public function get horizontalAlign():String
 		{
