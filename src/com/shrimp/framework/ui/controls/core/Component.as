@@ -17,11 +17,11 @@ package com.shrimp.framework.ui.controls.core
 	import org.gestouch.gestures.TapGesture;
 
 	/**	单击事件*/
-	[Event(name="singleClick", type="com.shrimp.framework.event.MouseEvents")]
+	[Event(name="singleClick", type="org.gestouch.events.GestureEvent")]
 	/**	双击事件*/
-	[Event(name="doubleClick", type="com.shrimp.framework.event.MouseEvents")]
+	[Event(name="doubleClick", type="org.gestouch.events.GestureEvent")]
 	/**	长按事件*/
-	[Event(name="longPress", type="com.shrimp.framework.event.MouseEvents")]
+	[Event(name="longPress", type="org.gestouch.events.GestureEvent")]
 	/**
 	 *	组件基类
 	 * @author Sol
