@@ -7,7 +7,7 @@ package com.shrimp.framework.managers
 	import flash.display.Stage;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
-	import flash.events.*;
+	import flash.events.ErrorEvent;
 	import flash.system.ApplicationDomain;
 
 	/**
@@ -33,6 +33,7 @@ package com.shrimp.framework.managers
 			StageManager.stage.frameRate = 30;
 			StageManager.stage.scaleMode=StageScaleMode.NO_SCALE;
 			StageManager.stage.align = StageAlign.TOP_LEFT;
+			StageManager.stage.quality="low";
 			
 			if(ApplicationDomain.currentDomain.hasDefinition("flash.evnets.UncaughtErrorEvent"))
 			{
