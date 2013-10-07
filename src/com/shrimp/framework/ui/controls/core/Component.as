@@ -10,6 +10,7 @@ package com.shrimp.framework.ui.controls.core
 	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.filters.DropShadowFilter;
 	
 	import org.gestouch.events.GestureEvent;
 	import org.gestouch.gestures.Gesture;
@@ -476,5 +477,11 @@ package com.shrimp.framework.ui.controls.core
 				trace("no such gesture");
 			}
 		}
+		
+		protected function getShadow(dist:Number, knockout:Boolean=false):DropShadowFilter
+		{
+			return new DropShadowFilter(dist, 45, 0x000000, 1, 2, 2);
+		}
+
 	}
 }

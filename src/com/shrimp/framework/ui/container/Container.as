@@ -16,7 +16,8 @@ package com.shrimp.framework.ui.container
 	public class Container extends Component
 	{
 		protected var _layout:AbstractLayout;
-
+		private var _children:Vector.<DisplayObject>
+		
 		public function Container(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
 		{
 			super(parent, xpos, ypos);
@@ -77,5 +78,31 @@ package com.shrimp.framework.ui.container
 			super.updateDisplayList();
 		}
 
+		public function set children(value:Vector.<DisplayObject>):void
+		{
+			if (value != _children)
+			{
+				while (numChildren > 0)
+				{
+					removeChildAt(0);
+				}
+				
+				_children=value;
+				
+				var child:DisplayObject
+				for each (child in _children)
+				{
+					addChild(child)
+				}
+				
+				invalidateProperties();
+				invalidateDisplayList();
+			}
+		}
+		
+		public function get children():Vector.<DisplayObject>
+		{
+			return _children;
+		}
 	}
 }
