@@ -64,7 +64,10 @@ package com.shrimp.framework.ui.controls
 					}
 				}
 			}
-			else if (value is Class)
+			
+			var w:int;
+			var h:int;
+			if (value is Class)
 			{
 				var bit:BitmapData;
 				if (getQualifiedSuperclassName(value) == getQualifiedClassName(BitmapData))
@@ -73,20 +76,24 @@ package com.shrimp.framework.ui.controls
 				}
 				else
 				{
-					
 					bit=DisplayObjectUtils.getDisplayBmd(new value());
 				}
+				w=bit.width;
+				h=bit.height;
 				_img.bitmapData=bit;
-				_img.width=bit.width;
-				_img.height=bit.height;
+				_img.width=w;
+				_img.height=h;
+				width=w;
+				height=h;
+				invalidateDisplayList();
 			}
 			else if (value is BitmapData)
 			{
 				_img.bitmapData=value as BitmapData;
+				width=_img.bitmapData.width;
+				height=_img.bitmapData.height;
+				invalidateDisplayList();
 			}
-			width=_img.bitmapData.width;
-			height=_img.bitmapData.height;
-			invalidateDisplayList();
 			_source=value;
 		}
 
@@ -124,6 +131,9 @@ package com.shrimp.framework.ui.controls
 				_originalBitmap.dispose();
 			}
 
+			if(_img.bitmapData==null)
+				return;
+			
 			if (_img && _usescale9Rect)
 			{
 				_originalBitmap=_img.bitmapData.clone();

@@ -10,7 +10,7 @@ package com.shrimp.framework.ui.controls.core
 	public class Style
 	{
 		/**	按钮默认*/
-		[Embed(source="/assets/buttons/btnNormal.png", scaleGridTop='10', scaleGridBottom='15', scaleGridLeft='15', scaleGridRight='30')]
+		[Embed(source="/assets/buttons/btnNormal.png", scaleGridTop='2', scaleGridBottom='2', scaleGridLeft='2', scaleGridRight='2')]
 		public static const defaultBtnNormalSkin:Class;
 		/**	按钮选中*/
 		[Embed(source="/assets/buttons/btnSelected.png", scaleGridTop='10', scaleGridBottom='15', scaleGridLeft='15', scaleGridRight='30')]

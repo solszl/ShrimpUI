@@ -4,12 +4,13 @@ package com.shrimp.framework.ui.controls
 	import com.shrimp.framework.ui.controls.core.Component;
 	import com.shrimp.framework.ui.controls.core.Style;
 	import com.shrimp.framework.utils.DisplayObjectUtils;
-
+	
 	import flash.display.Bitmap;
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import flash.geom.Rectangle;
 
 	public class Button extends Component
 	{
@@ -62,6 +63,7 @@ package com.shrimp.framework.ui.controls
 		override protected function createChildren():void
 		{
 			bg=new Image(this);
+//			bg.scale9Rect=new Rectangle(4,4,30,16);
 			_label=new Label(this);
 			_label.mouseEnabled=false;
 			_label.mouseChildren=false;
@@ -151,8 +153,8 @@ package com.shrimp.framework.ui.controls
 						break;
 				}
 
-				lastState=state;
 				invalidateDisplayList();
+				lastState=state;
 			}
 		}
 
