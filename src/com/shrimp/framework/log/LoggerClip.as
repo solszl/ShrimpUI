@@ -83,16 +83,16 @@ package com.shrimp.framework.log
 			if(flash.system.Capabilities.os.toLowerCase().indexOf("windows")>0)
 			{
 
-				var contentitem:ContextMenuItem=new ContextMenuItem("show/hide Log");
-				contentitem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, onItemClick)
-				var menu:ContextMenu=  _root.contextMenu;
-				if(!menu)
-				{
-					menu = new ContextMenu();
-				}
-				menu.hideBuiltInItems();
-				menu.customItems=menu.customItems.concat(contentitem);
-				_root.contextMenu=menu;
+//				var contentitem:ContextMenuItem=new ContextMenuItem("show/hide Log");
+//				contentitem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, onItemClick)
+//				var menu:ContextMenu=  _root.contextMenu;
+//				if(!menu)
+//				{
+//					menu = new ContextMenu();
+//				}
+//				menu.hideBuiltInItems();
+//				menu.customItems=menu.customItems.concat(contentitem);
+//				_root.contextMenu=menu;
 				function onItemClick(e:ContextMenuEvent):void
 				{
 					toggle();
