@@ -153,7 +153,8 @@ package com.shrimp.framework.ui.controls
 						break;
 				}
 
-				invalidateDisplayList();
+//				invalidateDisplayList();
+				updateDisplayList();
 				lastState=state;
 			}
 		}

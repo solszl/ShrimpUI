@@ -8,6 +8,7 @@ package com.shrimp.framework.managers
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
 	import flash.events.ErrorEvent;
+	import flash.events.EventDispatcher;
 	import flash.system.ApplicationDomain;
 
 	/**
@@ -15,7 +16,7 @@ package com.shrimp.framework.managers
 	 * @author Sol
 	 * 
 	 */	
-	public class StageManager
+	public class StageManager extends EventDispatcher
 	{
 		[Bindable]
 		public static var stage:Stage;
