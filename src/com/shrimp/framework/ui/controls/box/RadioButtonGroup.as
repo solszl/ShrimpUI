@@ -1,4 +1,4 @@
-package com.shrimp.framework.ui
+package com.shrimp.framework.ui.controls.box
 {
 	import com.shrimp.framework.ui.container.Container;
 	import com.shrimp.framework.ui.controls.RadioButton;
@@ -7,6 +7,11 @@ package com.shrimp.framework.ui
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
 
+	/**
+	 *	单选框组 
+	 * @author Sol
+	 * 
+	 */	
 	public class RadioButtonGroup extends Container
 	{
 		private var _groupName:String;
@@ -17,7 +22,6 @@ package com.shrimp.framework.ui
 			super(parent, xpos, ypos);
 			_source=[];
 		}
-		protected static var radioPool:Array=[];
 		private var _source:Array;
 		//利用延迟渲染
 		private var _dataProviderChanged:Boolean=false;
