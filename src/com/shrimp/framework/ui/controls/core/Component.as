@@ -156,7 +156,7 @@ package com.shrimp.framework.ui.controls.core
 
 			invalidateDisplayList();
 			invalidateProperties();
-			mouseChildren=tabChildren=tabEnabled=false;
+			tabChildren=tabEnabled=false;
 			ComponentManager.addPreInitComponent(this);
 		}
 
