@@ -214,6 +214,7 @@ package com.shrimp.framework.ui.controls
 
 		override protected function measure():void
 		{
+//			super.updateDisplayList();
 			measuredWidth=_tf.textWidth + 4 + _indent;
 			measuredHeight=Math.max(_tf.textHeight + 4, 15);
 		}

@@ -3,14 +3,9 @@ package com.shrimp.framework.ui.controls
 	import com.greensock.TweenMax;
 	import com.shrimp.framework.ui.controls.core.Component;
 	import com.shrimp.framework.ui.controls.core.Style;
-	import com.shrimp.framework.utils.DisplayObjectUtils;
 	
-	import flash.display.Bitmap;
-	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
-	import flash.events.Event;
 	import flash.events.MouseEvent;
-	import flash.geom.Rectangle;
 
 	public class Button extends Component
 	{
@@ -282,6 +277,7 @@ package com.shrimp.framework.ui.controls
 		override protected function measure():void
 		{
 			super.measure();
+			_label.validateDisplayList();
 			var skinW:Number=bg ? bg.width : 0;
 			var skinH:Number=bg ? bg.height : 0;
 			measuredWidth=Math.max(_label.width + 10, skinW);
@@ -333,7 +329,5 @@ package com.shrimp.framework.ui.controls
 		{
 			_toggle=value;
 		}
-
-
 	}
 }
