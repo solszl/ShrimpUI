@@ -10,31 +10,34 @@ package com.shrimp.framework.ui.controls
 	import org.gestouch.events.GestureEvent;
 	
 	/**
-	 *	复选框 
+	 *	单选框 
 	 * @author Sol
 	 * 
-	 */	
-//	[Event(name="selected", type="flash.events.Event")]
-	public class CheckBox extends Component
+	 */
+	[Event(name="selected", type="flash.events.Event")]
+	public class RadioButton extends Component
 	{
 		private var _label:String;
-		public function CheckBox(label:String="",parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
+		public function RadioButton(label:String="",parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
 		{
-			this._label = label;
+			this._label=label;
 			super(parent, xpos, ypos);
 			mouseChildren=false;
 		}
+		
 		/**	复选框皮肤和文字间隔*/
 		private static const gap:int=2;
 		private var icon:Button;
 		private var lbl:Label;
 		private var _labelChanged:Boolean = false;
+		
 		override protected function createChildren():void
 		{
 			super.createChildren();
 			icon=new Button(this,0,0);
-			icon.selectedSkinClass = Style.checkBoxSelectedSkin;
-			icon.skinClass = Style.checkBoxSkin;
+			icon.selectedSkinClass = Style.radioBtnSelectedSkin;
+			icon.skinClass = Style.radioBtnSkin;
+			icon.selected=false;
 			icon.toggle = true;
 			icon.validateNow();
 			lbl= new Label(this,icon.width+gap,0);
@@ -45,14 +48,14 @@ package com.shrimp.framework.ui.controls
 		
 		protected function onClick(event:GestureEvent):void
 		{
-			selected=!selected;
+			selected=true;
+			dispatchEvent(new Event("selected"));
 		}
 		
 		public function set selected(b:Boolean):void
 		{
 			icon.selected = b;
 			icon.validateProperties();
-//			dispatchEvent(new Event("selected"));
 		}
 		
 		public function get selected():Boolean
