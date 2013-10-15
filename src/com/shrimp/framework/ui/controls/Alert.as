@@ -62,7 +62,6 @@ package com.shrimp.framework.ui.controls
 			alert.flags=flags;
 			alert.title=title;
 			alert.text=text;
-
 			alert.validateNow();
 
 			PopUpManager.addPopUp(alert, null, true);
@@ -85,7 +84,7 @@ package com.shrimp.framework.ui.controls
 			textField=new TextField();
 			textField.multiline=true;
 			textField.wordWrap=true;
-			textField.selectable=true;
+			textField.selectable=false;
 			textField.htmlText=StringUtil.substitute(format, Style.fontSize, Style.LABEL_COLOR, text, Style.fontFamily);
 			textField.width=MIN_WIDTH - 20;
 			textField.addEventListener(TextEvent.LINK, onLink);
