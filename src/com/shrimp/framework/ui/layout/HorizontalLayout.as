@@ -16,7 +16,6 @@ package com.shrimp.framework.ui.layout
 			super();
 			type="HorizontalLayout";
 		}
-		protected var _gap:Number=5;
 
 		protected var _horizontalAlign:String="left";
 		protected var _verticalAlign:String="top";
