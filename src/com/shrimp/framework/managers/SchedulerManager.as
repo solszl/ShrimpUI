@@ -8,9 +8,13 @@ package com.shrimp.framework.managers
 
 	/**
 	 *	调度管理 
-	 * 让所有的Manager都添加到SchedulerManager里。通过内部enterFrame事件不停的去刷调度表里的manager
-	 * 每个manager通过接口IScheduler的run方法执行相应的操作。
-	 * 该类不宜进行复杂业务操作。尽可能执行简单的同步等
+	 * 把所有的Manager都添加到SchedulerManager里。通过内部enterFrame事件不停的去刷调度表里的manager
+	 * 每个manager通过实现IScheduler的run方法执行相应的操作。
+	 * 该类不宜进行复杂业务操作。尽可能执行简单操作，如：同步等
+	 * @simple 
+	 * 1、SchedulerManager.init();
+	 * 2、Class SynManager implments IScheduler
+	 * 3、SchedulerManager.schedulerList.push(new SynManager());
 	 * @author Sol
 	 * 
 	 */	
@@ -25,6 +29,9 @@ package com.shrimp.framework.managers
 		{
 		}
 		
+		/**
+		 *	初始化调度器 
+		 */		
 		public static function init():void
 		{
 			if(isRunning)
