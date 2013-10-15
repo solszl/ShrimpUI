@@ -46,7 +46,7 @@ package com.shrimp.framework.ui.controls.core
 		private var _singleTap:TapGesture;
 		private var _doubleTap:TapGesture;
 		private var _longTap:LongPressGesture;
-		
+		private var _objData:Object;
 		public function Component(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
 		{
 			super();
@@ -436,6 +436,20 @@ package com.shrimp.framework.ui.controls.core
 		{
 			return "width:"+width+", height:"+height+", x:"+x+", y:"+y+", type:"+getQualifiedClassName(this);
 		}
+
+		/**	用来存储一些特殊属性*/
+		public function get objData():Object
+		{
+			if(null==_objData)
+				_objData=new Object();
+			return _objData;
+		}
+
+		public function set objData(value:Object):void
+		{
+			_objData = value;
+		}
+
 
 	}
 }

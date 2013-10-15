@@ -39,6 +39,9 @@ package com.shrimp.framework.ui.controls.core
 		/**	复选框选中*/
 		[Embed(source="/assets/checkBox/selected.png")]
 		public static const checkBoxSelectedSkin:Class;
+		/**	Alert背景*/
+		[Embed(source="/assets/alertbg.png")]
+		public static const alertBG:Class;
 		/**	默认字号*/
 		public static var fontSize:int = 14;
 		/**	默认字体*/

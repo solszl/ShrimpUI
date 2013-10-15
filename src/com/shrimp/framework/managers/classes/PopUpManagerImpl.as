@@ -90,7 +90,6 @@ package com.shrimp.framework.managers.classes
 					popUpHolder.addChild(popUp);
 			}
 
-
 			if (modal)
 			{
 				if (!modalList.contains(popUp))
