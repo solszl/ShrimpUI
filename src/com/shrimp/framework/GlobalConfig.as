@@ -12,6 +12,8 @@ package com.shrimp.framework
 		public static var ALERT_YES_LABEL:String="是";
 		public static var ALERT_NO_LABEL:String="否";
 		
+		/**viewstack切换页签的特效时间*/
+		public static var VIEWSTACK_CHANGE_DURATION:Number=0.3;
 		
 	}
 }
