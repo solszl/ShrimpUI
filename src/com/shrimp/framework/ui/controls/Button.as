@@ -316,7 +316,8 @@ package com.shrimp.framework.ui.controls
 			_selected=value;
 			state=_selected ? stateMap["selected"] : stateMap["rollOut"];
 			_skinDirty=true;
-			invalidateDisplayList();
+//			invalidateDisplayList();
+			updateDisplayList();
 		}
 
 		private var _toggle:Boolean;
