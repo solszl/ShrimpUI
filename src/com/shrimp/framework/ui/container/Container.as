@@ -2,6 +2,7 @@ package com.shrimp.framework.ui.container
 {
 	import com.shrimp.framework.ui.controls.core.Component;
 	import com.shrimp.framework.ui.layout.AbstractLayout;
+	import com.shrimp.framework.ui.layout.ILayout;
 	
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
@@ -15,7 +16,7 @@ package com.shrimp.framework.ui.container
 	[DefaultProperty("children")]
 	public class Container extends Component
 	{
-		protected var _layout:AbstractLayout;
+		protected var _layout:ILayout;
 		private var _children:Vector.<DisplayObject>
 		
 		public function Container(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
@@ -54,12 +55,12 @@ package com.shrimp.framework.ui.container
 			invalidateDisplayList();
 		}
 
-		public function get layout():AbstractLayout
+		public function get layout():ILayout
 		{
 			return _layout;
 		}
 
-		public function set layout(value:AbstractLayout):void
+		public function set layout(value:ILayout):void
 		{
 			if (layout && layout.toString() == value.toString())
 				return;

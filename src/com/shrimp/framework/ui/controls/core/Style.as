@@ -42,6 +42,12 @@ package com.shrimp.framework.ui.controls.core
 		/**	Alert背景*/
 		[Embed(source="/assets/alertbg.png")]
 		public static const alertBG:Class;
+		/**	选项卡普通 */
+		[Embed(source="/assets/tab/tab_nomal.png")]
+		public static const tabNormal:Class;
+		/**	选项卡 选中 */
+		[Embed(source="/assets/tab/tab_selected.png")]
+		public static const tabSelected:Class;
 		/**	默认字号*/
 		public static var fontSize:int = 14;
 		/**	默认字体*/

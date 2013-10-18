@@ -178,9 +178,9 @@ package com.shrimp.framework.ui.controls.core
 			_explicitWidth=w;
 			_explicitHeight=h;
 			
-			_width=isNaN(w) ? measuredWidth : w;
+			_width=isNaN(w) ? _measuredWidth : w;
 			
-			_height=isNaN(h) ? measuredHeight : h;
+			_height=isNaN(h) ? _measuredHeight : h;
 			
 			invalidateDisplayList();
 		}

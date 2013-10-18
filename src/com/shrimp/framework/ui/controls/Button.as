@@ -47,7 +47,7 @@ package com.shrimp.framework.ui.controls
 				}
 				return;
 			}
-			if (_selected == false)
+			if (_selected == false && !toggle)
 			{
 				state=stateMap[e.type];
 			}
@@ -151,6 +151,7 @@ package com.shrimp.framework.ui.controls
 //				invalidateDisplayList();
 				updateDisplayList();
 				lastState=state;
+				_skinDirty=false;
 			}
 		}
 

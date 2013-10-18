@@ -101,7 +101,7 @@ package com.shrimp.framework.ui.controls
 		{
 			_img.bitmapData=(content as BitmapData);
 			AssetsManager.getInstance().cacheBitmapData(String(_source), _img.bitmapData);
-			invalidateDisplayList();
+			updateDisplayList();
 		}
 
 		protected function onFailed(url:String):void
