@@ -209,12 +209,13 @@ package com.shrimp.framework.ui.controls
 				_textPropertyChanged=false;
 				_tf.defaultTextFormat=new TextFormat(Style.fontFamily, _fontSize, _color, _bold, null, null, null, null, _align, null, null, _indent);
 				_tf.text=_text;
+				invalidateDisplayList();
 			}
 		}
 
 		override protected function measure():void
 		{
-//			super.updateDisplayList();
+			super.measure();
 			measuredWidth=_tf.textWidth + 4 + _indent;
 			measuredHeight=Math.max(_tf.textHeight + 2, 15);
 		}

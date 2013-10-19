@@ -39,11 +39,9 @@ package com.shrimp.framework.ui.controls
 		{
 			super(parent, xpos, ypos);
 			mouseChildren=true;
-//			addEventListener(MouseEvents.SINGLE_CLICK,onButtonClick,false,0,true);
 			addEventListener(MouseEvent.CLICK,onButtonClick,false,0,true);
 		}
 		
-//		protected function onButtonClick(event:GestureEvent):void
 		protected function onButtonClick(event:Event):void
 		{
 			var item:DisplayObject = event.target as DisplayObject;
@@ -204,7 +202,8 @@ package com.shrimp.framework.ui.controls
 				_selectedSkin=Style.tabSelected;
 			return _selectedSkin;
 		}
-		
+		/**	获取所有页签项状态，返回结果为
+		 * 	tab1: true, tab2:false*/		
 		public function get allState():String
 		{
 			var len:int=numChildren;

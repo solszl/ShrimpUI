@@ -54,12 +54,10 @@ package com.shrimp.framework.ui.controls.core
 			init();
 			if (parent != null)
 			{
-				this.validateNow();
 				parent.addChild(this);
 			}
-
 		}
-
+		
 		public function get explicitHeight():Number
 		{
 			return _explicitHeight;
@@ -378,11 +376,11 @@ package com.shrimp.framework.ui.controls.core
 			return listeners;
 		}
 		
-		public function dispose():void
-		{
-			removeChildByName("border");
-			removeListeners();
-		}
+//		public function dispose():void
+//		{
+//			removeChildByName("border");
+//			removeListeners();
+//		}
 		
 		private function gestureBuilder(type:String):void
 		{
