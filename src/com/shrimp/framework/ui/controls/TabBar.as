@@ -53,7 +53,10 @@ package com.shrimp.framework.ui.controls
 				index=getChildIndex(item);
 			}
 			if(selectedIndex==index)
+			{
+				Button(item).selected=true;
 				return;
+			}
 			selectedIndex=index;
 			if(hasEventListener(Event.SELECT))
 			{
