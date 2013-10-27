@@ -105,5 +105,13 @@ package com.shrimp.framework.ui.container
 		{
 			return _children;
 		}
+		
+		public function removeAllChild():void
+		{
+			while (numChildren > 0)
+			{
+				removeChildAt(0);
+			}
+		}
 	}
 }

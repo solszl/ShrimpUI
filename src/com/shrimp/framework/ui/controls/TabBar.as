@@ -105,6 +105,7 @@ package com.shrimp.framework.ui.controls
 		
 		private function createButtons():void
 		{
+			removeAllChild();
 			var btn:Button;
 			for (var i:int = 0; i<data.length; i++) 
 			{
