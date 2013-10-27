@@ -1,4 +1,4 @@
-package com.shrimp.framework.ui
+package com.shrimp.framework.ui.controls
 {
 	import com.greensock.TweenMax;
 	import com.shrimp.framework.GlobalConfig;
