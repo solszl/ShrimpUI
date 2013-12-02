@@ -1,10 +1,8 @@
 package com.shrimp.framework.ui.controls
 {
-	import com.shrimp.framework.event.MouseEvents;
 	import com.shrimp.framework.ui.container.Container;
 	import com.shrimp.framework.ui.controls.core.Style;
 	import com.shrimp.framework.ui.layout.HorizontalLayout;
-	import com.shrimp.framework.ui.layout.ILayout;
 	import com.shrimp.framework.ui.layout.VerticalLayout;
 	import com.shrimp.framework.utils.ArrayList;
 	
@@ -13,8 +11,6 @@ package com.shrimp.framework.ui.controls
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	
-	import org.gestouch.events.GestureEvent;
-
 	/**
 	 *	列表栏
 	 * @author Sol
@@ -23,7 +19,6 @@ package com.shrimp.framework.ui.controls
 	[Event(name="select", type="flash.events.Event")]
 	public class TabBar extends Container
 	{
-		private var _layout:ILayout;
 		protected var _direction:String;
 		//方向发生变化
 		private var directionChanged:Boolean=false;
@@ -56,10 +51,10 @@ package com.shrimp.framework.ui.controls
 				return;
 			}
 			selectedIndex=index;
-			if(hasEventListener(Event.SELECT))
-			{
-				dispatchEvent(new Event("select"));
-			}
+//			if(hasEventListener(Event.SELECT))
+//			{
+//				dispatchEvent(new Event("select"));
+//			}
 		}
 		
 		/**	页签方向*/
@@ -98,6 +93,13 @@ package com.shrimp.framework.ui.controls
 			
 			if(selectedIndexChanged)
 			{
+				var btn:Button=Button(getChildAt(_selectedIndex));
+				btn.selected = true;
+				btn.invalidateProperties();
+				if(hasEventListener(Event.SELECT))
+				{
+					dispatchEvent(new Event("select"));
+				}
 				selectedIndexChanged=false;
 				invalidateDisplayList();
 			}
@@ -114,7 +116,27 @@ package com.shrimp.framework.ui.controls
 				btn.skinClass = normalSkin;
 				btn.validateNow();
 				btn.toggle=true;
-				btn.label=data.source[i];
+				if(data.source[i].hasOwnProperty("name"))
+				{
+					btn.label=data.source[i]["name"];
+				}
+				else if(data.source[i].hasOwnProperty("label"))
+				{
+					btn.label=data.source[i]["label"];
+				}
+				else
+				{
+					btn.label=data.source[i].toString();
+				}
+//				btn.labelFontName = _fontName;
+				btn.labelSize = _fontsize;
+//				btn.italic = _italic;
+				btn.bold=true;
+			}
+			if(numChildren>0)
+			{
+				_selectedIndex=0;
+				Button(getChildAt(selectedIndex)).selected=true;
 			}
 		}
 		
@@ -125,11 +147,11 @@ package com.shrimp.framework.ui.controls
 			{
 				case "horizontal":
 					_layout=new HorizontalLayout();
-					HorizontalLayout(_layout).gap=5
+					HorizontalLayout(_layout).gap=_gap;
 					break;
 				case "vertical":
 					_layout=new VerticalLayout();
-					VerticalLayout(_layout).gap=5
+					VerticalLayout(_layout).gap=_gap;
 					break;
 				default:
 					_layout=new HorizontalLayout();
@@ -203,6 +225,16 @@ package com.shrimp.framework.ui.controls
 				_selectedSkin=Style.tabSelected;
 			return _selectedSkin;
 		}
+		private var _gap:Number=5;
+		public function set gap(value:Number):void
+		{
+			if(_gap==value)
+				return;
+			
+			_gap=value;
+			directionChanged=true;
+			invalidateDisplayList();
+		}
 		/**	获取所有页签项状态，返回结果为
 		 * 	tab1: true, tab2:false*/		
 		public function get allState():String
@@ -215,5 +247,11 @@ package com.shrimp.framework.ui.controls
 			}
 			return result;
 		}
+		
+		private var _fontName:String="Microsoft YaHei";
+		private var _fontsize:int = 16;
+		private var _italic:Boolean=true;
+		private var _blod:Boolean=true;
+		
 	}
 }
