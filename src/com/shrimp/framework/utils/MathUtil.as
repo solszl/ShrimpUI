@@ -35,7 +35,7 @@ package com.shrimp.framework.utils
 		 * @return
 		 *
 		 */
-		public static function ranWave(value):Number
+		public static function ranWave(value:Number):Number
 		{
 			return Math.random() * (value * 2) - value;
 		}

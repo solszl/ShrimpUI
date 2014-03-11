@@ -6,30 +6,30 @@ package com.shrimp.framework.ui.container
 
 	public class HBox extends Container
 	{
-		private var _layout:HorizontalLayout;
+		private var __layout:HorizontalLayout;
 
 		public function HBox(gap:int=5, parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
 		{
 			super(parent, xpos, ypos);
-			_layout=new HorizontalLayout();
-			_layout.gap=gap;
-			layout=_layout;
+			__layout=new HorizontalLayout();
+			__layout.gap=gap;
+			layout=__layout;
 		}
 
 		public function set gap(value:Number):void
 		{
-			HorizontalLayout(_layout).gap=value;
+			HorizontalLayout(__layout).gap=value;
 		}
 
 		public function get gap():Number
 		{
-			return HorizontalLayout(_layout).gap;
+			return HorizontalLayout(__layout).gap;
 		}
 
 		[Inspectable(category="General", enumeration="left,right,center", defaultValue="left")]
 		public function get horizontalAlign():String
 		{
-			return HorizontalLayout(_layout).horizontalAlign;
+			return HorizontalLayout(__layout).horizontalAlign;
 		}
 
 		/**
@@ -37,19 +37,19 @@ package com.shrimp.framework.ui.container
 		 */
 		public function set horizontalAlign(value:String):void
 		{
-			HorizontalLayout(_layout).horizontalAlign=value;
+			HorizontalLayout(__layout).horizontalAlign=value;
 		}
 
 		[Inspectable(category="General", enumeration="top,middle,bottom", defaultValue="top")]
 		public function get verticalAlign():String
 		{
-			return HorizontalLayout(_layout).verticalAlign;
+			return HorizontalLayout(__layout).verticalAlign;
 			;
 		}
 
 		public function set verticalAlign(value:String):void
 		{
-			HorizontalLayout(_layout).verticalAlign=value;
+			HorizontalLayout(__layout).verticalAlign=value;
 		}
 	}
 }
