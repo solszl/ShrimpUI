@@ -86,21 +86,21 @@ package com.shrimp.framework.ui.controls
 			invalidateProperties();
 		}
 
-		private var _labelColor:uint=0;
+		private var _labelColor:Object=0;
 
-		public function set labelColor(value:uint):void
+		public function set labelColor(value:Object):void
 		{
 			_label.color=value;
 		}
 
-		public function get labelColor():uint
+		public function get labelColor():Object
 		{
 			return _labelColor;
 		}
 
 		public function get labelSize():uint
 		{
-			return _label.fontSize;
+			return int(_label.fontSize);
 		}
 
 		public function set labelSize(value:uint):void

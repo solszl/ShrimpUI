@@ -2,92 +2,55 @@ package com.shrimp.framework.ui.controls
 {
 	import com.shrimp.framework.ui.controls.core.Component;
 	import com.shrimp.framework.ui.controls.core.Style;
+	import com.shrimp.framework.utils.ColorUtil;
 	import com.shrimp.framework.utils.StringUtil;
 	
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
+	import flash.filters.GlowFilter;
 	import flash.text.TextField;
+	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFieldType;
 	import flash.text.TextFormat;
-	import flash.text.TextFormatAlign;
 
-	/**
-	 *	label组件,暂不支持HTML
-	 * @author Sol
-	 * 2013-07-26
-	 *
-	 */
 	public class Label extends Component
 	{
-		protected var _text:String="";
-		protected var _tf:TextField;
-		protected var _format:TextFormat;
-		private var _fontSize:int=Style.fontSize;
-		private var _color:uint=Style.LABEL_COLOR;
-		private var _bold:Boolean=false;
-		private var _align:String=TextFormatAlign.LEFT;
-		private var _indent:int;
-		protected var _html:Boolean=false;
-
-		private var _stroke:uint=0;
-
 		public function Label(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0, text:String="")
 		{
-			_text=text;
 			super(parent, xpos, ypos);
-			stroke=Style.stroke;
+			this._text=text;
 		}
 
-		override protected function createChildren():void
-		{
-			super.createChildren();
-			_tf=new TextField();
-			_tf.selectable=false;
-			_tf.mouseEnabled=true;
-			_tf.tabEnabled=false;
-			_tf.text=_text;
-			_tf.defaultTextFormat=new TextFormat(Style.fontFamily, _fontSize, _color, _bold, null, null, null, null, _align, null, null, _indent);
-			_tf.height=_height;
-			this.addChild(_tf);
-		}
-
-		/**
-		 *	取到当前设置的textFormat
-		 * @return
-		 *
-		 */
-		public function get textFormat():TextFormat
-		{
-			return _format;
-		}
-
-		public function set textFormat(value:TextFormat):void
-		{
-			_format=value;
-			_tf.defaultTextFormat=value;
-			_tf.setTextFormat(value);
-		}
-
-		/**
-		 *	描边
-		 * @return
-		 *
-		 */
-		public function get stroke():uint
-		{
-			return _stroke;
-		}
-
-		public function set stroke(value:uint):void
-		{
-			if (_stroke == value)
-				return;
-			_stroke=value;
-			_tf.filters=Style.fontFilter;
-		}
+		protected var _textField:TextField;
+		protected var _format:TextFormat;
+		protected var _text:String="";
+		protected var _isHtml:Boolean;
+		protected var _stroke:String;
+		protected var _margin:Array=[0, 0, 0, 0];
 
 		protected var _textChanged:Boolean=false;
 		protected var _textPropertyChanged:Boolean=false;
+
+		override protected function createChildren():void
+		{
+
+			_textField=new TextField();
+			_textField.defaultTextFormat=new TextFormat(Style.fontFamily, Style.fontSize, Style.LABEL_COLOR);
+
+			_format=_textField.defaultTextFormat;
+			_format.font=Style.fontFamily;
+			_format.size=Style.fontSize;
+			_format.color=Style.LABEL_COLOR;
+			_textField.selectable=false;
+			_textField.autoSize=TextFieldAutoSize.LEFT;
+			addChild(_textField);
+		}
+
+		/**显示的文本*/
+		public function get text():String
+		{
+			return _text;
+		}
 
 		public function set text(value:String):void
 		{
@@ -107,57 +70,120 @@ package com.shrimp.framework.ui.controls
 			invalidateProperties();
 		}
 
-		public function get text():String
+
+		/**描边(格式:color,alpha,blurX,blurY,strength,quality)*/
+		public function get stroke():String
 		{
-			return _text;
+			return _stroke;
 		}
 
-		public function get textField():TextField
+		public function set stroke(value:String):void
 		{
-			return _tf;
+			if (_stroke != value)
+			{
+				_stroke=value;
+				ColorUtil.removeAllFilter(_textField);
+				if (Boolean(_stroke))
+				{
+					var a:Array=StringUtil.split(value);
+					ColorUtil.addFilter(_textField,new GlowFilter(a[0], a[1], a[2], a[3], a[4], a[5]));
+				}
+			}
 		}
 
-		public function get color():uint
+		/**是否是多行*/
+		public function get multiline():Boolean
 		{
-			return _color;
+			return _textField.multiline;
 		}
 
-		public function set color(value:uint):void
+		public function set multiline(value:Boolean):void
 		{
-			if (_color == value)
-				return;
-
-			_color=value;
+			_textField.multiline=value;
 			_textPropertyChanged=true;
 			invalidateProperties();
 		}
 
-		public function get bold():Boolean
+		/**宽高是否自适应*/
+		public function get autoSize():String
 		{
-			return _bold;
+			return _textField.autoSize;
 		}
 
-		public function set bold(value:Boolean):void
+		public function set autoSize(value:String):void
 		{
-			if (bold == value)
-				return;
-
-			_bold=value;
+			_textField.autoSize=value;
 			_textPropertyChanged=true;
 			invalidateProperties();
 		}
 
-		public function get fontSize():int
+		/**是否自动换行*/
+		public function get wordWrap():Boolean
 		{
-			return _fontSize;
+			return _textField.wordWrap;
 		}
 
-		public function set fontSize(value:int):void
+		public function set wordWrap(value:Boolean):void
 		{
-			if (_fontSize == value)
-				return;
+			_textField.wordWrap=value;
+		}
 
-			_fontSize=value;
+		/**是否可选*/
+		public function get selectable():Boolean
+		{
+			return _textField.selectable;
+		}
+
+		public function set selectable(value:Boolean):void
+		{
+			_textField.selectable=value;
+			mouseEnabled=value;
+		}
+
+		/**是否具有背景填充*/
+		public function get background():Boolean
+		{
+			return _textField.background;
+		}
+
+		public function set background(value:Boolean):void
+		{
+			_textField.background=value;
+		}
+
+		/**文本字段背景的颜色*/
+		public function get backgroundColor():uint
+		{
+			return _textField.backgroundColor;
+		}
+
+		public function set backgroundColor(value:uint):void
+		{
+			_textField.backgroundColor=value;
+		}
+
+		/**字体颜色*/
+		public function get color():Object
+		{
+			return _format.color;
+		}
+
+		public function set color(value:Object):void
+		{
+			_format.color=value;
+			_textPropertyChanged=true;
+			invalidateProperties();
+		}
+
+		/**字体类型*/
+		public function get font():String
+		{
+			return _format.font;
+		}
+
+		public function set font(value:String):void
+		{
+			_format.font=value;
 			_textPropertyChanged=true;
 			invalidateProperties();
 		}
@@ -165,33 +191,131 @@ package com.shrimp.framework.ui.controls
 		[Inspectable(category="General", enumeration="left,right,center", defaultValue="left")]
 		public function get align():String
 		{
-			return _align;
+			return _format.align;
 		}
 
 		public function set align(value:String):void
 		{
-			if (value == _align)
-				return;
+			_format.align=value;
+			_textPropertyChanged=true;
+			invalidateProperties();
+		}
 
-			_align=value;
+		/**粗体类型*/
+		public function get bold():Object
+		{
+			return _format.bold;
+		}
+
+		public function set bold(value:Object):void
+		{
+			_format.bold=value;
+			_textPropertyChanged=true;
+			invalidateProperties();
+		}
+
+		/**垂直间距*/
+		public function get leading():Object
+		{
+			return _format.leading;
+		}
+
+		public function set leading(value:Object):void
+		{
+			_format.leading=value;
 			_textPropertyChanged=true;
 			invalidateProperties();
 		}
 
 		/**第一个字符的缩进*/
-		public function get indent():int
+		public function get indent():Object
 		{
-			return _indent;
+			return _format.indent;
 		}
 
-		public function set indent(value:int):void
+		public function set indent(value:Object):void
 		{
-			if (_indent == value)
-				return;
-
-			_indent=value;
+			_format.indent=value;
 			_textPropertyChanged=true;
 			invalidateProperties();
+		}
+
+		/**字体大小*/
+		public function get fontSize():Object
+		{
+			return _format.size;
+		}
+
+		public function set fontSize(value:Object):void
+		{
+			_format.size=value;
+			_textPropertyChanged=true;
+			invalidateProperties();
+		}
+
+		/**下划线类型*/
+		public function get underline():Object
+		{
+			return _format.underline;
+		}
+
+		public function set underline(value:Object):void
+		{
+			_format.underline=value;
+			_textPropertyChanged=true;
+			invalidateProperties();
+		}
+
+		/**字间距*/
+		public function get letterSpacing():Object
+		{
+			return _format.letterSpacing;
+		}
+
+		public function set letterSpacing(value:Object):void
+		{
+			_format.letterSpacing=value;
+			_textPropertyChanged=true;
+			invalidateProperties();
+		}
+
+		public function get margin():String
+		{
+			return _margin.join(",");
+		}
+
+		public function set margin(value:String):void
+		{
+			_margin=StringUtil.split(value);
+			_textField.x=_margin[0];
+			_textField.y=_margin[1];
+			_textPropertyChanged=true;
+			invalidateProperties();
+		}
+
+		/**格式*/
+		public function get format():TextFormat
+		{
+			return _format;
+		}
+
+		public function set format(value:TextFormat):void
+		{
+			_format=value;
+			_textPropertyChanged=true;
+			invalidateProperties();
+		}
+
+		/**文本控件实体*/
+		public function get textField():TextField
+		{
+			return _textField;
+		}
+
+		/**将指定的字符串追加到文本的末尾*/
+		public function appendText(newText:String):void
+		{
+			text+=newText;
 		}
 
 		override protected function commitProperties():void
@@ -200,15 +324,15 @@ package com.shrimp.framework.ui.controls
 			if (_textChanged)
 			{
 				_textChanged=false;
-				_tf.text=_text;
+				_textField.text=_text;
 				invalidateDisplayList();
 			}
 
 			if (_textPropertyChanged)
 			{
 				_textPropertyChanged=false;
-				_tf.defaultTextFormat=new TextFormat(Style.fontFamily, _fontSize, _color, _bold, null, null, null, null, _align, null, null, _indent);
-				_tf.text=_text;
+				_textField.defaultTextFormat=_format
+				_textField.text=_text;
 				invalidateDisplayList();
 			}
 		}
@@ -216,29 +340,32 @@ package com.shrimp.framework.ui.controls
 		override protected function measure():void
 		{
 			super.measure();
-			measuredWidth=_tf.textWidth + 4 + _indent;
-			measuredHeight=Math.max(_tf.textHeight + 2, 15);
+			measuredWidth=_textField.textWidth + 4 + _format.indent;
+			measuredHeight=Math.max(_textField.textHeight + 2, 15);
 		}
 
 		override protected function updateDisplayList():void
 		{
 			super.updateDisplayList();
-			_tf.width=_width;
-			_tf.height=_height;
-			if (_tf.type == TextFieldType.DYNAMIC && _tf.multiline == false)
+			_textField.width=_width;
+			_textField.height=_height;
+			if (_textField.type == TextFieldType.DYNAMIC && _textField.multiline == false)
 			{
 				var w:Number=_width;
-				if (_tf.textWidth > w)
+				if (_textField.textWidth > w)
 				{
 					var orginalText:String=_text;
-					var s:String=_tf.text;
-					while (s.length > 1 && _tf.textWidth > w - 4)
+					var s:String=_textField.text;
+					while (s.length > 1 && _textField.textWidth > w - 4)
 					{
 						s=s.slice(0, -1);
-						_tf.text=s + "...";
+						_textField.text=s + "...";
 					}
 				}
 			}
 		}
+
 	}
 }
+
+

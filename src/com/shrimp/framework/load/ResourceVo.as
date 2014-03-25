@@ -13,5 +13,10 @@ package com.shrimp.framework.load
 		public var complete:Function;
 		public var progress:Function;
 		public var error:Function;
+		
+		public function ResourceVo():void
+		{
+			
+		}
 	}
 }

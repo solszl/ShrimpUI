@@ -182,5 +182,10 @@ package com.shrimp.framework.utils
 			//string?
 			return sb;
 		}
+		
+		public static function split(originStr:String,separator:String=','):Array
+		{
+			return originStr.split(separator);
+		}
 	}
 }

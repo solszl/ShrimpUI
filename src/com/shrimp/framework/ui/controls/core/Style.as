@@ -10,7 +10,7 @@ package com.shrimp.framework.ui.controls.core
 	public class Style
 	{
 		/**	按钮默认*/
-		[Embed(source="/assets/buttons/btnNormal.png", scaleGridTop='2', scaleGridBottom='2', scaleGridLeft='2', scaleGridRight='2')]
+		[Embed(source="/assets/buttons/btnNormal.png", scaleGridTop='2', scaleGridBottom='12', scaleGridLeft='2', scaleGridRight='5')]
 		public static const defaultBtnNormalSkin:Class;
 		/**	按钮选中*/
 		[Embed(source="/assets/buttons/btnSelected.png", scaleGridTop='10', scaleGridBottom='15', scaleGridLeft='15', scaleGridRight='30')]
@@ -51,13 +51,13 @@ package com.shrimp.framework.ui.controls.core
 		/**	默认字号*/
 		public static var fontSize:int = 14;
 		/**	默认字体*/
-		public static var fontFamily:String="Microsoft yahei";
+		public static var fontFamily:String="Microsoft Yahei";
 		/**	描边颜色*/
-		public static const stroke:uint=0x292317;
+		public static const stroke:String="0x292317,1,2,2,16,1";//color,alpha,blurX,blurY,strength,quality
 		/**	默认字体滤镜*/
-		public static const fontFilter:Array = [new GlowFilter(stroke, 1, 2, 2, 16)];
+//		public static const fontFilter:Array = [new GlowFilter(stroke, 1, 2, 2, 16)];
 		
 		/**	文本字 颜色*/
-		public static const LABEL_COLOR:uint =0xFFFFFF;
+		public static const LABEL_COLOR:uint =0x000000;
 	}
 }
