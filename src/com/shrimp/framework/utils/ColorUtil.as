@@ -1,6 +1,9 @@
 package com.shrimp.framework.utils
 {
+	import com.thirdparts.greensock.ColorMatrix;
+
 	import flash.display.DisplayObject;
+	import flash.filters.BitmapFilter;
 	import flash.filters.BlurFilter;
 	import flash.filters.ColorMatrixFilter;
 	import flash.filters.DropShadowFilter;
@@ -237,6 +240,49 @@ package com.shrimp.framework.utils
 		public static function toHexColor(colorInt:uint):String
 		{
 			return '#' + colorInt.toString(16);
+		}
+
+
+		public static function addSaturation(displayObject:DisplayObject, params:int):void
+		{
+			var cm:ColorMatrix=new ColorMatrix();
+			cm.adjustSaturation(params);
+			displayObject.filters=[new ColorMatrixFilter(cm)];
+		}
+
+		public static function addContrast(displayObject:DisplayObject, params:int):void
+		{
+			var cm:ColorMatrix=new ColorMatrix();
+			cm.adjustContrast(params);
+			displayObject.filters=[new ColorMatrixFilter(cm)];
+		}
+
+		public static function addBrightness(displayObject:DisplayObject, params:int):void
+		{
+			var cm:ColorMatrix=new ColorMatrix();
+			cm.adjustBrightness(params);
+			displayObject.filters=[new ColorMatrixFilter(cm)];
+		}
+
+		public static function addColor(displayObject:DisplayObject, bright:int=0, contrast:int=0, saturation:int=0, hue:int=0):void
+		{
+			var cm:ColorMatrix=new ColorMatrix();
+			cm.adjustColor(bright, contrast, saturation, hue);
+			displayObject.filters=[new ColorMatrixFilter(cm)];
+		}
+
+		public static function removeAllFilter(displayObject:DisplayObject):void
+		{
+			var cm:ColorMatrix=new ColorMatrix();
+			cm.reset();
+			displayObject.filters=[new ColorMatrixFilter(cm)];
+		}
+
+		public static function addFilter(target:DisplayObject, filter:BitmapFilter):void
+		{
+			var filters:Array=target.filters || [];
+			filters.push(filter);
+			target.filters=filters;
 		}
 	}
 }
