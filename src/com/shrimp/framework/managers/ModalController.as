@@ -1,8 +1,7 @@
 package com.shrimp.framework.managers
 {
-	import com.greensock.TweenMax;
-	import com.greensock.easing.Linear;
 	import com.shrimp.framework.core.ApplicationBase;
+	import com.thirdparts.greensock.TweenNano;
 	
 	import flash.display.DisplayObject;
 
@@ -27,7 +26,7 @@ package com.shrimp.framework.managers
 			if (target)
 			{
 				modalMode=true;
-				TweenMax.to(target,_duration/1000,{alpha:0.35,ease:Linear.easeNone});
+				TweenNano.to(target,_duration/1000,{alpha:0.35});
 				ApplicationBase.application.stage.focus = null;	
 			}
 		}
@@ -38,7 +37,7 @@ package com.shrimp.framework.managers
 			{
 				modalMode=false;
 				target.alpha = .35;
-				TweenMax.to(target,_duration/1000,{alpha:1,ease:Linear.easeNone});
+				TweenNano.to(target,_duration/1000,{alpha:1});
 			}
 		}
 

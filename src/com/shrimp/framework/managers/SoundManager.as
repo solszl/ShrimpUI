@@ -1,6 +1,6 @@
 package com.shrimp.framework.managers
 {
-	import com.greensock.TweenMax;
+//	import com.greensock.TweenMax;
 	import com.shrimp.framework.core.shrimp_internal;
 	
 	import flash.events.Event;
@@ -56,6 +56,7 @@ package com.shrimp.framework.managers
 		 * @param repeat	重复次数
 		 * @param volume	声音音量大小
 		 * @param len	声音从无到有的缓动时间 如0.5 则表示0.5秒后，从0达到volume值
+		 * len参数废弃
 		 * 
 		 */		
 		public function play(url:String, repeat:int=1, volume:Number=-1, len:Number=0):void
@@ -124,15 +125,7 @@ package com.shrimp.framework.managers
 			}
 			var channel:SoundChannel=(soundPool[url] as Sound).play(0, repeat!=-1?repeat:int.MAX_VALUE);
 			soundChannelPool[url]=channel;
-			if (len == 0)
-			{
-				channel.soundTransform=new SoundTransform((volume != -1) ? volume : defaultVolume);
-			}
-			else
-			{
-				channel.soundTransform=new SoundTransform(0);
-				TweenMax.to(channel, len, {volume: (volume != -1) ? volume : defaultVolume})
-			}
+			channel.soundTransform=new SoundTransform((volume != -1) ? volume : defaultVolume);
 		}
 	}
 }

@@ -1,8 +1,8 @@
 package com.shrimp.framework.ui.controls
 {
-	import com.greensock.TweenMax;
 	import com.shrimp.framework.ui.controls.core.Component;
 	import com.shrimp.framework.ui.controls.core.Style;
+	import com.shrimp.framework.utils.ColorUtil;
 	
 	import flash.display.DisplayObjectContainer;
 	import flash.events.MouseEvent;
@@ -138,13 +138,29 @@ package com.shrimp.framework.ui.controls
 				switch (state)
 				{
 					case 0:
-						TweenMax.to(bg, 0, {colorMatrixFilter: {remove: true}});
+						ColorUtil.removeAllFilter(bg);
 						break;
 					case 1:
-						_overSkin ?bg.source=_overSkin:TweenMax.to(bg, 0, {colorMatrixFilter: {brightness: 1.1, saturation: 1.2}})
+						if (_overSkin)
+						{
+							bg.source=_overSkin;
+						}
+						else
+						{
+							ColorUtil.addBrightness(bg, 10);
+							ColorUtil.addSaturation(bg, 20);
+						}
 						break;
 					case 2:
-						_selectedSkin?bg.source=_selectedSkin:TweenMax.to(bg, 0, {colorMatrixFilter: {brightness: .66, saturation: .8}});
+						if (_selectedSkin)
+						{
+							bg.source=_selectedSkin;
+						}
+						else
+						{
+							ColorUtil.addBrightness(bg, -33);
+							ColorUtil.addSaturation(bg, -20)
+						}
 						break;
 				}
 

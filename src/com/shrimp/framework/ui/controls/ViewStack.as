@@ -1,7 +1,5 @@
 package com.shrimp.framework.ui.controls
 {
-	import com.greensock.TweenMax;
-	import com.shrimp.framework.GlobalConfig;
 	import com.shrimp.framework.ui.container.Container;
 	
 	import flash.display.DisplayObject;
@@ -49,7 +47,6 @@ package com.shrimp.framework.ui.controls
 					currentChild.visible=false;
 				}
 				child.visible=true;
-				TweenMax.from(child,GlobalConfig.VIEWSTACK_CHANGE_DURATION,{alpha:0});
 				currentChild=child;
 			}
 		}
