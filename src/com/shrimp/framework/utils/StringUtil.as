@@ -182,10 +182,28 @@ package com.shrimp.framework.utils
 			//string?
 			return sb;
 		}
-		
+		/**
+		 *	字符串分隔 
+		 * @param originStr 原串
+		 * @param separator	分隔符
+		 * @return 
+		 * 
+		 */		
 		public static function split(originStr:String,separator:String=','):Array
 		{
 			return originStr.split(separator);
+		}
+		
+		/**
+		 *	判断input字符串中suffix是否为结束符 
+		 * @param input
+		 * @param suffix
+		 * @return 
+		 * 
+		 */		
+		public static function endsWith(input:String, suffix:String):Boolean
+		{
+			return (suffix == input.substring(input.length - suffix.length));
 		}
 	}
 }

@@ -15,5 +15,9 @@ package com.shrimp.framework
 		/**viewstack切换页签的特效时间*/
 		public static var VIEWSTACK_CHANGE_DURATION:Number=0.3;
 		
+		/**	slider 滑块北京颜色*/
+		public static var SLIDER_HANDLE:uint=0xFFFFFF;
+		public static var SLIDER_THUMB:uint=0x000000;
+		
 	}
 }

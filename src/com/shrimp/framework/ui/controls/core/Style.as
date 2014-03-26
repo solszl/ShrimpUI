@@ -48,16 +48,17 @@ package com.shrimp.framework.ui.controls.core
 		/**	选项卡 选中 */
 		[Embed(source="/assets/tab/tab_selected.png")]
 		public static const tabSelected:Class;
+		/**	面板关闭按钮*/
+		[Embed(source="/assets/buttons/closeBtn.png")]
+		public static const panelCloseBtn:Class;
 		/**	默认字号*/
 		public static var fontSize:int = 14;
 		/**	默认字体*/
 		public static var fontFamily:String="Microsoft Yahei";
 		/**	描边颜色*/
 		public static const stroke:String="0x292317,1,2,2,16,1";//color,alpha,blurX,blurY,strength,quality
-		/**	默认字体滤镜*/
-//		public static const fontFilter:Array = [new GlowFilter(stroke, 1, 2, 2, 16)];
 		
 		/**	文本字 颜色*/
-		public static const LABEL_COLOR:uint =0x000000;
+		public static const LABEL_COLOR:uint =0xFFFFFF;
 	}
 }
