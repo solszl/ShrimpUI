@@ -376,12 +376,6 @@ package com.shrimp.framework.ui.controls.core
 			return listeners;
 		}
 		
-//		public function dispose():void
-//		{
-//			removeChildByName("border");
-//			removeListeners();
-//		}
-		
 		private function gestureBuilder(type:String):void
 		{
 			switch(type)

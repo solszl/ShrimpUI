@@ -43,11 +43,11 @@ package com.shrimp.framework.ui.controls
 			
 			if (_orientation == HORIZONTAL)
 			{
-				setActualSize(40, 10);
+				setActualSize(100, 10);
 			}
 			else
 			{
-				setActualSize(10, 40);
+				setActualSize(10, 100);
 			}
 		}
 		
