@@ -2,6 +2,7 @@ package com.shrimp.framework.ui.controls
 {
 	import com.shrimp.framework.GlobalConfig;
 	import com.shrimp.framework.ui.controls.core.Component;
+	import com.shrimp.framework.ui.controls.core.Style;
 	
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
@@ -12,9 +13,9 @@ package com.shrimp.framework.ui.controls
 	[Event(name="change", type="flash.events.Event")]
 	public class Slider extends Component
 	{
-		protected var _handle:Sprite;
-		protected var _back:Sprite;
-		protected var _backClick:Boolean=true;
+		protected var _handle:Button;
+		protected var _back:Image;
+		protected var _backClick:Boolean;
 		protected var _value:Number=0;
 		protected var _max:Number=100;
 		protected var _min:Number=0;
@@ -43,11 +44,11 @@ package com.shrimp.framework.ui.controls
 			
 			if (_orientation == HORIZONTAL)
 			{
-				setActualSize(100, 10);
+				setActualSize(200, 20);
 			}
 			else
 			{
-				setActualSize(10, 100);
+				setActualSize(20, 200);
 			}
 		}
 		
@@ -56,45 +57,14 @@ package com.shrimp.framework.ui.controls
 		 */
 		override protected function createChildren():void
 		{
-			_back=new Sprite();
-			_back.filters=[getShadow(2, true)];
-			addChild(_back);
+			_back=new Image(this);
+			_back.mouseEnabled=true;
+			_back.source = Style.sliderBG;
+			_back.scale9Rect=new Rectangle(12,12,14,14);
 			
-			_handle=new Sprite();
-			_handle.filters=[getShadow(1)];
+			_handle=new Button(this);
 			_handle.addEventListener(MouseEvent.MOUSE_DOWN, onDrag);
-			_handle.buttonMode=true;
-			_handle.useHandCursor=true;
-			addChild(_handle);
-		}
-		
-		/**
-		 * Draws the back of the slider.
-		 */
-		protected function drawBack():void
-		{
-			_back.graphics.clear();
-			_back.graphics.beginFill(GlobalConfig.SLIDER_THUMB);
-			_back.graphics.drawRect(0, 0, _width, _height);
-			_back.graphics.endFill();
-		}
-		
-		/**
-		 * Draws the handle of the slider.
-		 */
-		protected function drawHandle():void
-		{
-			_handle.graphics.clear();
-			_handle.graphics.beginFill(GlobalConfig.SLIDER_HANDLE);
-			if (_orientation == HORIZONTAL)
-			{
-				_handle.graphics.drawRect(1, 1, _height - 2, _height - 2);
-			}
-			else
-			{
-				_handle.graphics.drawRect(1, 1, _width - 2, _width - 2);
-			}
-			_handle.graphics.endFill();
+			
 		}
 		
 		/**
@@ -133,31 +103,14 @@ package com.shrimp.framework.ui.controls
 			}
 		}
 		
-		override protected function commitProperties():void
-		{
-			if (_backClickChanged)
-			{
-				_backClickChanged=false;
-				if (_backClick)
-				{
-					_back.addEventListener(MouseEvent.MOUSE_DOWN, onBackClick);
-				}
-				else
-				{
-					_back.removeEventListener(MouseEvent.MOUSE_DOWN, onBackClick);
-				}
-			}
-		}
-		
 		/**
 		 * Draws the visual ui of the component.
 		 */
 		override protected function updateDisplayList():void
 		{
 			super.updateDisplayList();
-			drawBack();
-			drawHandle();
 			
+			_back.setActualSize(_width,_height);
 			positionHandle();
 		}
 		
@@ -244,12 +197,16 @@ package com.shrimp.framework.ui.controls
 		
 		public function set backClick(b:Boolean):void
 		{
-			if (b == _backClick)
-				return;
-			
 			_backClick=b;
 			
-			invalidateProperties();
+			if (_backClick)
+			{
+				_back.addEventListener(MouseEvent.MOUSE_DOWN, onBackClick);
+			}
+			else
+			{
+				_back.removeEventListener(MouseEvent.MOUSE_DOWN, onBackClick);
+			}
 		}
 		
 		public function get backClick():Boolean
