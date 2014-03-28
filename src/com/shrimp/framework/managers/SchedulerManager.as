@@ -20,7 +20,7 @@ package com.shrimp.framework.managers
 	 */	
 	public class SchedulerManager
 	{
-		private static var sp:Shape = new Shape();
+		private static const sp:Shape = new Shape();
 		private static var isRunning:Boolean = false;
 		
 		public static var schedulerList:Array=[];

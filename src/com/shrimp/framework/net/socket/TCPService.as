@@ -11,6 +11,11 @@ package com.shrimp.framework.net.socket
 		private static var lossConnectHandle:Function;
 		protected static var _socket:CommonSocket;
 
+		public function TCPService()
+		{
+			
+		}
+			
 		public function init(socket:CommonSocket=null):void
 		{
 			if (socket == null)

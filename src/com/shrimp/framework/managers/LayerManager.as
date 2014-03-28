@@ -20,16 +20,23 @@ package com.shrimp.framework.managers
 	public class LayerManager
 	{
 		public static const LAYER_TIP:String="tips_layer";
-		public static const LAYER_POPUP:String="popup_layer";
+		public static const LAYER_DIALOG:String="dialog_layer";
 		public static const LAYER_PANEL:String="panel_layer";
 		public static const LAYER_UI:String="ui_layer";
 		public static const LAYER_VIEW:String="view_layer";
 
 		private static var layerContent:Array=[];
 		
+		/**
+		 *	注册层级 
+		 * @param layer	层的显示对象
+		 * @param order	显示次序
+		 * @param name	名字
+		 * 
+		 */		
 		public static function registLayer(layer:DisplayObject,order:int,name:String):void
 		{
-			layerContent.push({layer:layer,order:order});
+			layerContent.push({layer:layer,order:order,name:name});
 			
 			reSort();
 		}
@@ -53,7 +60,8 @@ package com.shrimp.framework.managers
 			for each(var o:Object in layerContent)
 			{
 				if(o["name"]==name)
-					result = o as DisplayObjectContainer;
+					result = o["layer"] as DisplayObjectContainer;
+				break;
 			}
 			
 			return result;

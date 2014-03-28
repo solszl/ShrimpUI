@@ -34,11 +34,11 @@ package com.shrimp.framework.log
 			}
 			
 			mcOutput = new TextField();
-			mcOutput.width = 500;//_stage.stageWidth/2;
-			mcOutput.height = 300;//_stage.stageHeight/2;
+			mcOutput.width = _stage.stageWidth/2;
+			mcOutput.height = _stage.stageHeight/2;
 			
-			mcOutput.x = 5;//(_stage.stageWidth - mcOutput.width)>>1
-			mcOutput.y = 10;//(_stage.stageHeight-mcOutput.height)>>1
+			mcOutput.x =10;//(_stage.stageWidth - mcOutput.width)>>1
+			mcOutput.y =10;//(_stage.stageHeight-mcOutput.height)>>1
 			mcOutput.multiline=true;
 			mcOutput.wordWrap=true;
 			addChild(mcOutput);
@@ -80,19 +80,20 @@ package com.shrimp.framework.log
 			if(stage)
 				_stage = stage;
 			
-			if(flash.system.Capabilities.os.toLowerCase().indexOf("windows")>0)
+			var strOS:String = flash.system.Capabilities.os.toLowerCase();
+			if(strOS.indexOf("windows")!=-1)
 			{
 
-//				var contentitem:ContextMenuItem=new ContextMenuItem("show/hide Log");
-//				contentitem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, onItemClick)
-//				var menu:ContextMenu=  _root.contextMenu;
-//				if(!menu)
-//				{
-//					menu = new ContextMenu();
-//				}
-//				menu.hideBuiltInItems();
-//				menu.customItems=menu.customItems.concat(contentitem);
-//				_root.contextMenu=menu;
+				var contentitem:ContextMenuItem=new ContextMenuItem("show/hide Log");
+				contentitem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, onItemClick)
+				var menu:ContextMenu=  _root.contextMenu;
+				if(!menu)
+				{
+					menu = new ContextMenu();
+				}
+				menu.hideBuiltInItems();
+				menu.customItems=menu.customItems.concat(contentitem);
+				_root.contextMenu=menu;
 				function onItemClick(e:ContextMenuEvent):void
 				{
 					toggle();

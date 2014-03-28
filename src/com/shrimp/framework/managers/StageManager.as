@@ -42,7 +42,7 @@ package com.shrimp.framework.managers
 			}
 		}
 		
-		public static function stageWidth():Number
+		public static function getStageWidth():Number
 		{
 			if(stage)
 				return stage.stageWidth;
@@ -50,7 +50,7 @@ package com.shrimp.framework.managers
 			return 0;
 		}
 		
-		public static function stageHeight():Number
+		public static function getStageHeight():Number
 		{
 			if(stage)
 				return stage.stageHeight;
