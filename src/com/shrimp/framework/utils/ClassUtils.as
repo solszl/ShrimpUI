@@ -39,13 +39,11 @@ package com.shrimp.framework.utils
 			
 			if (domain.hasDefinition(className))
 			{
-				var getClass:Class=domain.getDefinition(className) as Class;
-				return getClass;
+				return domain.getDefinition(className) as Class;
 			}
 			else
 			{
-				trace("未找到类" + className);
-				return null;
+				throw new Error("unknown className::",className);
 			}
 		}
 	}

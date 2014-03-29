@@ -1,13 +1,18 @@
 package com.shrimp.framework.ui.controls.panel
 {
 	import com.shrimp.framework.interfaces.IDialog;
+	import com.shrimp.framework.managers.DialogManager;
 	import com.shrimp.framework.managers.LayerManager;
 	import com.shrimp.framework.ui.container.Container;
 	import com.shrimp.framework.ui.controls.Button;
 	import com.shrimp.framework.ui.controls.core.Style;
+	import com.shrimp.framework.utils.ClassUtils;
 	
 	import flash.display.DisplayObjectContainer;
 	import flash.events.MouseEvent;
+	import flash.utils.getDefinitionByName;
+	import flash.utils.getQualifiedClassName;
+	import flash.utils.getQualifiedSuperclassName;
 
 	public class AbstractDialog extends Container implements IDialog
 	{
@@ -59,6 +64,8 @@ package com.shrimp.framework.ui.controls.panel
 			{
 				dialog_layer.removeChild(this);
 			}
+			
+			DialogManager.getInstance().hide(ClassUtils.getClass(getQualifiedClassName(this)));
 		}
 
 		public function set modal(b:Boolean):void

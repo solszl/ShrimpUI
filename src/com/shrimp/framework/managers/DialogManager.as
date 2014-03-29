@@ -87,9 +87,11 @@ package com.shrimp.framework.managers
 		{
 			var keyName:String=getQualifiedSuperclassName(clazz);
 			var dialog:IDialog=(_clazzMap[keyName]).dialog as IDialog;
-
+			
+			_clazzMap[keyName]={dialog: dialog, time: getTimer(),key:keyName};
+			
 			dialog.clean();
-			dialog.hide();
+//			dialog.hide();
 		}
 	}
 }
