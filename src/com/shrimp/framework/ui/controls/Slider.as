@@ -1,11 +1,9 @@
 package com.shrimp.framework.ui.controls
 {
-	import com.shrimp.framework.GlobalConfig;
 	import com.shrimp.framework.ui.controls.core.Component;
 	import com.shrimp.framework.ui.controls.core.Style;
 	
 	import flash.display.DisplayObjectContainer;
-	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
