@@ -8,6 +8,7 @@ package com.shrimp.framework.managers
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
 	import flash.events.ErrorEvent;
+	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.system.ApplicationDomain;
 
@@ -35,11 +36,16 @@ package com.shrimp.framework.managers
 			StageManager.stage.scaleMode=StageScaleMode.NO_SCALE;
 			StageManager.stage.align = StageAlign.TOP_LEFT;
 			StageManager.stage.quality="low";
-			
+			StageManager.stage.addEventListener(Event.RESIZE,onStageResize);
 			if(ApplicationDomain.currentDomain.hasDefinition("flash.evnets.UncaughtErrorEvent"))
 			{
 				StageManager.stage.loaderInfo["uncaughtErrorEvents"].addEventListener(ApplicationDomain.currentDomain.hasDefinition("flash.evnets.UncaughtErrorEvent")["UNCAUGHT_ERROR"], onUncaughtErrorHandler);
 			}
+		}
+		
+		protected static function onStageResize(event:Event=null):void
+		{
+			LayerManager.resize();
 		}
 		
 		public static function getStageWidth():Number

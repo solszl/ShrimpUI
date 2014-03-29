@@ -4,6 +4,7 @@ package com.shrimp.framework.ui.controls.panel
 	import com.shrimp.framework.managers.LayerManager;
 	import com.shrimp.framework.ui.container.Container;
 	import com.shrimp.framework.ui.controls.Button;
+	import com.shrimp.framework.ui.controls.core.Style;
 	
 	import flash.display.DisplayObjectContainer;
 	import flash.events.MouseEvent;
@@ -16,13 +17,13 @@ package com.shrimp.framework.ui.controls.panel
 		public function AbstractDialog(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
 		{
 			super(parent, xpos, ypos);
-			setActualSize(331,192);
 		}
 		
 		private var closeBtn:Button;
 		override protected function createChildren():void
 		{
 			closeBtn = new Button(this);
+			closeBtn.skinClass = Style.panelCloseBtn;
 			closeBtn.addEventListener(MouseEvent.CLICK,onClose);
 		}
 		
@@ -103,7 +104,7 @@ package com.shrimp.framework.ui.controls.panel
 			{
 				if(closeBtn.visible)
 				{
-					closeBtn.move(width-closeBtn.width,-10);
+					closeBtn.move(width-closeBtn.width-15,-27);
 				}
 			}
 		}

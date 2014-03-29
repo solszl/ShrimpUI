@@ -71,5 +71,14 @@ package com.shrimp.framework.managers
 		{
 			layerContent.sortOn("order",Array.NUMERIC|Array.DESCENDING);
 		}
+		
+		public static function resize():void
+		{
+			for each(var o:Object in layerContent)
+			{
+				(o["layer"] as DisplayObjectContainer).width = StageManager.getStageWidth();
+				(o["layer"] as DisplayObjectContainer).height = StageManager.getStageHeight();
+			}
+		}
 	}
 }
