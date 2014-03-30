@@ -4,16 +4,16 @@ package com.shrimp.framework.ui.controls.panel
 	import com.shrimp.framework.ui.container.Container;
 	import com.shrimp.framework.ui.controls.Button;
 	import com.shrimp.framework.ui.controls.core.Style;
-	
+
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.events.MouseEvent;
 
 	/**
-	 *	面板抽象类 
+	 *	面板抽象类
 	 * @author Sol
-	 * 
-	 */	
+	 *
+	 */
 	public class AbstractPanel extends SimplePanel implements IPanel
 	{
 
@@ -22,6 +22,7 @@ package com.shrimp.framework.ui.controls.panel
 		protected var _closeBtn:Button;
 
 		protected var _autoCenter:Boolean=true;
+
 		public function AbstractPanel(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
 		{
 			super(parent, xpos, ypos);
@@ -49,34 +50,34 @@ package com.shrimp.framework.ui.controls.panel
 		{
 			throw new Error("Abstract method:this method must be implemented in subClass");
 		}
-		
+
 		override public function addChild(child:DisplayObject):DisplayObject
 		{
 			return contentHolder.addChild(child);
 		}
-		
+
 		override public function addChildAt(child:DisplayObject, index:int):DisplayObject
 		{
-			return contentHolder.addChildAt(child,index);
+			return contentHolder.addChildAt(child, index);
 		}
-		
+
 		override public function removeChild(child:DisplayObject):DisplayObject
 		{
 			return contentHolder.removeChild(child);
 		}
-		
+
 		override public function removeChildAt(index:int):DisplayObject
 		{
 			return contentHolder.removeChildAt(index);
 		}
-		
+
 		override protected function updateDisplayList():void
 		{
 			super.updateDisplayList();
-			
+
 			contentHolder.setActualSize(_explicitWidth, _explicitHeight);
-			
-			if(_showCloseBtn)
+
+			if (_showCloseBtn)
 			{
 				_closeBtn.move(_width - _closeBtn.width - 1, 1);
 			}
@@ -90,8 +91,8 @@ package com.shrimp.framework.ui.controls.panel
 
 		public function set showCloseBtn(value:Boolean):void
 		{
-			_showCloseBtn = value;
-			if(_closeBtn)
+			_showCloseBtn=value;
+			if (_closeBtn)
 			{
 				_closeBtn.visible=_showCloseBtn;
 			}
@@ -100,7 +101,7 @@ package com.shrimp.framework.ui.controls.panel
 				_closeBtn=new Button();
 				_closeBtn.skinClass=new Style.panelCloseBtn();
 				super.addChild(_closeBtn);
-				_closeBtn.addEventListener(MouseEvent.CLICK,onCloseBtnClick);
+				_closeBtn.addEventListener(MouseEvent.CLICK, onCloseBtnClick);
 			}
 		}
 

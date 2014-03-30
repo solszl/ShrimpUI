@@ -7,7 +7,7 @@ package com.shrimp.framework.ui.controls.panel
 	import com.shrimp.framework.ui.controls.Button;
 	import com.shrimp.framework.ui.controls.core.Style;
 	import com.shrimp.framework.utils.ClassUtils;
-	
+
 	import flash.display.DisplayObjectContainer;
 	import flash.events.MouseEvent;
 	import flash.utils.getDefinitionByName;
@@ -23,23 +23,24 @@ package com.shrimp.framework.ui.controls.panel
 		{
 			super(parent, xpos, ypos);
 		}
-		
+
 		private var closeBtn:Button;
+
 		override protected function createChildren():void
 		{
-			closeBtn = new Button(this);
-			closeBtn.skinClass = Style.panelCloseBtn;
-			closeBtn.addEventListener(MouseEvent.CLICK,onClose);
+			closeBtn=new Button(this);
+			closeBtn.skinClass=Style.panelCloseBtn;
+			closeBtn.addEventListener(MouseEvent.CLICK, onClose);
 		}
-		
+
 		/**	显示弹框*/
 		public function show(... arg):void
 		{
 			var dialog_layer:DisplayObjectContainer=LayerManager.getLayerByName(LayerManager.LAYER_DIALOG);
-			
+
 			if (!dialog_layer)
 				throw new Error("unregistered panel layer in LayerManager");
-			
+
 			if (!dialog_layer.contains(this))
 			{
 				dialog_layer.addChild(this);
@@ -48,7 +49,7 @@ package com.shrimp.framework.ui.controls.panel
 			}
 			else
 			{
-				dialog_layer.setChildIndex(this,dialog_layer.numChildren-1);
+				dialog_layer.setChildIndex(this, dialog_layer.numChildren - 1);
 			}
 		}
 
@@ -56,15 +57,15 @@ package com.shrimp.framework.ui.controls.panel
 		public function hide():void
 		{
 			var dialog_layer:DisplayObjectContainer=LayerManager.getLayerByName(LayerManager.LAYER_DIALOG);
-			
+
 			if (!dialog_layer)
 				throw new Error("unregistered panel layer in LayerManager");
-			
-			if(dialog_layer.contains(this))
+
+			if (dialog_layer.contains(this))
 			{
 				dialog_layer.removeChild(this);
 			}
-			
+
 			DialogManager.getInstance().hide(ClassUtils.getClass(getQualifiedClassName(this)));
 		}
 
@@ -90,15 +91,15 @@ package com.shrimp.framework.ui.controls.panel
 		/**	销毁内部数据*/
 		public function dispose():void
 		{
-			
+
 		}
-		
+
 		/**	清理内部数据*/
 		public function clean():void
 		{
-			
+
 		}
-		
+
 		override protected function updateDisplayList():void
 		{
 			super.updateDisplayList();
@@ -106,16 +107,16 @@ package com.shrimp.framework.ui.controls.panel
 			{
 				_modalChanged=false;
 			}
-			
-			if(closeBtn)
+
+			if (closeBtn)
 			{
-				if(closeBtn.visible)
+				if (closeBtn.visible)
 				{
-					closeBtn.move(width-closeBtn.width-15,-27);
+					closeBtn.move(width - closeBtn.width - 15, -27);
 				}
 			}
 		}
-		
+
 		protected function onClose(event:MouseEvent):void
 		{
 			hide();

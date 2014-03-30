@@ -46,7 +46,6 @@ package com.shrimp.framework.managers
 
 				if (stamp - obj.time >= GlobalConfig.DIALOG_PERSISTENCE_MEMORY)
 				{
-					trace("wtf");
 					(obj.dialog as IDialog).dispose();
 					delete _clazzMap[obj.key];
 				}
@@ -91,7 +90,6 @@ package com.shrimp.framework.managers
 			_clazzMap[keyName]={dialog: dialog, time: getTimer(),key:keyName};
 			
 			dialog.clean();
-//			dialog.hide();
 		}
 	}
 }
