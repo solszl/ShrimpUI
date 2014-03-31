@@ -14,5 +14,9 @@ package com.shrimp.framework.interfaces
 		function get data():*;
 		function set standAlone(value:Boolean):void;
 		function get standAlone():Boolean;
+		function set modal(value:Boolean):void;
+		function get modal():Boolean;
+		function clean():void;
+		function dispose():void;
 	}
 }

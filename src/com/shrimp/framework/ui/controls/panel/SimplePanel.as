@@ -15,9 +15,10 @@ package com.shrimp.framework.ui.controls.panel
 		/**	面板数据*/
 		private var _data:*;
 		/**	面板是否独立于其他面板*/
-		private var _standAlone:Boolean;
+		private var _standAlone:Boolean=false;
 		/**	面板是否打开了*/
 		private var _isOpen:Boolean;
+		private var _useModal:Boolean;
 
 		public function SimplePanel(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
 		{
@@ -61,5 +62,27 @@ package com.shrimp.framework.ui.controls.panel
 		{
 			return _standAlone;
 		}
+
+		/**	是否使用模态*/
+		public function get modal():Boolean
+		{
+			return _useModal;
+		}
+
+		public function set modal(value:Boolean):void
+		{
+			_useModal = value;
+		}
+		
+		public function clean():void
+		{
+			
+		}
+		
+		public function dispose():void
+		{
+			
+		}
+
 	}
 }

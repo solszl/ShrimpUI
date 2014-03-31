@@ -1,6 +1,8 @@
 package com.shrimp.framework.utils
 {
 	import flash.system.ApplicationDomain;
+	import flash.utils.getQualifiedClassName;
+	import flash.utils.getQualifiedSuperclassName;
 
 	/**
 	 * 从当前应用域中获取类、或类的实例。
@@ -45,6 +47,16 @@ package com.shrimp.framework.utils
 			{
 				throw new Error("unknown className::",className);
 			}
+		}
+		
+		public static function getClassName(clazz:Class):String
+		{
+			return getQualifiedClassName(clazz);
+		}
+		
+		public static function getSuperClassName(clazz:Class):String
+		{
+			return getQualifiedSuperclassName(clazz);
 		}
 	}
 }

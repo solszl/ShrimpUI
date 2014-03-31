@@ -1,13 +1,16 @@
 package com.shrimp.framework.ui.controls.panel
 {
 	import com.shrimp.framework.interfaces.IPanel;
+	import com.shrimp.framework.managers.PanelManager;
 	import com.shrimp.framework.ui.container.Container;
 	import com.shrimp.framework.ui.controls.Button;
 	import com.shrimp.framework.ui.controls.core.Style;
-
+	import com.shrimp.framework.utils.ClassUtils;
+	
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.events.MouseEvent;
+	import flash.utils.getQualifiedClassName;
 
 	/**
 	 *	面板抽象类
@@ -79,7 +82,7 @@ package com.shrimp.framework.ui.controls.panel
 
 			if (_showCloseBtn)
 			{
-				_closeBtn.move(_width - _closeBtn.width - 1, 1);
+				_closeBtn.move(_width - _closeBtn.width - 1, -27);
 			}
 		}
 
@@ -99,7 +102,7 @@ package com.shrimp.framework.ui.controls.panel
 			else
 			{
 				_closeBtn=new Button();
-				_closeBtn.skinClass=new Style.panelCloseBtn();
+				_closeBtn.skinClass=Style.panelCloseBtn;
 				super.addChild(_closeBtn);
 				_closeBtn.addEventListener(MouseEvent.CLICK, onCloseBtnClick);
 			}
@@ -107,7 +110,7 @@ package com.shrimp.framework.ui.controls.panel
 
 		protected function onCloseBtnClick(event:MouseEvent):void
 		{
-			hide();
+			PanelManager.getInstance().closePanel(ClassUtils.getClass(getQualifiedClassName(this)));
 		}
 
 	}
