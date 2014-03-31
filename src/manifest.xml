@@ -6,6 +6,7 @@
 <component class="com.shrimp.framework.event.CloseEvent"/>
 <component class="com.shrimp.framework.event.MouseEvents"/>
 <component class="com.shrimp.framework.interfaces.IClear"/>
+<component class="com.shrimp.framework.interfaces.IDialog"/>
 <component class="com.shrimp.framework.interfaces.IFactory"/>
 <component class="com.shrimp.framework.interfaces.IGuide"/>
 <component class="com.shrimp.framework.interfaces.IItemRenderer"/>
@@ -27,8 +28,11 @@
 <component class="com.shrimp.framework.managers.classes.ToolTipManagerImpl"/>
 <component class="com.shrimp.framework.managers.AssetsManager"/>
 <component class="com.shrimp.framework.managers.ComponentManager"/>
+<component class="com.shrimp.framework.managers.Controller"/>
+<component class="com.shrimp.framework.managers.DialogManager"/>
 <component class="com.shrimp.framework.managers.LayerManager"/>
 <component class="com.shrimp.framework.managers.ModalController"/>
+<component class="com.shrimp.framework.managers.PanelManager"/>
 <component class="com.shrimp.framework.managers.PopUpManager"/>
 <component class="com.shrimp.framework.managers.SchedulerManager"/>
 <component class="com.shrimp.framework.managers.SoundManager"/>
@@ -44,15 +48,16 @@
 <component class="com.shrimp.framework.ui.controls.box.RadioButtonGroup"/>
 <component class="com.shrimp.framework.ui.controls.core.Component"/>
 <component class="com.shrimp.framework.ui.controls.core.Style"/>
+<component class="com.shrimp.framework.ui.controls.panel.AbstractDialog"/>
 <component class="com.shrimp.framework.ui.controls.panel.AbstractPanel"/>
 <component class="com.shrimp.framework.ui.controls.panel.Panel"/>
-<component class="com.shrimp.framework.ui.controls.panel.PanelGroup"/>
 <component class="com.shrimp.framework.ui.controls.panel.SimplePanel"/>
 <component class="com.shrimp.framework.ui.controls.AdvancedBitmap"/>
 <component class="com.shrimp.framework.ui.controls.Alert"/>
 <component class="com.shrimp.framework.ui.controls.Button"/>
 <component class="com.shrimp.framework.ui.controls.CheckBox"/>
 <component class="com.shrimp.framework.ui.controls.DataContainer"/>
+<component class="com.shrimp.framework.ui.controls.HSlider"/>
 <component class="com.shrimp.framework.ui.controls.Image"/>
 <component class="com.shrimp.framework.ui.controls.ItemRender"/>
 <component class="com.shrimp.framework.ui.controls.Label"/>
@@ -61,6 +66,7 @@
 <component class="com.shrimp.framework.ui.controls.TabBar"/>
 <component class="com.shrimp.framework.ui.controls.TextInput"/>
 <component class="com.shrimp.framework.ui.controls.ViewStack"/>
+<component class="com.shrimp.framework.ui.controls.VSlider"/>
 <component class="com.shrimp.framework.ui.layout.AbstractLayout"/>
 <component class="com.shrimp.framework.ui.layout.CircleLayout"/>
 <component class="com.shrimp.framework.ui.layout.EllipseLayout"/>

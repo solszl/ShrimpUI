@@ -101,5 +101,23 @@ package com.shrimp.framework.load
 				throw new Error("发生资源覆盖，危险！！")
 			librayList[type]=lib;
 		}
+		
+		/**
+		 *	从资源库中删除资源 
+		 * @param key
+		 * 
+		 */		
+		public static function removeFromLibrary(key:String):void
+		{
+			if(librayList[key])
+			{
+				delete librayList[key];
+			}
+		}
+		
+		public static function hasLibrary(key:String):Boolean
+		{
+			return librayList[key]!=null;
+		}
 	}
 }

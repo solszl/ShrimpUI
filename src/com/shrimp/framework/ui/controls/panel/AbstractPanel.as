@@ -74,6 +74,11 @@ package com.shrimp.framework.ui.controls.panel
 			return contentHolder.removeChildAt(index);
 		}
 
+		override public function set children(value:Vector.<DisplayObject>):void
+		{
+			contentHolder.children=value;
+		}
+		
 		override protected function updateDisplayList():void
 		{
 			super.updateDisplayList();

@@ -22,7 +22,7 @@ package com.shrimp.framework
 		/**	弹窗 内存持久化时间*/
 		public static var DIALOG_PERSISTENCE_MEMORY:int=5000;
 		/**	面板内存持久化时间*/
-		public static var PANEL_PERSISTENCE_MEMORY:int=600000;
+		public static var PANEL_PERSISTENCE_MEMORY:int=5000;
 		
 	}
 }

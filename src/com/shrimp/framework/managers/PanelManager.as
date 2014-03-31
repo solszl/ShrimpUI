@@ -45,7 +45,7 @@ package com.shrimp.framework.managers
 		 * @param arg	打开参数
 		 * 
 		 */		
-		public function showPanel(clazz:Class,useModal:Boolean,...arg):void
+		public function showPanel(clazz:Class,useModal:Boolean,loadRemoteRes:Boolean=true,...arg):void
 		{
 			//遍历打开列表.如果面板不是独立于其他的,则关闭,打开指定面板
 			for each(var openPanel:* in openMap)
@@ -123,6 +123,7 @@ package com.shrimp.framework.managers
 				
 				if (stamp - obj.time >= GlobalConfig.PANEL_PERSISTENCE_MEMORY)
 				{
+					trace("clean panel");
 					(obj.panel as IPanel).dispose();
 					delete panelMap[obj.key];
 				}
@@ -147,6 +148,12 @@ package com.shrimp.framework.managers
 			return panel;
 		}
 		
+		private static var resourceMap:Dictionary = new Dictionary();
+		
+		public function resourceLoaded(clazz:Class):Boolean
+		{
+			return ClassUtils.getClassName(clazz) in resourceMap;
+		}
 		
 	}
 }

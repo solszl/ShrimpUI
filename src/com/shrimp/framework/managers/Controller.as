@@ -34,5 +34,6 @@ package com.shrimp.framework.managers
 		{
 			_initialized=value;
 		}
+		
 	}
 }
