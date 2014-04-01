@@ -42,6 +42,7 @@ package com.shrimp.framework.managers
 		 * 打开某个面板
 		 * @param clazz	面板类
 		 * @param useModal	是否使用模态
+		 * @param loadRemoteRes 是否加载远程资源
 		 * @param arg	打开参数
 		 * 
 		 */		
@@ -146,13 +147,6 @@ package com.shrimp.framework.managers
 			panelMap[key]={panel:panel,time:getTimer(),key:key};
 			
 			return panel;
-		}
-		
-		private static var resourceMap:Dictionary = new Dictionary();
-		
-		public function resourceLoaded(clazz:Class):Boolean
-		{
-			return ClassUtils.getClassName(clazz) in resourceMap;
 		}
 		
 	}
