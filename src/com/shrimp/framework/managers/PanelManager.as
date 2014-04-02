@@ -52,8 +52,8 @@ package com.shrimp.framework.managers
 			for each(var openPanel:* in openMap)
 			{
 				var p:IPanel =openPanel as IPanel;
-				if(panelMap[ClassUtils.getClassName(clazz)].panel == p)
-					return;
+//				if(panelMap[ClassUtils.getClassName(clazz)].panel is p)
+//					return;
 				
 				if(p.standAlone==false)
 				{

@@ -123,6 +123,14 @@ package com.shrimp.framework.ui.layout
 			_startAngle = value;
 		}
 
-
+		public function get measureWidth():Number
+		{
+			return _measureWidth;
+		}
+		
+		public function get measureHeight():Number
+		{
+			return _measureHeight;	
+		}
 	}
 }

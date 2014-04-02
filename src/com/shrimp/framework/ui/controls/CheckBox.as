@@ -14,7 +14,7 @@ package com.shrimp.framework.ui.controls
 	 * @author Sol
 	 * 
 	 */	
-//	[Event(name="selected", type="flash.events.Event")]
+	[Event(name="selected", type="flash.events.Event")]
 	public class CheckBox extends Component
 	{
 		private var _label:String;
@@ -39,6 +39,7 @@ package com.shrimp.framework.ui.controls
 			icon.validateNow();
 			lbl= new Label(this,icon.width+gap,0);
 			lbl.text=this._label;
+			lbl.html=true;
 			lbl.validateNow();
 			addEventListener(MouseEvents.SINGLE_CLICK,onClick);
 		}
@@ -52,7 +53,7 @@ package com.shrimp.framework.ui.controls
 		{
 			icon.selected = b;
 			icon.validateProperties();
-//			dispatchEvent(new Event("selected"));
+			dispatchEvent(new Event("selected"));
 		}
 		
 		public function get selected():Boolean
@@ -64,7 +65,7 @@ package com.shrimp.framework.ui.controls
 		{
 			super.updateDisplayList();
 			lbl.move(icon.width+gap,0);
-			icon.move(0,Math.abs(icon.height-lbl.height)*.5);
+			icon.move(0,(lbl.height-icon.height)*.5);
 		}
 		
 		public function get label():String

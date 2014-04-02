@@ -2,6 +2,7 @@ package com.shrimp.framework.ui.controls.box
 {
 	import com.shrimp.framework.ui.container.Container;
 	import com.shrimp.framework.ui.controls.RadioButton;
+	import com.shrimp.framework.ui.layout.AbstractLayout;
 	import com.shrimp.framework.ui.layout.HorizontalLayout;
 	
 	import flash.display.DisplayObjectContainer;
@@ -69,6 +70,12 @@ package com.shrimp.framework.ui.controls.box
 			
 		}
 		
+//		override protected function measure():void
+//		{
+//			super.measure();
+//			measuredWidth = (layout as AbstractLayout).measureWidth;
+//			measuredHeight = (layout as AbstractLayout).measureHeight;
+//		}
 		private var _labelField:String="";
 		/**	设置显示文本字段*/
 		public function set labelField(value:String):void
@@ -89,6 +96,7 @@ package com.shrimp.framework.ui.controls.box
 		override protected function updateDisplayList():void
 		{
 			//默认abstractLayout没有定义位置
+			super.updateDisplayList();
 			if(layout ==null)
 			{
 				layout = new HorizontalLayout();
@@ -184,5 +192,16 @@ package com.shrimp.framework.ui.controls.box
 			_selectedIndex = getChildIndex(rb);
 			rb.selected = true;
 		}
+
+		public function get groupName():String
+		{
+			return _groupName;
+		}
+
+		public function set groupName(value:String):void
+		{
+			_groupName = value;
+		}
+
 	}
 }

@@ -260,7 +260,7 @@ package com.shrimp.framework.ui.controls.core
 			}
 		}
 
-		protected function creationCompleteHandler(event:Event):void
+		protected function creationCompleteHandler(e:Event):void
 		{
 //			trace("creationCompleteHandler");
 		}
@@ -345,6 +345,18 @@ package com.shrimp.framework.ui.controls.core
 				return;
 			_verticalCenter=value;
 			invalidateDisplayList();
+		}
+		private var _enabled:Boolean;
+		public function get enabled():Boolean
+		{
+			return _enabled;
+		}
+		
+		public function set enabled(value:Boolean):void
+		{
+			_enabled=value;
+			mouseEnabled=mouseChildren=_enabled;
+			alpha=_enabled ? 1.0 : 0.8;
 		}
 		
 		/**复写添加监听的方法，将监听对象，类型， 函数注册到listeners中。方便集中管理，销毁*/

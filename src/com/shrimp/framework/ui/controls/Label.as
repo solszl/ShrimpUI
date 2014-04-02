@@ -24,7 +24,7 @@ package com.shrimp.framework.ui.controls
 		protected var _textField:TextField;
 		protected var _format:TextFormat;
 		protected var _text:String="";
-		protected var _isHtml:Boolean;
+		protected var _html:Boolean;
 		protected var _stroke:String;
 		protected var _margin:Array=[0, 0, 0, 0];
 
@@ -318,6 +318,17 @@ package com.shrimp.framework.ui.controls
 			text+=newText;
 		}
 
+		public function set html(b:Boolean):void
+		{
+			_html=b;
+			_textPropertyChanged=true;
+			invalidateProperties();
+		}
+		
+		public function get html():Boolean
+		{
+			return _html;
+		}
 		override protected function commitProperties():void
 		{
 			super.commitProperties();
@@ -325,6 +336,7 @@ package com.shrimp.framework.ui.controls
 			{
 				_textChanged=false;
 				_textField.text=_text;
+				html?_textField.htmlText=_text:_textField.text=_text;
 				invalidateDisplayList();
 			}
 
@@ -332,7 +344,7 @@ package com.shrimp.framework.ui.controls
 			{
 				_textPropertyChanged=false;
 				_textField.defaultTextFormat=_format
-				_textField.text=_text;
+				html?_textField.htmlText=_text:_textField.text=_text;
 				invalidateDisplayList();
 			}
 		}
