@@ -16,7 +16,7 @@ package com.shrimp.framework.ui.container
 	[DefaultProperty("children")]
 	public class Container extends Component
 	{
-		protected var _layout:ILayout;
+		protected var _layout:*;
 		private var _children:Vector.<DisplayObject>
 		
 		public function Container(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
@@ -55,7 +55,7 @@ package com.shrimp.framework.ui.container
 			invalidateDisplayList();
 		}
 
-		public function get layout():ILayout
+		public function get layout():*
 		{
 			return _layout;
 		}
@@ -71,7 +71,7 @@ package com.shrimp.framework.ui.container
 		
 		override protected function updateDisplayList():void
 		{
-			if (_layout == null)
+			if (_layout == null || _layout == undefined)
 			{
 				_layout=new AbstractLayout();
 			}

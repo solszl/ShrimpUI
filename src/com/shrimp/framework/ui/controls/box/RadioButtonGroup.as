@@ -76,6 +76,7 @@ package com.shrimp.framework.ui.controls.box
 //			measuredWidth = (layout as AbstractLayout).measureWidth;
 //			measuredHeight = (layout as AbstractLayout).measureHeight;
 //		}
+		
 		private var _labelField:String="";
 		/**	设置显示文本字段*/
 		public function set labelField(value:String):void

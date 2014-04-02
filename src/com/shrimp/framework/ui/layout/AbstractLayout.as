@@ -31,7 +31,7 @@ package com.shrimp.framework.ui.layout
 		
 		protected var _measureWidth:Number=0;
 		
-		protected var _gap:Number;
+		protected var _gap:Number=5;
 		
 		public function AbstractLayout()
 		{
