@@ -69,12 +69,25 @@ package com.shrimp.framework.ui.controls.core
 		}
 		override public function get width():Number
 		{
-			return !isNaN(_explicitWidth) ? _explicitWidth : _width;
+//			return !isNaN(_explicitWidth) ? _explicitWidth : _width;
+			if(!isNaN(_explicitWidth))
+			{
+				return _explicitWidth;
+			}
+			else if(measuredWidth!=0)
+			{
+				return measuredWidth;
+			}
+			else
+			{
+				return _width;
+			}
 		}
 
 
 		public function get measuredWidth():Number
 		{
+			commitMeasure();
 			measure();
 			var max:Number=0;
 			for (var i:int=numChildren - 1; i > -1; i--)
@@ -110,11 +123,24 @@ package com.shrimp.framework.ui.controls.core
 
 		override public function get height():Number
 		{
-			return !isNaN(_explicitHeight) ? _explicitHeight : _height;
+//			return !isNaN(_explicitHeight) ? _explicitHeight : _height;
+			if(!isNaN(_explicitHeight))
+			{
+				return _explicitHeight;
+			}
+			else if(measuredHeight!=0)
+			{
+				return measuredHeight;
+			}
+			else
+			{
+				return _height;
+			}
 		}
 
 		public function get measuredHeight():Number
 		{
+			commitMeasure();
 			measure();
 			var max:Number=0;
 			for (var i:int=numChildren - 1; i > -1; i--)

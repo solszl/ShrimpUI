@@ -18,7 +18,7 @@ package com.shrimp.framework.ui.controls
 
 	public class Image extends Component
 	{
-		private var _img:AdvancedBitmap;
+		private var _img:AutoBitmap;
 
 		public function Image(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
 		{
@@ -28,7 +28,7 @@ package com.shrimp.framework.ui.controls
 		override protected function createChildren():void
 		{
 			super.createChildren();
-			_img=new AdvancedBitmap();
+			_img=new AutoBitmap();
 			addChildAt(_img, 0);
 		}
 
@@ -64,12 +64,12 @@ package com.shrimp.framework.ui.controls
 					}
 				}
 			}
-			
+			var bit:BitmapData;
 			var w:int;
 			var h:int;
 			if (value is Class)
 			{
-				var bit:BitmapData;
+				
 				if (getQualifiedSuperclassName(value) == getQualifiedClassName(BitmapData))
 				{
 					bit=new value(1, 1);
@@ -78,20 +78,17 @@ package com.shrimp.framework.ui.controls
 				{
 					bit=DisplayObjectUtils.getDisplayBmd(new value());
 				}
-				w=bit.width;
-				h=bit.height;
 				_img.bitmapData=bit;
-				_img.width=w;
-				_img.height=h;
-				width=w;
-				height=h;
+				_img.width=bit.width;
+				_img.height=bit.height;
 				invalidateDisplayList();
 			}
 			else if (value is BitmapData)
 			{
-				_img.bitmapData=value as BitmapData;
-				width=_img.bitmapData.width;
-				height=_img.bitmapData.height;
+				bit=value as BitmapData;
+				_img.bitmapData=bit;
+				_img.width=bit.width;
+				_img.height=bit.height;
 				invalidateDisplayList();
 			}
 			_source=value;
@@ -107,6 +104,9 @@ package com.shrimp.framework.ui.controls
 		protected function onFailed(url:String):void
 		{
 			trace("url:", url, "  load failed");
+			graphics.beginFill(0xFF0000);
+			graphics.drawRect(0,0,4,4);
+			graphics.endFill();
 		}
 		private var _scale9Rect:Rectangle;
 
@@ -114,8 +114,6 @@ package com.shrimp.framework.ui.controls
 		{
 			return _scale9Rect;
 		}
-
-		private var _originalBitmap:BitmapData;
 
 		public function set scale9Rect(value:Rectangle):void
 		{
@@ -126,19 +124,9 @@ package com.shrimp.framework.ui.controls
 
 			_usescale9Rect=value != null;
 
-			if (_usescale9Rect == false && _originalBitmap)
-			{
-				_originalBitmap.dispose();
-			}
-
 			if(_img.bitmapData==null)
 				return;
 			
-			if (_img && _usescale9Rect)
-			{
-				_originalBitmap=_img.bitmapData.clone();
-			}
-
 			invalidateDisplayList();
 		}
 
@@ -156,7 +144,7 @@ package com.shrimp.framework.ui.controls
 
 				if (_usescale9Rect)
 				{
-					resizeBitmap(width, height);
+					_img.bitmapData=DisplayObjectUtils.scale9Bmd(_img.bitmapData,scale9Rect,width,height);
 				}
 				else
 				{
@@ -167,45 +155,6 @@ package com.shrimp.framework.ui.controls
 				}
 
 			}
-		}
-
-		protected function resizeBitmap(w:Number, h:Number):void
-		{
-			if (!_originalBitmap)
-			{
-				_originalBitmap=_img.bitmapData.clone();
-			}
-
-			var bmpData:BitmapData=new BitmapData(w, h, true, 0x00000000);
-
-			var rows:Array=[0, _scale9Rect.top, _scale9Rect.bottom, _originalBitmap.height];
-			var cols:Array=[0, _scale9Rect.left, _scale9Rect.right, _originalBitmap.width];
-
-			var dRows:Array=[0, _scale9Rect.top, h - (_originalBitmap.height - _scale9Rect.bottom), h];
-			var dCols:Array=[0, _scale9Rect.left, w - (_originalBitmap.width - _scale9Rect.right), w];
-
-			var origin:Rectangle;
-			var draw:Rectangle;
-			var mat:Matrix=new Matrix();
-
-
-			for (var cx:int=0; cx < 3; cx++)
-			{
-				for (var cy:int=0; cy < 3; cy++)
-				{
-					origin=new Rectangle(cols[cx], rows[cy], cols[cx + 1] - cols[cx], rows[cy + 1] - rows[cy]);
-					draw=new Rectangle(dCols[cx], dRows[cy], dCols[cx + 1] - dCols[cx], dRows[cy + 1] - dRows[cy]);
-					mat.identity();
-					mat.a=draw.width / origin.width;
-					mat.d=draw.height / origin.height;
-					mat.tx=draw.x - origin.x * mat.a;
-					mat.ty=draw.y - origin.y * mat.d;
-					bmpData.draw(_originalBitmap, mat, null, null, draw, true);
-				}
-			}
-
-			_img.bitmapData.dispose();
-			_img.bitmapData=bmpData;
-		}
+		}0
 	}
 }

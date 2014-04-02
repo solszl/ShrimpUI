@@ -24,7 +24,6 @@ package com.shrimp.framework.load
 		 */		
 		public static function addResource(key:String, content:Object):void
 		{
-//			var key:String=ClassUtils.getClassName(clazz);
 			resourceMap[key]=content;
 			ResourceLibrary.addLibrary(key,content);
 		}
@@ -35,7 +34,6 @@ package com.shrimp.framework.load
 		 */		
 		public static function removeResource(key:String):void
 		{
-//			var key:String=ClassUtils.getClassName(clazz);
 			if (key in resourceMap)
 			{
 				delete resourceMap[key]
@@ -78,6 +76,11 @@ package com.shrimp.framework.load
 			}
 
 			return ClassUtils.getClassInstance(className, domain);
+		}
+		
+		public static function hasResource(key:String):Boolean
+		{
+			return resourceMap[key]!=null;	
 		}
 	}
 }

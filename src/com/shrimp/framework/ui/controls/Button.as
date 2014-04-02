@@ -6,6 +6,7 @@ package com.shrimp.framework.ui.controls
 	
 	import flash.display.DisplayObjectContainer;
 	import flash.events.MouseEvent;
+	import flash.geom.Rectangle;
 
 	public class Button extends Component
 	{
@@ -58,7 +59,7 @@ package com.shrimp.framework.ui.controls
 		override protected function createChildren():void
 		{
 			bg=new Image(this);
-//			bg.scale9Rect=new Rectangle(4,4,30,16);
+			bg.scale9Rect=new Rectangle(4,4,16,18);
 			_label=new Label(this);
 			_label.mouseEnabled=false;
 			_label.mouseChildren=false;
@@ -164,7 +165,6 @@ package com.shrimp.framework.ui.controls
 						break;
 				}
 
-//				invalidateDisplayList();
 				updateDisplayList();
 				lastState=state;
 				_skinDirty=false;
@@ -293,8 +293,8 @@ package com.shrimp.framework.ui.controls
 
 		override protected function measure():void
 		{
-			super.measure();
-			_label.validateDisplayList();
+//			_label.validateDisplayList();
+//			bg.invalidateProperties();
 			var skinW:Number=bg ? bg.width : 0;
 			var skinH:Number=bg ? bg.height : 0;
 			measuredWidth=Math.max(_label.width + 10, skinW);
@@ -332,7 +332,6 @@ package com.shrimp.framework.ui.controls
 			_selected=value;
 			state=_selected ? stateMap["selected"] : stateMap["rollOut"];
 			_skinDirty=true;
-//			invalidateDisplayList();
 			updateDisplayList();
 		}
 

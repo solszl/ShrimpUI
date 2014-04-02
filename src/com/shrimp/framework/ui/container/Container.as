@@ -113,5 +113,6 @@ package com.shrimp.framework.ui.container
 				removeChildAt(0);
 			}
 		}
+		
 	}
 }

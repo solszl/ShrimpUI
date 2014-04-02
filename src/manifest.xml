@@ -17,6 +17,7 @@
 <component class="com.shrimp.framework.interfaces.ITooltip"/>
 <component class="com.shrimp.framework.interfaces.IView"/>
 <component class="com.shrimp.framework.load.LoaderManager"/>
+<component class="com.shrimp.framework.load.ResourceDomain"/>
 <component class="com.shrimp.framework.load.ResourceLibrary"/>
 <component class="com.shrimp.framework.load.ResourceLoader"/>
 <component class="com.shrimp.framework.load.ResourceType"/>
@@ -52,8 +53,8 @@
 <component class="com.shrimp.framework.ui.controls.panel.AbstractPanel"/>
 <component class="com.shrimp.framework.ui.controls.panel.Panel"/>
 <component class="com.shrimp.framework.ui.controls.panel.SimplePanel"/>
-<component class="com.shrimp.framework.ui.controls.AdvancedBitmap"/>
 <component class="com.shrimp.framework.ui.controls.Alert"/>
+<component class="com.shrimp.framework.ui.controls.AutoBitmap"/>
 <component class="com.shrimp.framework.ui.controls.Button"/>
 <component class="com.shrimp.framework.ui.controls.CheckBox"/>
 <component class="com.shrimp.framework.ui.controls.DataContainer"/>

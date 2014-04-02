@@ -124,7 +124,6 @@ package com.shrimp.framework.managers
 				
 				if (stamp - obj.time >= GlobalConfig.PANEL_PERSISTENCE_MEMORY)
 				{
-					trace("clean panel");
 					(obj.panel as IPanel).dispose();
 					delete panelMap[obj.key];
 				}

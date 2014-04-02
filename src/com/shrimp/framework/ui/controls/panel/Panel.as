@@ -1,7 +1,7 @@
 package com.shrimp.framework.ui.controls.panel
 {
 	import com.shrimp.framework.managers.LayerManager;
-
+	
 	import flash.display.DisplayObjectContainer;
 
 	/**
@@ -21,6 +21,7 @@ package com.shrimp.framework.ui.controls.panel
 			if (this.parent)
 			{
 				this.parent.removeChild(this);
+				onCloseBtnClick(null);
 			}
 		}
 

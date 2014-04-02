@@ -20,6 +20,7 @@ package com.shrimp.framework.managers
 	public class LayerManager
 	{
 		public static const LAYER_TIP:String="tips_layer";
+		public static const LYAER_POPUP:String="popup_layer";
 		public static const LAYER_DIALOG:String="dialog_layer";
 		public static const LAYER_PANEL:String="panel_layer";
 		public static const LAYER_UI:String="ui_layer";

@@ -5,6 +5,7 @@ package com.shrimp.framework.utils
 	import flash.display.DisplayObjectContainer;
 	import flash.display.InteractiveObject;
 	import flash.display.Stage;
+	import flash.geom.Matrix;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 
@@ -44,12 +45,12 @@ package com.shrimp.framework.utils
 		}
 
 		/**
-		 *	获取指定点下的所有组件 并以array形式 返回 
+		 *	获取指定点下的所有组件 并以array形式 返回
 		 * @param obj	根容器，通常都是取stage
 		 * @param pt	指定点
 		 * @param arr	返回的数组
-		 * 
-		 */		
+		 *
+		 */
 		public static function getObjectsUnderPoint(obj:DisplayObject, pt:Point, arr:Array):void
 		{
 			if (!obj.visible)
@@ -86,12 +87,71 @@ package com.shrimp.framework.utils
 
 			}
 		}
-		
+
 		public static function getDisplayBmd(target:DisplayObject):BitmapData
 		{
-			var bmd:BitmapData = new BitmapData(target.width,target.height,true,0xFFFFFF);
+			var bmd:BitmapData=new BitmapData(target.width, target.height, true, 0xFFFFFF);
 			bmd.draw(target);
 			return bmd;
+		}
+
+		/**
+		 *	返回一个九宫格
+		 * @param source	原图数据
+		 * @param rect	缩放的矩形
+		 * @param w	缩放后的宽
+		 * @param h	缩放后的高
+		 * @return 缩放后的图像数据
+		 *
+		 */
+		public static function scale9Bmd(source:BitmapData, rect:Rectangle, w:Number, h:Number):BitmapData
+		{
+			if (source == null)
+			{
+				return new BitmapData(w, h, true, 0x000);
+			}
+
+			if (source.width == w && source.height == h)
+			{
+				return source;
+			}
+
+			var m:Matrix=new Matrix();
+			var result:BitmapData=new BitmapData(w, h, true, 0x000000);
+			var origin:Rectangle;
+			var draw:Rectangle;
+			//缩小
+			if (source.height > h && source.width > w)
+			{
+				m.identity();
+				m.scale(w / source.width, h / source.height);
+				draw=new Rectangle(0, 0, w, h);
+				result.draw(source, m, null, null, draw, true);
+			}
+			//放大
+			else
+			{
+				var rows:Array=[0, rect.top, rect.bottom, source.height];
+				var cols:Array=[0, rect.left, rect.right, source.width];
+				var newRows:Array=[0, rect.top, h - (source.height - rect.bottom), h];
+				var newCols:Array=[0, rect.left, w - (source.width - rect.right), w];
+				for (var cx:int=0; cx < 3; cx++)
+				{
+					for (var cy:int=0; cy < 3; cy++)
+					{
+						origin=new Rectangle(cols[cx], rows[cy], cols[cx + 1] - cols[cx], rows[cy + 1] - rows[cy]);
+						draw=new Rectangle(newCols[cx], newRows[cy], newCols[cx + 1] - newCols[cx], newRows[cy + 1] - newRows[cy]);
+						m.identity();
+						m.a=draw.width / origin.width;
+						m.d=draw.height / origin.height;
+						m.tx=draw.x - origin.x * m.a;
+						m.ty=draw.y - origin.y * m.d;
+						result.draw(source, m, null, null, draw, true);
+					}
+				}
+			}
+
+			return result;
 		}
 	}
 }
