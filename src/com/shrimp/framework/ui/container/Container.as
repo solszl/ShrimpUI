@@ -2,6 +2,7 @@ package com.shrimp.framework.ui.container
 {
 	import com.shrimp.framework.ui.controls.core.Component;
 	import com.shrimp.framework.ui.layout.AbstractLayout;
+	import com.shrimp.framework.ui.layout.BaseLayout;
 	import com.shrimp.framework.ui.layout.ILayout;
 	
 	import flash.display.DisplayObject;
@@ -73,7 +74,7 @@ package com.shrimp.framework.ui.container
 		{
 			if (_layout == null || _layout == undefined)
 			{
-				_layout=new AbstractLayout();
+				_layout=new BaseLayout();
 			}
 			_layout.layout(this);
 			super.updateDisplayList();

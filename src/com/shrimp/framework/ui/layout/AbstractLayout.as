@@ -46,48 +46,7 @@ package com.shrimp.framework.ui.layout
 		 */
 		public function layout(target:Component):void
 		{
-			if(!target)
-				return;
-			
-			this.target = target;
-			
-			var i:int=0;
-			var child:DisplayObject;
-			var numChildren:uint=target.numChildren;
-			for(i=0;i<numChildren;i++)
-			{
-				child = target.getChildAt(i);
-				var cw:Number=child.width + child.x
-				if (cw > _measureWidth)
-				{
-					_measureWidth=cw;
-				}
-				
-				var ch:Number=child.height + child.y;
-				if (ch > _measureHeight)
-				{
-					_measureHeight=ch;
-				}
-			}
-			
-			var acW:Number=isNaN(target.explicitWidth) ? _measureWidth : target.explicitWidth;
-			var acH:Number=isNaN(target.explicitHeight) ? _measureHeight : target.explicitHeight;
-			for (i=0; i < numChildren; i++)
-			{
-				child=target.getChildAt(i);
-				if (child is Component)
-				{
-					if (!isNaN(Component(child).horizontalCenter))
-					{
-						Component(child).x=((acW - child.width) >> 1) + Component(child).horizontalCenter;
-					}
-					
-					if (!isNaN(Component(child).verticalCenter))
-					{
-						Component(child).y=((acH - child.height) >> 1) + Component(child).verticalCenter;
-					}
-				}
-			}
+			throw new Error(" abstract class, implement in subclass");
 		}
 
 		public function toString():String

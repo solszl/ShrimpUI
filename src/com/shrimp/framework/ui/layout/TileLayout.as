@@ -9,7 +9,7 @@ package com.shrimp.framework.ui.layout
 	 * @author Sol
 	 *
 	 */
-	public class TileLayout extends AbstractLayout
+	public class TileLayout extends BaseLayout
 	{
 		protected var _gapX:Number=5;
 		protected var _gapY:Number=5;

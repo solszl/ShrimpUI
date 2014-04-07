@@ -1,7 +1,7 @@
 package com.shrimp.framework.ui.layout
 {
 	import com.shrimp.framework.ui.controls.core.Component;
-
+	
 	import flash.display.DisplayObject;
 
 	/**
@@ -9,7 +9,7 @@ package com.shrimp.framework.ui.layout
 	 * @author Sol
 	 *
 	 */
-	public class HorizontalLayout extends AbstractLayout
+	public class HorizontalLayout extends BaseLayout
 	{
 		public function HorizontalLayout()
 		{

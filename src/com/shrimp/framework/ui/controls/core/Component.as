@@ -3,7 +3,7 @@ package com.shrimp.framework.ui.controls.core
 	import com.shrimp.framework.event.MouseEvents;
 	import com.shrimp.framework.interfaces.ITooltip;
 	import com.shrimp.framework.managers.ComponentManager;
-	
+
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Shape;
@@ -11,7 +11,7 @@ package com.shrimp.framework.ui.controls.core
 	import flash.events.Event;
 	import flash.filters.DropShadowFilter;
 	import flash.utils.getQualifiedClassName;
-	
+
 	import org.gestouch.events.GestureEvent;
 	import org.gestouch.gestures.Gesture;
 	import org.gestouch.gestures.LongPressGesture;
@@ -36,17 +36,18 @@ package com.shrimp.framework.ui.controls.core
 
 		protected var _height:Number;
 		protected var _width:Number;
-		
+
 		protected var _explicitHeight:Number=NaN;
 		protected var _explicitWidth:Number=NaN;
-		
+
 		private var _horizontalCenter:Number=NaN;
 		private var _verticalCenter:Number=NaN;
-		
+
 		private var _singleTap:TapGesture;
 		private var _doubleTap:TapGesture;
 		private var _longTap:LongPressGesture;
 		private var _objData:Object;
+
 		public function Component(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
 		{
 			super();
@@ -57,24 +58,25 @@ package com.shrimp.framework.ui.controls.core
 				parent.addChild(this);
 			}
 		}
-		
+
 		public function get explicitHeight():Number
 		{
 			return _explicitHeight;
 		}
-		
+
 		public function get explicitWidth():Number
 		{
 			return _explicitWidth;
 		}
+
 		override public function get width():Number
 		{
 //			return !isNaN(_explicitWidth) ? _explicitWidth : _width;
-			if(!isNaN(_explicitWidth))
+			if (!isNaN(_explicitWidth))
 			{
 				return _explicitWidth;
 			}
-			else if(measuredWidth!=0)
+			else if (measuredWidth != 0)
 			{
 				return measuredWidth;
 			}
@@ -98,7 +100,7 @@ package com.shrimp.framework.ui.controls.core
 			return max;
 		}
 
-		
+
 		public function set measuredWidth(value:Number):void
 		{
 			_measuredWidth=value;
@@ -111,6 +113,7 @@ package com.shrimp.framework.ui.controls.core
 				}
 			}
 		}
+
 		override public function set width(value:Number):void
 		{
 			if (_width == value)
@@ -124,11 +127,11 @@ package com.shrimp.framework.ui.controls.core
 		override public function get height():Number
 		{
 //			return !isNaN(_explicitHeight) ? _explicitHeight : _height;
-			if(!isNaN(_explicitHeight))
+			if (!isNaN(_explicitHeight))
 			{
 				return _explicitHeight;
 			}
-			else if(measuredHeight!=0)
+			else if (measuredHeight != 0)
 			{
 				return measuredHeight;
 			}
@@ -153,7 +156,7 @@ package com.shrimp.framework.ui.controls.core
 
 		public function set measuredHeight(value:Number):void
 		{
-			_measuredHeight = value;
+			_measuredHeight=value;
 			if (isNaN(_explicitHeight))
 			{
 				if (_height != _measuredHeight)
@@ -163,6 +166,7 @@ package com.shrimp.framework.ui.controls.core
 				}
 			}
 		}
+
 		override public function set height(value:Number):void
 		{
 			if (_height == value)
@@ -201,11 +205,11 @@ package com.shrimp.framework.ui.controls.core
 		{
 			_explicitWidth=w;
 			_explicitHeight=h;
-			
+
 			_width=isNaN(w) ? _measuredWidth : w;
-			
+
 			_height=isNaN(h) ? _measuredHeight : h;
-			
+
 			invalidateDisplayList();
 		}
 
@@ -325,7 +329,7 @@ package com.shrimp.framework.ui.controls.core
 		{
 			return _horizontalCenter;
 		}
-		
+
 		public function set horizontalCenter(value:Number):void
 		{
 			if (value == _horizontalCenter)
@@ -333,12 +337,12 @@ package com.shrimp.framework.ui.controls.core
 			_horizontalCenter=value;
 			invalidateDisplayList();
 		}
-		
+
 		public function get verticalCenter():Number
 		{
 			return _verticalCenter;
 		}
-		
+
 		public function set verticalCenter(value:Number):void
 		{
 			if (value == _verticalCenter)
@@ -347,18 +351,19 @@ package com.shrimp.framework.ui.controls.core
 			invalidateDisplayList();
 		}
 		private var _enabled:Boolean;
+
 		public function get enabled():Boolean
 		{
 			return _enabled;
 		}
-		
+
 		public function set enabled(value:Boolean):void
 		{
 			_enabled=value;
 			mouseEnabled=mouseChildren=_enabled;
 			alpha=_enabled ? 1.0 : 0.8;
 		}
-		
+
 		/**复写添加监听的方法，将监听对象，类型， 函数注册到listeners中。方便集中管理，销毁*/
 		override public function addEventListener(type:String, listener:Function, useCapture:Boolean=false, priority:int=0, useWeakReference:Boolean=false):void
 		{
@@ -413,73 +418,134 @@ package com.shrimp.framework.ui.controls.core
 			}
 			return listeners;
 		}
-		
+
 		private function gestureBuilder(type:String):void
 		{
-			switch(type)
+			switch (type)
 			{
 				case MouseEvents.SINGLE_CLICK:
-					_singleTap = new TapGesture(this);
-					_singleTap.addEventListener(GestureEvent.GESTURE_RECOGNIZED,onGesture);
+					_singleTap=new TapGesture(this);
+					_singleTap.addEventListener(GestureEvent.GESTURE_RECOGNIZED, onGesture);
 					break;
 				case MouseEvents.DOUBLE_CLICK:
-					_doubleTap = new TapGesture(this);
-					_doubleTap.maxTapDelay = 300;
-					_doubleTap.numTapsRequired = 2;
+					_doubleTap=new TapGesture(this);
+					_doubleTap.maxTapDelay=300;
+					_doubleTap.numTapsRequired=2;
 					_singleTap.requireGestureToFail(_doubleTap);
-					_doubleTap.addEventListener(GestureEvent.GESTURE_RECOGNIZED,onGesture);
+					_doubleTap.addEventListener(GestureEvent.GESTURE_RECOGNIZED, onGesture);
 					break;
 				case MouseEvents.LONG_PRESS:
-					_longTap = new LongPressGesture(this);
-					_longTap.addEventListener(GestureEvent.GESTURE_BEGAN,onGesture);
+					_longTap=new LongPressGesture(this);
+					_longTap.addEventListener(GestureEvent.GESTURE_BEGAN, onGesture);
 					break;
 			}
 		}
-		
+
 		private function onGesture(event:GestureEvent):void
 		{
-			var g:Gesture = event.target as Gesture;
-			if(g == _singleTap)
+			var g:Gesture=event.target as Gesture;
+			if (g == _singleTap)
 			{
-				dispatchEvent(new GestureEvent(MouseEvents.SINGLE_CLICK,event.newState,event.oldState));
+				dispatchEvent(new GestureEvent(MouseEvents.SINGLE_CLICK, event.newState, event.oldState));
 			}
-			else if(g == _doubleTap)
+			else if (g == _doubleTap)
 			{
-				dispatchEvent(new GestureEvent(MouseEvents.DOUBLE_CLICK,event.newState,event.oldState));
+				dispatchEvent(new GestureEvent(MouseEvents.DOUBLE_CLICK, event.newState, event.oldState));
 			}
-			else if(g == _longTap)
+			else if (g == _longTap)
 			{
-				dispatchEvent(new GestureEvent(MouseEvents.LONG_PRESS,event.newState,event.oldState));
+				dispatchEvent(new GestureEvent(MouseEvents.LONG_PRESS, event.newState, event.oldState));
 			}
 			else
 			{
 				trace("no such gesture");
 			}
 		}
-		
+
 		protected function getShadow(dist:Number, knockout:Boolean=false):DropShadowFilter
 		{
 			return new DropShadowFilter(dist, 45, 0x000000, 1, 2, 2);
 		}
-		
+
 		public function getSizePosition():String
 		{
-			return "width:"+width+", height:"+height+", x:"+x+", y:"+y+", type:"+getQualifiedClassName(this);
+			return "width:" + width + ", height:" + height + ", x:" + x + ", y:" + y + ", type:" + getQualifiedClassName(this);
 		}
 
 		/**	用来存储一些特殊属性*/
 		public function get objData():Object
 		{
-			if(null==_objData)
+			if (null == _objData)
 				_objData=new Object();
 			return _objData;
 		}
 
 		public function set objData(value:Object):void
 		{
-			_objData = value;
+			_objData=value;
 		}
 
+		private var _top:Object;
 
+		public function get top():Object
+		{
+			return _top;
+		}
+
+		public function set top(value:Object):void
+		{
+			if (value == _top)
+				return;
+
+			_top=value;
+			invalidateDisplayList();
+		}
+
+		private var _left:Object;
+
+		public function get left():Object
+		{
+			return _left;
+		}
+
+		public function set left(value:Object):void
+		{
+			if (value == _left)
+				return;
+
+			_left=value;
+			invalidateDisplayList();
+		}
+
+		private var _right:Object;
+
+		public function get right():Object
+		{
+			return _right;
+		}
+
+		public function set right(value:Object):void
+		{
+			if (value == _right)
+				return;
+			_right=value;
+			invalidateDisplayList();
+		}
+
+		private var _bottom:Object;
+
+		public function get bottom():Object
+		{
+			return _bottom;
+		}
+
+		public function set bottom(value:Object):void
+		{
+			if (value == _bottom)
+				return;
+
+			_bottom=value;
+			invalidateDisplayList();
+		}
 	}
 }

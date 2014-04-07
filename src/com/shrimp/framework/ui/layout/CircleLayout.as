@@ -9,7 +9,7 @@ package com.shrimp.framework.ui.layout
 	 * @author Sol
 	 *
 	 */
-	public class CircleLayout extends AbstractLayout
+	public class CircleLayout extends BaseLayout
 	{
 		protected var _radiusX:Number=20;
 		/**
