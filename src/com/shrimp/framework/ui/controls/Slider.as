@@ -276,5 +276,14 @@ package com.shrimp.framework.ui.controls
 			return _tick;
 		}
 		
+		public function set direction(d:String):void
+		{
+			_orientation = d;
+		}
+		
+		public function get direction():String
+		{
+			return _orientation;
+		}
 	}
 }
