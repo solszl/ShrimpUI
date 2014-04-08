@@ -2,12 +2,12 @@ package com.shrimp.framework.ui.controls
 {
 	import com.shrimp.framework.ui.controls.core.Component;
 	import com.shrimp.framework.ui.controls.core.Style;
-	
+
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
-	
+
 	[Event(name="change", type="flash.events.Event")]
 	public class Slider extends Component
 	{
@@ -19,10 +19,10 @@ package com.shrimp.framework.ui.controls
 		protected var _min:Number=0;
 		protected var _orientation:String;
 		protected var _tick:Number=0.01;
-		
+
 		public static const HORIZONTAL:String="horizontal";
 		public static const VERTICAL:String="vertical";
-		
+
 		public function Slider(orientation:String=Slider.HORIZONTAL, parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0, defaultHandler:Function=null)
 		{
 			_orientation=orientation;
@@ -32,14 +32,14 @@ package com.shrimp.framework.ui.controls
 				addEventListener(Event.CHANGE, defaultHandler);
 			}
 		}
-		
+
 		/**
 		 * Initializes the component.
 		 */
 		override protected function init():void
 		{
 			super.init();
-			
+
 			if (_orientation == HORIZONTAL)
 			{
 				setActualSize(200, 20);
@@ -49,7 +49,7 @@ package com.shrimp.framework.ui.controls
 				setActualSize(20, 200);
 			}
 		}
-		
+
 		/**
 		 * Creates and adds the child display objects of this component.
 		 */
@@ -57,14 +57,14 @@ package com.shrimp.framework.ui.controls
 		{
 			_back=new Image(this);
 			_back.mouseEnabled=true;
-			_back.source = Style.sliderBG;
-			_back.scale9Rect=new Rectangle(12,12,14,14);
-			
+			_back.source=Style.sliderBG;
+			_back.scale9Rect=new Rectangle(12, 12, 14, 14);
+
 			_handle=new Button(this);
 			_handle.addEventListener(MouseEvent.MOUSE_DOWN, onDrag);
-			
+
 		}
-		
+
 		/**
 		 * Adjusts value to be within minimum and maximum.
 		 */
@@ -81,44 +81,43 @@ package com.shrimp.framework.ui.controls
 				_value=Math.min(_value, _min);
 			}
 		}
-		
+
 		/**
 		 * Adjusts position of handle when value, maximum or minimum have changed.
 		 * TODO: Should also be called when slider is resized.
 		 */
 		protected function positionHandle():void
 		{
-			var range:Number;
-			if (_orientation == HORIZONTAL)
+			_value=Math.round(_value / _tick) * _tick;
+			_value=_value > _max ? _max : _value < _min ? _min : _value;
+			if (_orientation == VERTICAL)
 			{
-				range=_width - _height;
-				_handle.x=(_value - _min) / (_max - _min) * range;
+				_handle.y=(_value - _min) / (_max - _min) * (height - _handle.height);
 			}
 			else
 			{
-				range=_height - _width;
-				_handle.y=_height - _width - (_value - _min) / (_max - _min) * range;
+				_handle.x=(_value - _min) / (_max - _min) * (width - _handle.width);
 			}
 		}
-		
+
 		/**
 		 * Draws the visual ui of the component.
 		 */
 		override protected function updateDisplayList():void
 		{
 			super.updateDisplayList();
-			
-			_back.setActualSize(width,height);
+
+			_back.setActualSize(width, height);
 			positionHandle();
 		}
-		
+
 		public function setSliderParams(min:Number, max:Number, value:Number):void
 		{
 			this.minimum=min;
 			this.maximum=max;
 			this.value=value;
 		}
-		
+
 		protected function onBackClick(event:MouseEvent):void
 		{
 			if (_orientation == HORIZONTAL)
@@ -137,7 +136,7 @@ package com.shrimp.framework.ui.controls
 			}
 			dispatchEvent(new Event(Event.CHANGE));
 		}
-		
+
 		/**
 		 * Internal mouseDown handler. Starts dragging the handle.
 		 * @param event The MouseEvent passed by the system.
@@ -155,7 +154,7 @@ package com.shrimp.framework.ui.controls
 				_handle.startDrag(false, new Rectangle(0, 0, 0, _height - _width));
 			}
 		}
-		
+
 		/**
 		 * Internal mouseUp handler. Stops dragging the handle.
 		 * @param event The MouseEvent passed by the system.
@@ -166,7 +165,7 @@ package com.shrimp.framework.ui.controls
 			stage.removeEventListener(MouseEvent.MOUSE_MOVE, onSlide);
 			stopDrag();
 		}
-		
+
 		/**
 		 * Internal mouseMove handler for when the handle is being moved.
 		 * @param event The MouseEvent passed by the system.
@@ -176,27 +175,30 @@ package com.shrimp.framework.ui.controls
 			var oldValue:Number=_value;
 			if (_orientation == HORIZONTAL)
 			{
-				_value=_handle.x / (width - _height) * (_max - _min) + _min;
+				_value=_handle.x / (width - _handle.width) * (_max - _min) + _min;
 			}
 			else
 			{
-				_value=(_height - _width - _handle.y) / (height - _width) * (_max - _min) + _min;
+				_value=_handle.y / (height - _handle.height) * (_max - _min) + _min;
 			}
+
+			_value=Math.round(_value / _tick) * _tick;
+
 			if (_value != oldValue)
 			{
 				dispatchEvent(new Event(Event.CHANGE));
 			}
 		}
-		
+
 		/**
 		 * Sets / gets whether or not a click on the background of the slider will move the handler to that position.
 		 */
 		private var _backClickChanged:Boolean=false;
-		
+
 		public function set backClick(b:Boolean):void
 		{
 			_backClick=b;
-			
+
 			if (_backClick)
 			{
 				_back.addEventListener(MouseEvent.MOUSE_DOWN, onBackClick);
@@ -206,12 +208,12 @@ package com.shrimp.framework.ui.controls
 				_back.removeEventListener(MouseEvent.MOUSE_DOWN, onBackClick);
 			}
 		}
-		
+
 		public function get backClick():Boolean
 		{
 			return _backClick;
 		}
-		
+
 		/**
 		 * Sets / gets the current value of this slider.
 		 */
@@ -220,14 +222,13 @@ package com.shrimp.framework.ui.controls
 			_value=v;
 			correctValue();
 			positionHandle();
-			
 		}
-		
+
 		public function get value():Number
 		{
 			return Math.round(_value / _tick) * _tick;
 		}
-		
+
 		/**
 		 * Gets the value of the slider without rounding it per the tick value.
 		 */
@@ -235,7 +236,7 @@ package com.shrimp.framework.ui.controls
 		{
 			return _value;
 		}
-		
+
 		/**
 		 * Gets / sets the maximum value of this slider.
 		 */
@@ -245,12 +246,12 @@ package com.shrimp.framework.ui.controls
 			correctValue();
 			positionHandle();
 		}
-		
+
 		public function get maximum():Number
 		{
 			return _max;
 		}
-		
+
 		/**
 		 * Gets / sets the minimum value of this slider.
 		 */
@@ -260,33 +261,34 @@ package com.shrimp.framework.ui.controls
 			correctValue();
 			positionHandle();
 		}
-		
+
 		public function get minimum():Number
 		{
 			return _min;
 		}
-		
+
 		public function set tick(t:Number):void
 		{
 			_tick=t;
 		}
-		
+
 		public function get tick():Number
 		{
 			return _tick;
 		}
-		
+
 		[Inspectable(category="General", enumeration="horizontal,vertical", defaultValue="horizontal")]
 		public function set direction(d:String):void
 		{
-			_orientation = d;
+			_orientation=d;
+			invalidateDisplayList();
 		}
-		
+
 		public function get direction():String
 		{
 			return _orientation;
 		}
-		
+
 		public function get backTrack():Image
 		{
 			return _back;

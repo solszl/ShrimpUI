@@ -4,7 +4,7 @@ package com.shrimp.framework.ui.container
 	import com.shrimp.framework.ui.layout.AbstractLayout;
 	import com.shrimp.framework.ui.layout.BaseLayout;
 	import com.shrimp.framework.ui.layout.ILayout;
-	
+
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
@@ -19,7 +19,7 @@ package com.shrimp.framework.ui.container
 	{
 		protected var _layout:*;
 		private var _children:Vector.<DisplayObject>
-		
+
 		public function Container(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
 		{
 			super(parent, xpos, ypos);
@@ -65,11 +65,11 @@ package com.shrimp.framework.ui.container
 		{
 			if (layout && layout.toString() == value.toString())
 				return;
-			
+
 			_layout=value;
 			invalidateDisplayList();
 		}
-		
+
 		override protected function updateDisplayList():void
 		{
 			if (_layout == null || _layout == undefined)
@@ -88,25 +88,25 @@ package com.shrimp.framework.ui.container
 				{
 					removeChildAt(0);
 				}
-				
+
 				_children=value;
-				
+
 				var child:DisplayObject
 				for each (child in _children)
 				{
 					addChild(child)
 				}
-				
+
 				invalidateProperties();
 				invalidateDisplayList();
 			}
 		}
-		
+
 		public function get children():Vector.<DisplayObject>
 		{
 			return _children;
 		}
-		
+
 		public function removeAllChild():void
 		{
 			while (numChildren > 0)
@@ -114,6 +114,6 @@ package com.shrimp.framework.ui.container
 				removeChildAt(0);
 			}
 		}
-		
+
 	}
 }

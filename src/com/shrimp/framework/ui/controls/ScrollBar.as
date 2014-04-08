@@ -3,7 +3,7 @@ package com.shrimp.framework.ui.controls
 	import com.shrimp.framework.managers.WorldClockManager;
 	import com.shrimp.framework.ui.container.Container;
 	import com.shrimp.framework.ui.controls.core.Component;
-	
+
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
@@ -29,11 +29,13 @@ package com.shrimp.framework.ui.controls
 		private var _thumbPercent:Number;
 		private var _touchable:Boolean;
 
+		private var _direction:String;
+
 		public function ScrollBar(direction:String, parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
 		{
+			_direction=direction;
 			super(parent, xpos, ypos);
 			mouseChildren=true;
-			this.direction=direction;
 		}
 
 		override protected function init():void
@@ -42,7 +44,7 @@ package com.shrimp.framework.ui.controls
 			_upBtn.addEventListener(MouseEvent.MOUSE_DOWN, onButtonMouseDown);
 			_downBtn.addEventListener(MouseEvent.MOUSE_DOWN, onButtonMouseDown);
 			_slider.addEventListener(Event.CHANGE, onSliderChange);
-			_slider.setSliderParams(0, 0, 0);
+			_slider.setSliderParams(0, 100, 0);
 		}
 
 		protected function onSliderChange(event:Event):void
@@ -70,7 +72,7 @@ package com.shrimp.framework.ui.controls
 			super.createChildren();
 			_upBtn=new Button(this);
 			_upBtn.label="up"
-			_slider=new Slider();
+			_slider=new Slider(_direction);
 			addChild(_slider);
 			_downBtn=new Button(this);
 			_downBtn.label="down";
@@ -231,14 +233,14 @@ package com.shrimp.framework.ui.controls
 				stage.addEventListener(Event.ENTER_FRAME, onStageEnterFrame);
 				_lastPoint=new Point(stage.mouseX, stage.mouseY);
 			}
-			
-			if(this.contains(e.target as DisplayObject))
+
+			if (this.contains(e.target as DisplayObject))
 			{
-				
+
 			}
 			else
 			{
-				
+
 			}
 		}
 
