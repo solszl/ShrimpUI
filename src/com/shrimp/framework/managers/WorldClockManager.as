@@ -185,4 +185,9 @@ class TimerHandler
 		method=null;
 		args=null;
 	}
+	
+	public function TimerHandler()
+	{
+		
+	}
 }

@@ -108,7 +108,7 @@ package com.shrimp.framework.ui.controls
 		{
 			super.updateDisplayList();
 			
-			_back.setActualSize(_width,_height);
+			_back.setActualSize(width,height);
 			positionHandle();
 		}
 		
@@ -276,6 +276,7 @@ package com.shrimp.framework.ui.controls
 			return _tick;
 		}
 		
+		[Inspectable(category="General", enumeration="horizontal,vertical", defaultValue="horizontal")]
 		public function set direction(d:String):void
 		{
 			_orientation = d;
@@ -284,6 +285,11 @@ package com.shrimp.framework.ui.controls
 		public function get direction():String
 		{
 			return _orientation;
+		}
+		
+		public function get backTrack():Image
+		{
+			return _back;
 		}
 	}
 }
