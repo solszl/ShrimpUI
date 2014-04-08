@@ -11,13 +11,13 @@ package com.shrimp.framework.utils
 	public class ClassUtils
 	{
 		/**获取类的实例**/
-		public static function getClassInstance(className:String,domain:ApplicationDomain=null):*
+		public static function getClassInstance(className:String, domain:ApplicationDomain=null):*
 		{
 			var instance:*;
 
-			if(domain==null)
+			if (domain == null)
 			{
-				domain = ApplicationDomain.currentDomain;
+				domain=ApplicationDomain.currentDomain;
 			}
 			if (domain.hasDefinition(className))
 			{
@@ -32,28 +32,28 @@ package com.shrimp.framework.utils
 		}
 
 		/**获取类**/
-		public static function getClass(className:String,domain:ApplicationDomain=null):Class
+		public static function getClass(className:String, domain:ApplicationDomain=null):Class
 		{
-			if(domain==null)
+			if (domain == null)
 			{
-				domain = ApplicationDomain.currentDomain;
+				domain=ApplicationDomain.currentDomain;
 			}
-			
+
 			if (domain.hasDefinition(className))
 			{
 				return domain.getDefinition(className) as Class;
 			}
 			else
 			{
-				throw new Error("unknown className::",className);
+				throw new Error("unknown className::", className);
 			}
 		}
-		
+
 		public static function getClassName(clazz:Class):String
 		{
 			return getQualifiedClassName(clazz);
 		}
-		
+
 		public static function getSuperClassName(clazz:Class):String
 		{
 			return getQualifiedSuperclassName(clazz);
