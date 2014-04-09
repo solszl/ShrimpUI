@@ -106,7 +106,7 @@ package com.shrimp.framework.ui.controls
 		override protected function updateDisplayList():void
 		{
 			super.updateDisplayList();
-			_back.setActualSize(_width, _height);
+			_back.setActualSize(width, height);
 			positionHandle();
 		}
 

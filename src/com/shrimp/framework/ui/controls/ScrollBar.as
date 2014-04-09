@@ -117,7 +117,7 @@ package com.shrimp.framework.ui.controls
 				_downBtn.x=_width - _downBtn.width;
 				_downBtn.y=0;
 				_upBtn.x=_upBtn.width - _upBtn.height;
-				_upBtn.y=_upBtn.width;
+				_upBtn.y=0;
 			}
 		}
 
