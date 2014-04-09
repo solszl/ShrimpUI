@@ -3,10 +3,10 @@ package com.shrimp.framework.ui.controls.core
 	import flash.filters.GlowFilter;
 
 	/**
-	 *	皮肤类 
+	 *	皮肤类
 	 * @author Sol
-	 * 
-	 */	
+	 *
+	 */
 	public class Style
 	{
 		/**	按钮默认*/
@@ -16,7 +16,7 @@ package com.shrimp.framework.ui.controls.core
 		[Embed(source="/assets/buttons/btnSelected.png", scaleGridTop='10', scaleGridBottom='15', scaleGridLeft='15', scaleGridRight='30')]
 		public static const defaultBtnSelectedSkin:Class;
 		/**	滑块*/
-		[Embed(source="/assets/scrollBar/thumb.png")]
+		[Embed(source="/assets/scrollBar/thumb.png", scaleGridTop='7', scaleGridBottom='10', scaleGridLeft='7', scaleGridRight='10')]
 		public static const thumb:Class;
 		/**	背景框*/
 		[Embed(source="/assets/scrollBar/track.png")]
@@ -51,15 +51,15 @@ package com.shrimp.framework.ui.controls.core
 		/**	面板关闭按钮*/
 		[Embed(source="/assets/buttons/closeBtn.png")]
 		public static const panelCloseBtn:Class;
-		
+
 		/**	默认字号*/
-		public static var fontSize:int = 14;
+		public static var fontSize:int=14;
 		/**	默认字体*/
 		public static var fontFamily:String="Microsoft Yahei";
 		/**	描边颜色*/
-		public static const stroke:String="0x292317,1,2,2,16,1";//color,alpha,blurX,blurY,strength,quality
-		
+		public static const stroke:String="0x292317,1,2,2,16,1"; //color,alpha,blurX,blurY,strength,quality
+
 		/**	文本字 颜色*/
-		public static const LABEL_COLOR:uint =0xFFFFFF;
+		public static const LABEL_COLOR:uint=0xFFFFFF;
 	}
 }

@@ -58,10 +58,10 @@ package com.shrimp.framework.ui.controls
 			_back=new Image(this);
 			_back.mouseEnabled=true;
 			_back.source=Style.track;
-			_back.scale9Rect=new Rectangle(4,4,9,4);
+			_back.scale9Rect=new Rectangle(4,4,4,4);
 
 			_handle=new Button(this);
-			_handle.skinClass=Style.thumb;
+			_handle.skinClass=Style.defaultBtnNormalSkin;
 			_handle.addEventListener(MouseEvent.MOUSE_DOWN, onDrag);
 		}
 
@@ -147,11 +147,11 @@ package com.shrimp.framework.ui.controls
 			stage.addEventListener(MouseEvent.MOUSE_MOVE, onSlide);
 			if (_orientation == HORIZONTAL)
 			{
-				_handle.startDrag(false, new Rectangle(0, 0, _width - _height, 0));
+				_handle.startDrag(false, new Rectangle(0, 0, _width - _handle.width, 0));
 			}
 			else
 			{
-				_handle.startDrag(false, new Rectangle(0, 0, 0, _height - _width));
+				_handle.startDrag(false, new Rectangle(0, 0, 0, _height - _handle.height));
 			}
 		}
 
