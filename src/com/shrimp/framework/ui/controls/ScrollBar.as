@@ -3,6 +3,7 @@ package com.shrimp.framework.ui.controls
 	import com.shrimp.framework.managers.WorldClockManager;
 	import com.shrimp.framework.ui.container.Container;
 	import com.shrimp.framework.ui.controls.core.Component;
+	import com.shrimp.framework.ui.controls.core.Style;
 
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
@@ -71,11 +72,11 @@ package com.shrimp.framework.ui.controls
 		{
 			super.createChildren();
 			_upBtn=new Button(this);
-			_upBtn.label="up"
+			_upBtn.skinClass=Style.upArrow;
 			_slider=new Slider(_direction);
 			addChild(_slider);
 			_downBtn=new Button(this);
-			_downBtn.label="down";
+			_downBtn.skinClass=Style.downArrow;
 		}
 
 		private function loop():void
@@ -92,6 +93,31 @@ package com.shrimp.framework.ui.controls
 			else
 			{
 				value+=tick;
+			}
+		}
+
+		override protected function updateDisplayList():void
+		{
+			super.updateDisplayList();
+			if (direction == Slider.VERTICAL)
+			{
+				_slider.x=0;
+				_slider.y=_upBtn.height;
+				_slider.width=_upBtn.width;
+				_slider.height=_height - _upBtn.height - _downBtn.height;
+				_downBtn.x=0;
+				_downBtn.y=_height - _downBtn.height;
+			}
+			else
+			{
+				_slider.x=_upBtn.height;
+				_slider.y=0;
+				_slider.width=_width - _upBtn.height - _downBtn.height;
+				_slider.height=_upBtn.height;
+				_downBtn.x=_width - _downBtn.width;
+				_downBtn.y=0;
+				_upBtn.x=_upBtn.width - _upBtn.height;
+				_upBtn.y=_upBtn.width;
 			}
 		}
 
@@ -204,11 +230,11 @@ package com.shrimp.framework.ui.controls
 			_thumbPercent=value;
 			if (_slider.direction == VERTICAL)
 			{
-				_slider.backTrack.height=Math.max(int(_slider.height * value), 28);
+				_slider.btnHandle.height=Math.max(int(_slider.height * value), 28);
 			}
 			else
 			{
-				_slider.backTrack.width=Math.max(int(_slider.width * value), 28);
+				_slider.btnHandle.width=Math.max(int(_slider.width * value), 28);
 			}
 		}
 
@@ -232,15 +258,6 @@ package com.shrimp.framework.ui.controls
 				stage.addEventListener(MouseEvent.MOUSE_UP, onStageMouseUp2);
 				stage.addEventListener(Event.ENTER_FRAME, onStageEnterFrame);
 				_lastPoint=new Point(stage.mouseX, stage.mouseY);
-			}
-
-			if (this.contains(e.target as DisplayObject))
-			{
-
-			}
-			else
-			{
-
 			}
 		}
 
@@ -280,5 +297,12 @@ package com.shrimp.framework.ui.controls
 
 		protected var _lastPoint:Point;
 		protected var _lastOffset:Number
+
+		public function setSliderParams(min:Number, max:Number, value:Number):void
+		{
+			_slider.minimum=min;
+			_slider.maximum=max;
+			this.value=value;
+		}
 	}
 }

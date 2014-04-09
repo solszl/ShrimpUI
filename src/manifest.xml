@@ -36,7 +36,6 @@
 <component class="com.shrimp.framework.managers.PanelManager"/>
 <component class="com.shrimp.framework.managers.PopUpManager"/>
 <component class="com.shrimp.framework.managers.SchedulerManager"/>
-<component class="com.shrimp.framework.managers.ScreenManager"/>
 <component class="com.shrimp.framework.managers.SoundManager"/>
 <component class="com.shrimp.framework.managers.StageManager"/>
 <component class="com.shrimp.framework.managers.ToolTipManager"/>
@@ -69,6 +68,7 @@
 <component class="com.shrimp.framework.ui.controls.ScrollBar"/>
 <component class="com.shrimp.framework.ui.controls.Slider"/>
 <component class="com.shrimp.framework.ui.controls.TabBar"/>
+<component class="com.shrimp.framework.ui.controls.TextArea"/>
 <component class="com.shrimp.framework.ui.controls.TextInput"/>
 <component class="com.shrimp.framework.ui.controls.ViewStack"/>
 <component class="com.shrimp.framework.ui.controls.VScrollBar"/>

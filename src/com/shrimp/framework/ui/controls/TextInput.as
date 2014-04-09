@@ -23,6 +23,7 @@ package com.shrimp.framework.ui.controls
 			_textField.autoSize="none";
 			_textField.addEventListener(Event.CHANGE, onTextFieldChange);
 			_textField.addEventListener(TextEvent.TEXT_INPUT, onTextFieldTextInput);
+			color="0x000000";
 		}
 
 		private function onTextFieldTextInput(e:TextEvent):void

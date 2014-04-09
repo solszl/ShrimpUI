@@ -52,10 +52,6 @@ package com.shrimp.framework.ui.controls.core
 		[Embed(source="/assets/buttons/closeBtn.png")]
 		public static const panelCloseBtn:Class;
 		
-		/**	slider背景图*/
-		[Embed(source="/assets/sliderBG.png")]
-		public static const sliderBG:Class;
-		
 		/**	默认字号*/
 		public static var fontSize:int = 14;
 		/**	默认字体*/

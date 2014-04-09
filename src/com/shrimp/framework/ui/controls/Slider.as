@@ -57,12 +57,12 @@ package com.shrimp.framework.ui.controls
 		{
 			_back=new Image(this);
 			_back.mouseEnabled=true;
-			_back.source=Style.sliderBG;
+			_back.source=Style.track;
 			_back.scale9Rect=new Rectangle(12, 12, 14, 14);
 
 			_handle=new Button(this);
+			_handle.skinClass=Style.thumb;
 			_handle.addEventListener(MouseEvent.MOUSE_DOWN, onDrag);
-
 		}
 
 		/**
@@ -106,8 +106,7 @@ package com.shrimp.framework.ui.controls
 		override protected function updateDisplayList():void
 		{
 			super.updateDisplayList();
-
-			_back.setActualSize(width, height);
+			_back.setActualSize(_width, _height);
 			positionHandle();
 		}
 
@@ -219,9 +218,14 @@ package com.shrimp.framework.ui.controls
 		 */
 		public function set value(v:Number):void
 		{
+			if (_value == v)
+			{
+				return;
+			}
 			_value=v;
 			correctValue();
 			positionHandle();
+			dispatchEvent(new Event(Event.CHANGE));
 		}
 
 		public function get value():Number
@@ -293,5 +297,11 @@ package com.shrimp.framework.ui.controls
 		{
 			return _back;
 		}
+
+		public function get btnHandle():Button
+		{
+			return _handle;
+		}
+
 	}
 }
