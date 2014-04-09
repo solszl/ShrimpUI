@@ -1,13 +1,11 @@
 <?xml version="1.0"?>
 <componentPackage>
 <component class="com.shrimp.framework.core.ApplicationBase"/>
-<component class="com.shrimp.framework.core.ClassFactory"/>
 <component class="com.shrimp.framework.core.shrimp_internal"/>
 <component class="com.shrimp.framework.event.CloseEvent"/>
 <component class="com.shrimp.framework.event.MouseEvents"/>
 <component class="com.shrimp.framework.interfaces.IClear"/>
 <component class="com.shrimp.framework.interfaces.IDialog"/>
-<component class="com.shrimp.framework.interfaces.IFactory"/>
 <component class="com.shrimp.framework.interfaces.IGuide"/>
 <component class="com.shrimp.framework.interfaces.IItemRenderer"/>
 <component class="com.shrimp.framework.interfaces.IModule"/>

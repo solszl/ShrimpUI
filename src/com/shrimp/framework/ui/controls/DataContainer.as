@@ -1,6 +1,5 @@
 package com.shrimp.framework.ui.controls
 {
-	import com.shrimp.framework.interfaces.IFactory;
 	import com.shrimp.framework.interfaces.IItemRenderer;
 	import com.shrimp.framework.ui.container.Container;
 	import com.shrimp.framework.utils.ArrayList;
@@ -9,6 +8,8 @@ package com.shrimp.framework.ui.controls
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	
+	import mx.core.IFactory;
 	
 	public class DataContainer extends Container
 	{
@@ -110,7 +111,6 @@ package com.shrimp.framework.ui.controls
 			
 			_itemRender=value;
 			_listItemClassChanged=true;
-			
 			invalidateProperties();
 		}
 		
