@@ -16,10 +16,10 @@ package com.shrimp.framework.ui.controls.core
 		[Embed(source="/assets/buttons/btnSelected.png", scaleGridTop='10', scaleGridBottom='15', scaleGridLeft='15', scaleGridRight='30')]
 		public static const defaultBtnSelectedSkin:Class;
 		/**	滑块*/
-		[Embed(source="/assets/scrollBar/thumb.png", scaleGridTop="4", scaleGridBottom="75", scaleGridLeft="4", scaleGridRight="7")]
+		[Embed(source="/assets/scrollBar/thumb.png")]
 		public static const thumb:Class;
 		/**	背景框*/
-		[Embed(source="/assets/scrollBar/track.png", scaleGridTop="4", scaleGridBottom="155", scaleGridLeft="4", scaleGridRight="12")]
+		[Embed(source="/assets/scrollBar/track.png")]
 		public static const track:Class;
 		/**	上箭头*/
 		[Embed(source="/assets/scrollBar/upArrow.png")]

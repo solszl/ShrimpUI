@@ -6,9 +6,9 @@ package com.shrimp.framework.ui.controls
 
 	public class HScrollBar extends ScrollBar
 	{
-		public function HScrollBar(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
+		public function HScrollBar(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0,defaultHandler:Function=null)
 		{
-			super(ScrollBar.HORIZONTAL, parent, xpos, ypos);
+			super(ScrollBar.HORIZONTAL, parent, xpos, ypos,defaultHandler);
 		}
 	}
 }

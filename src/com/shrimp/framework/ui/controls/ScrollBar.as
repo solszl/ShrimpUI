@@ -4,7 +4,7 @@ package com.shrimp.framework.ui.controls
 	import com.shrimp.framework.ui.container.Container;
 	import com.shrimp.framework.ui.controls.core.Component;
 	import com.shrimp.framework.ui.controls.core.Style;
-
+	
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
@@ -32,11 +32,15 @@ package com.shrimp.framework.ui.controls
 
 		private var _direction:String;
 
-		public function ScrollBar(direction:String, parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
+		public function ScrollBar(direction:String, parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0,defaultHandler:Function=null)
 		{
 			_direction=direction;
 			super(parent, xpos, ypos);
 			mouseChildren=true;
+			if (defaultHandler != null)
+			{
+				addEventListener(Event.CHANGE, defaultHandler);
+			}
 		}
 
 		override protected function init():void

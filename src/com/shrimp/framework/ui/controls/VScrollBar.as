@@ -6,9 +6,9 @@ package com.shrimp.framework.ui.controls
 
 	public class VScrollBar extends ScrollBar
 	{
-		public function VScrollBar(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
+		public function VScrollBar(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0,defaultHandler:Function=null)
 		{
-			super(ScrollBar.VERTICAL, parent, xpos, ypos);
+			super(ScrollBar.VERTICAL, parent, xpos, ypos,defaultHandler);
 		}
 	}
 }

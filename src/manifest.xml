@@ -43,6 +43,7 @@
 <component class="com.shrimp.framework.net.socket.TCPService"/>
 <component class="com.shrimp.framework.ui.container.Container"/>
 <component class="com.shrimp.framework.ui.container.HBox"/>
+<component class="com.shrimp.framework.ui.container.ScrollerContainer"/>
 <component class="com.shrimp.framework.ui.container.VBox"/>
 <component class="com.shrimp.framework.ui.controls.box.CheckBoxGroup"/>
 <component class="com.shrimp.framework.ui.controls.box.RadioButtonGroup"/>
