@@ -58,7 +58,7 @@ package com.shrimp.framework.ui.controls
 			_back=new Image(this);
 			_back.mouseEnabled=true;
 			_back.source=Style.track;
-			_back.scale9Rect=new Rectangle(4,4,4,4);
+			_back.scale9Rect=new Rectangle(4, 4, 4, 4);
 
 			_handle=new Button(this);
 			_handle.skinClass=Style.defaultBtnNormalSkin;
@@ -107,7 +107,6 @@ package com.shrimp.framework.ui.controls
 		{
 			super.updateDisplayList();
 			_back.setActualSize(width, height);
-			_back.showBorder()
 			positionHandle();
 		}
 
@@ -220,9 +219,8 @@ package com.shrimp.framework.ui.controls
 		public function set value(v:Number):void
 		{
 			if (_value == v)
-			{
 				return;
-			}
+
 			_value=v;
 			correctValue();
 			positionHandle();
