@@ -1,10 +1,11 @@
 package com.shrimp.framework.ui.controls
 {
+	import com.shrimp.framework.GlobalConfig;
 	import com.shrimp.framework.managers.WorldClockManager;
 	import com.shrimp.framework.ui.container.Container;
 	import com.shrimp.framework.ui.controls.core.Component;
 	import com.shrimp.framework.ui.controls.core.Style;
-
+	
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
@@ -28,7 +29,7 @@ package com.shrimp.framework.ui.controls
 		/**	目标组件*/
 		private var _target:Component;
 		private var _thumbPercent:Number;
-		private var _touchable:Boolean;
+		private var _touchable:Boolean=GlobalConfig.SCROLLBAR_TOUCHABLE;
 
 		private var _direction:String;
 

@@ -24,5 +24,8 @@ package com.shrimp.framework
 		/**	面板内存持久化时间*/
 		public static var PANEL_PERSISTENCE_MEMORY:int=5000;
 		
+		/**	ScrollBar是否可拖拽*/
+		public static var SCROLLBAR_TOUCHABLE:Boolean=true;
+		
 	}
 }

@@ -98,7 +98,7 @@ package com.shrimp.framework.ui.controls
 		{
 			_img.bitmapData=(content as BitmapData);
 			AssetsManager.getInstance().cacheBitmapData(String(_source), _img.bitmapData);
-			updateDisplayList();
+			validateNow();
 		}
 
 		protected function onFailed(url:String):void
@@ -153,8 +153,7 @@ package com.shrimp.framework.ui.controls
 					if (_img.height != height)
 						_img.height=height;
 				}
-
 			}
-		}0
+		}
 	}
 }
