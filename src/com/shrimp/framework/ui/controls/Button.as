@@ -293,8 +293,6 @@ package com.shrimp.framework.ui.controls
 
 		override protected function measure():void
 		{
-//			_label.validateDisplayList();
-//			bg.invalidateProperties();
 			var skinW:Number=bg ? bg.width : 0;
 			var skinH:Number=bg ? bg.height : 0;
 			measuredWidth=Math.max(_label.width + 10, skinW);

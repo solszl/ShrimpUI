@@ -35,6 +35,11 @@ package com.shrimp.framework.ui.controls
 		private var _source:Object;
 		private var _usescale9Rect:Boolean;
 
+		public function get source():Object
+		{
+			return _source;
+		}
+		
 		public function set source(value:Object):void
 		{
 			if (_source == value)
@@ -154,6 +159,14 @@ package com.shrimp.framework.ui.controls
 						_img.height=height;
 				}
 			}
+		}
+		
+		public function getSourceBmd():BitmapData
+		{
+			if(_img && _img.bitmapData)
+				return _img.bitmapData;
+			
+			return null;
 		}
 	}
 }

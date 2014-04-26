@@ -1,6 +1,7 @@
 package com.shrimp.framework.managers
 {
 	import com.shrimp.framework.load.LoaderManager;
+	import com.shrimp.framework.load.ResourceLibrary;
 	import com.shrimp.framework.load.ResourceType;
 	import com.shrimp.framework.utils.ClassUtils;
 	
@@ -54,7 +55,8 @@ package com.shrimp.framework.managers
 			var bmd:BitmapData=bmdCache[name];
 			if (bmd == null)
 			{
-				var bmdClass:Class=ClassUtils.getClass(name);
+//				var bmdClass:Class=ClassUtils.getClass(name);
+				var bmdClass:Class = ResourceLibrary.getClass(name);
 				if (bmdClass == null)
 				{
 					return null;

@@ -32,7 +32,6 @@ package com.shrimp.framework.ui.container
 			_vScrollBar=new VScrollBar();
 			_vScrollBar.addEventListener(Event.CHANGE, onScrollBarChange);
 			_vScrollBar.target=this;
-			_vScrollBar.touchable=true;
 			super.addChild(_vScrollBar);
 			_hScrollBar=new HScrollBar();
 			_hScrollBar.addEventListener(Event.CHANGE, onScrollBarChange);

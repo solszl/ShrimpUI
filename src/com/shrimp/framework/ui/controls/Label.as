@@ -18,7 +18,7 @@ package com.shrimp.framework.ui.controls
 		public function Label(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0, text:String="")
 		{
 			super(parent, xpos, ypos);
-			this._text=text;
+			this.text=text;
 		}
 
 		protected var _textField:TextField;
