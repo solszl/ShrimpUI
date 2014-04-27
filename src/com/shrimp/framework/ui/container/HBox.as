@@ -1,7 +1,8 @@
 package com.shrimp.framework.ui.container
 {
 	import com.shrimp.framework.ui.layout.HorizontalLayout;
-
+	import com.thirdparts.greensock.TweenNano;
+	
 	import flash.display.DisplayObjectContainer;
 
 	public class HBox extends Container
@@ -13,7 +14,9 @@ package com.shrimp.framework.ui.container
 			super(parent, xpos, ypos);
 			__layout=new HorizontalLayout();
 			__layout.gap=gap;
-			layout=__layout;
+			TweenNano.delayedCall(.5,function():void{
+				layout=__layout;
+			});
 		}
 
 		public function set gap(value:Number):void
@@ -51,5 +54,11 @@ package com.shrimp.framework.ui.container
 		{
 			HorizontalLayout(__layout).verticalAlign=value;
 		}
+		
+//		override protected function updateDisplayList():void
+//		{
+//			super.updateDisplayList();
+//			
+//		}
 	}
 }

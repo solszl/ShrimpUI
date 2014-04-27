@@ -77,7 +77,7 @@ package com.shrimp.framework.ui.controls
 		/**滚动到某个位置，单位是行*/
 		public function scrollTo(line:int):void
 		{
-			commitMeasure();
+			measure();
 			_textField.scrollV=line;
 		}
 	}

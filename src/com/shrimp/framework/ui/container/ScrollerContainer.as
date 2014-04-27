@@ -6,7 +6,7 @@ package com.shrimp.framework.ui.container
 	import com.shrimp.framework.ui.controls.core.Component;
 	import com.shrimp.framework.ui.layout.BaseLayout;
 	import com.shrimp.framework.ui.layout.ILayout;
-	
+
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
@@ -28,14 +28,14 @@ package com.shrimp.framework.ui.container
 		{
 			super.createChildren();
 			_content=new Container();
-			_content.setActualSize(250,250);
+			_content.setActualSize(250, 250);
 			_vScrollBar=new VScrollBar();
 			_vScrollBar.addEventListener(Event.CHANGE, onScrollBarChange);
 			_vScrollBar.target=this;
 			super.addChild(_vScrollBar);
 			_hScrollBar=new HScrollBar();
 			_hScrollBar.addEventListener(Event.CHANGE, onScrollBarChange);
-			_hScrollBar.target = this;
+			_hScrollBar.target=this;
 			super.addChild(_hScrollBar);
 			super.addChildAt(_content, 0);
 			onScrollBarChange();
@@ -61,14 +61,16 @@ package com.shrimp.framework.ui.container
 
 		override public function removeChildAt(index:int):DisplayObject
 		{
-			invalidateDisplayList();;
+			invalidateDisplayList();
+			;
 			return _content.removeChildAt(index);
 		}
 
 		override public function set width(value:Number):void
 		{
 			super.width=value;
-			invalidateProperties();;
+			invalidateProperties();
+			;
 		}
 
 		override public function set height(value:Number):void
@@ -81,12 +83,12 @@ package com.shrimp.framework.ui.container
 		{
 			return _content.numChildren;
 		}
-		
+
 		override protected function updateDisplayList():void
 		{
 			super.updateDisplayList();
-			_content.setActualSize(contentMeasureWidth,contentMeasureHeight);
-			
+			_content.setActualSize(contentMeasureWidth, contentMeasureHeight);
+
 			var vShow:Boolean=_vScrollBar && _content.height > _height;
 			var hShow:Boolean=_hScrollBar && _content.width > _width;
 			var cw:Number=vShow ? _width - _vScrollBar.width : _width;
@@ -134,7 +136,7 @@ package com.shrimp.framework.ui.container
 		/**滚动到某个位置*/
 		public function scrollTo(x:Number=0, y:Number=0):void
 		{
-			commitMeasure();
+			measure();
 			if (vScrollBar)
 			{
 				vScrollBar.value=y;
@@ -154,12 +156,12 @@ package com.shrimp.framework.ui.container
 		{
 			return _hScrollBar;
 		}
-		
+
 		public function get contentMeasureWidth():Number
 		{
 			return _content.measuredWidth;
 		}
-		
+
 		public function get contentMeasureHeight():Number
 		{
 			return _content.measuredHeight;

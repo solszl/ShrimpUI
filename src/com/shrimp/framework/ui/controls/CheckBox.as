@@ -1,13 +1,11 @@
 package com.shrimp.framework.ui.controls
 {
-	import com.shrimp.framework.event.MouseEvents;
 	import com.shrimp.framework.ui.controls.core.Component;
 	import com.shrimp.framework.ui.controls.core.Style;
 	
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
-	
-	import org.gestouch.events.GestureEvent;
+	import flash.events.MouseEvent;
 	
 	/**
 	 *	复选框 
@@ -41,10 +39,10 @@ package com.shrimp.framework.ui.controls
 			lbl.text=this._label;
 			lbl.html=true;
 			lbl.validateNow();
-			addEventListener(MouseEvents.SINGLE_CLICK,onClick);
+			addEventListener(MouseEvent.CLICK,onClick);
 		}
 		
-		protected function onClick(event:GestureEvent):void
+		protected function onClick(event:MouseEvent):void
 		{
 			selected=!selected;
 		}

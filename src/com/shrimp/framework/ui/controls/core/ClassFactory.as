@@ -11,7 +11,7 @@
 
 package com.shrimp.framework.ui.controls.core
 {
-	import mx.core.IFactory;
+	import com.shrimp.framework.interfaces.IFactory;
 
 /**
  *  A ClassFactory instance is a "factory object" which Flex uses

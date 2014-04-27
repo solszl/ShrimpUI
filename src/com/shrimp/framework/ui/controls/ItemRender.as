@@ -15,7 +15,7 @@ package com.shrimp.framework.ui.controls
 		
 		private var _data:*;
 		
-		[Bindable(event="dataChange")]
+//		[Bindable(event="dataChange")]
 		public function get data():*
 		{
 			return _data;

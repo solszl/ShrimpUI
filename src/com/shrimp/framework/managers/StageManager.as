@@ -19,7 +19,6 @@ package com.shrimp.framework.managers
 	 */	
 	public class StageManager extends EventDispatcher
 	{
-		[Bindable]
 		public static var stage:Stage;
 		/**
 		 * 整个游戏显示层次的根节点

@@ -3,9 +3,9 @@
 <component class="com.shrimp.framework.core.ApplicationBase"/>
 <component class="com.shrimp.framework.core.shrimp_internal"/>
 <component class="com.shrimp.framework.event.CloseEvent"/>
-<component class="com.shrimp.framework.event.MouseEvents"/>
 <component class="com.shrimp.framework.interfaces.IClear"/>
 <component class="com.shrimp.framework.interfaces.IDialog"/>
+<component class="com.shrimp.framework.interfaces.IFactory"/>
 <component class="com.shrimp.framework.interfaces.IGuide"/>
 <component class="com.shrimp.framework.interfaces.IItemRenderer"/>
 <component class="com.shrimp.framework.interfaces.IModule"/>
@@ -34,6 +34,7 @@
 <component class="com.shrimp.framework.managers.PanelManager"/>
 <component class="com.shrimp.framework.managers.PopUpManager"/>
 <component class="com.shrimp.framework.managers.SchedulerManager"/>
+<component class="com.shrimp.framework.managers.ScreenManager"/>
 <component class="com.shrimp.framework.managers.SoundManager"/>
 <component class="com.shrimp.framework.managers.StageManager"/>
 <component class="com.shrimp.framework.managers.ToolTipManager"/>
@@ -47,6 +48,7 @@
 <component class="com.shrimp.framework.ui.container.VBox"/>
 <component class="com.shrimp.framework.ui.controls.box.CheckBoxGroup"/>
 <component class="com.shrimp.framework.ui.controls.box.RadioButtonGroup"/>
+<component class="com.shrimp.framework.ui.controls.core.ClassFactory"/>
 <component class="com.shrimp.framework.ui.controls.core.Component"/>
 <component class="com.shrimp.framework.ui.controls.core.Style"/>
 <component class="com.shrimp.framework.ui.controls.panel.AbstractDialog"/>

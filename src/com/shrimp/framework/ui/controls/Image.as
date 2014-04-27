@@ -5,7 +5,7 @@ package com.shrimp.framework.ui.controls
 	import com.shrimp.framework.managers.AssetsManager;
 	import com.shrimp.framework.ui.controls.core.Component;
 	import com.shrimp.framework.utils.DisplayObjectUtils;
-	
+
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.DisplayObject;
@@ -39,7 +39,7 @@ package com.shrimp.framework.ui.controls
 		{
 			return _source;
 		}
-		
+
 		public function set source(value:Object):void
 		{
 			if (_source == value)
@@ -74,7 +74,7 @@ package com.shrimp.framework.ui.controls
 			var h:int;
 			if (value is Class)
 			{
-				
+
 				if (getQualifiedSuperclassName(value) == getQualifiedClassName(BitmapData))
 				{
 					bit=new value(1, 1);
@@ -110,7 +110,7 @@ package com.shrimp.framework.ui.controls
 		{
 			trace("url:", url, "  load failed");
 			graphics.beginFill(0xFF0000);
-			graphics.drawRect(0,0,4,4);
+			graphics.drawRect(0, 0, 4, 4);
 			graphics.endFill();
 		}
 		private var _scale9Rect:Rectangle;
@@ -129,9 +129,9 @@ package com.shrimp.framework.ui.controls
 
 			_usescale9Rect=value != null;
 
-			if(_img.bitmapData==null)
+			if (_img.bitmapData == null)
 				return;
-			
+
 			invalidateDisplayList();
 		}
 
@@ -143,29 +143,29 @@ package com.shrimp.framework.ui.controls
 
 		override protected function updateDisplayList():void
 		{
-			if (_img)
+			if (_img && _img.bitmapData)
 			{
 				super.updateDisplayList();
 
 				if (_usescale9Rect)
 				{
-					_img.bitmapData=DisplayObjectUtils.scale9Bmd(_img.bitmapData,scale9Rect,width,height);
+					_img.bitmapData=DisplayObjectUtils.scale9Bmd(_img.bitmapData, scale9Rect, width, height);
 				}
 				else
 				{
 					if (_img.width != _width)
-						_img.width=_width;
-					if (_img.height != height)
-						_img.height=height;
+						width=_img.width;
+					if (_img.height != _height)
+						height=_img.height;
 				}
 			}
 		}
-		
+
 		public function getSourceBmd():BitmapData
 		{
-			if(_img && _img.bitmapData)
+			if (_img && _img.bitmapData)
 				return _img.bitmapData;
-			
+
 			return null;
 		}
 	}

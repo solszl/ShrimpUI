@@ -1,9 +1,8 @@
 package com.shrimp.framework.ui.controls.core
 {
-	import com.shrimp.framework.event.MouseEvents;
 	import com.shrimp.framework.interfaces.ITooltip;
 	import com.shrimp.framework.managers.ComponentManager;
-
+	
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Shape;
@@ -11,18 +10,7 @@ package com.shrimp.framework.ui.controls.core
 	import flash.events.Event;
 	import flash.filters.DropShadowFilter;
 	import flash.utils.getQualifiedClassName;
-
-	import org.gestouch.events.GestureEvent;
-	import org.gestouch.gestures.Gesture;
-	import org.gestouch.gestures.LongPressGesture;
-	import org.gestouch.gestures.TapGesture;
-
-	/**	单击事件*/
-	[Event(name="singleClick", type="org.gestouch.events.GestureEvent")]
-	/**	双击事件*/
-	[Event(name="doubleClick", type="org.gestouch.events.GestureEvent")]
-	/**	长按事件*/
-	[Event(name="longPress", type="org.gestouch.events.GestureEvent")]
+	
 	/**
 	 *	组件基类
 	 * @author Sol
@@ -33,19 +21,24 @@ package com.shrimp.framework.ui.controls.core
 		private var _tooltip:Object;
 
 		protected var _listeners:Array;
+		
+		private var _initialized:Boolean=false;
+		/**	计算出来的高*/
+		private var _measuredHeight:Number;
+		/**	计算出来的宽*/
+		private var _measuredWidth:Number;
 
 		protected var _height:Number;
 		protected var _width:Number;
 
+		/**	明确的高*/
 		protected var _explicitHeight:Number=NaN;
+		/**	明确宽*/
 		protected var _explicitWidth:Number=NaN;
 
 		private var _horizontalCenter:Number=NaN;
 		private var _verticalCenter:Number=NaN;
 
-		private var _singleTap:TapGesture;
-		private var _doubleTap:TapGesture;
-		private var _longTap:LongPressGesture;
 		private var _objData:Object;
 
 		public function Component(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
@@ -71,8 +64,7 @@ package com.shrimp.framework.ui.controls.core
 
 		override public function get width():Number
 		{
-//			return !isNaN(_explicitWidth) ? _explicitWidth : _width;
-			if (!isNaN(_explicitWidth))
+			if (!isNaN(explicitWidth))
 			{
 				return _explicitWidth;
 			}
@@ -86,11 +78,19 @@ package com.shrimp.framework.ui.controls.core
 			}
 		}
 
+		override public function set width(value:Number):void
+		{
+			if (_width == value)
+				return;
+			_width=value;
+			_explicitWidth=value;
+			invalidateDisplayList();
+			dispatchEvent(new Event(Event.RESIZE));
+		}
 
 		public function get measuredWidth():Number
 		{
-			commitMeasure();
-			measure();
+//			measure();
 			var max:Number=0;
 			for (var i:int=numChildren - 1; i > -1; i--)
 			{
@@ -114,20 +114,9 @@ package com.shrimp.framework.ui.controls.core
 			}
 		}
 
-		override public function set width(value:Number):void
-		{
-			if (_width == value)
-				return;
-			_width=value;
-			_explicitWidth=value;
-			invalidateDisplayList();
-			dispatchEvent(new Event(Event.RESIZE));
-		}
-
 		override public function get height():Number
 		{
-//			return !isNaN(_explicitHeight) ? _explicitHeight : _height;
-			if (!isNaN(_explicitHeight))
+			if (!isNaN(explicitHeight))
 			{
 				return _explicitHeight;
 			}
@@ -140,11 +129,20 @@ package com.shrimp.framework.ui.controls.core
 				return _height;
 			}
 		}
+		
+		override public function set height(value:Number):void
+		{
+			if (_height == value)
+				return;
+			_height=value;
+			_explicitHeight=value;
+			invalidateDisplayList();
+			dispatchEvent(new Event(Event.RESIZE));
+		}
 
 		public function get measuredHeight():Number
 		{
-			commitMeasure();
-			measure();
+//			measure();
 			var max:Number=0;
 			for (var i:int=numChildren - 1; i > -1; i--)
 			{
@@ -167,24 +165,15 @@ package com.shrimp.framework.ui.controls.core
 			}
 		}
 
-		override public function set height(value:Number):void
-		{
-			if (_height == value)
-				return;
-			_height=value;
-			_explicitHeight=value;
-			invalidateDisplayList();
-			dispatchEvent(new Event(Event.RESIZE));
-		}
-
 		protected function init():void
 		{
+			//初始化监听器
 			_listeners=[];
 
 			createChildren();
 
-			invalidateDisplayList();
 			invalidateProperties();
+			invalidateDisplayList();
 			tabChildren=tabEnabled=false;
 			ComponentManager.addPreInitComponent(this);
 		}
@@ -244,10 +233,6 @@ package com.shrimp.framework.ui.controls.core
 			return this._tooltip;
 		}
 
-		private var _initialized:Boolean=false;
-		private var _measuredHeight:Number;
-		private var _measuredWidth:Number;
-
 		public function get initialized():Boolean
 		{
 			return _initialized;
@@ -266,12 +251,12 @@ package com.shrimp.framework.ui.controls.core
 
 		protected function creationCompleteHandler(e:Event):void
 		{
-//			trace("creationCompleteHandler");
+			trace("creationCompleteHandler");
 		}
 
 		public function validateNow():void
 		{
-//			trace("validateNow");
+			trace("validateNow");
 			validateProperties();
 			validateDisplayList();
 		}
@@ -280,7 +265,7 @@ package com.shrimp.framework.ui.controls.core
 		{
 			updateDisplayList();
 			ComponentManager.removePaddingDisplay(this);
-//			trace("validateDisplayList");
+			trace("validateDisplayList");
 		}
 
 
@@ -288,41 +273,35 @@ package com.shrimp.framework.ui.controls.core
 		{
 			commitProperties();
 			ComponentManager.removePaddingProperty(this)
-//			trace("validateProperties");
+			trace("validateProperties");
 		}
 
 		public function invalidateDisplayList():void
 		{
 			ComponentManager.addPaddingDisplay(this);
-//			trace("invalidateDisplayList");
+			trace("invalidateDisplayList");
 		}
 
 		public function invalidateProperties():void
 		{
 			ComponentManager.addPaddingProperty(this);
-//			trace("invalidateProperties");
+			trace("invalidateProperties");
 		}
 
 		protected function measure():void
 		{
-//			trace("measure");
+			trace("measure",this);
 		}
 
 		protected function updateDisplayList():void
 		{
 			measure();
-//			trace("updateDisplayList");
+			trace("updateDisplayList");
 		}
 
 		protected function commitProperties():void
 		{
-//			trace("commitProperties");
-		}
-
-		/**执行影响宽高的延迟函数*/
-		public function commitMeasure():void
-		{
-
+			trace("commitProperties");
 		}
 
 		public function get horizontalCenter():Number
@@ -369,8 +348,6 @@ package com.shrimp.framework.ui.controls.core
 		{
 			super.addEventListener(type, listener, useCapture, priority, useWeakReference);
 			this._listeners.push({type: type, listener: listener, useCapture: useCapture});
-			//手势构造器
-			gestureBuilder(type);
 		}
 
 		/**复写移除监听方法，将监听的事件移除，并且从listeners中移除*/
@@ -417,49 +394,6 @@ package com.shrimp.framework.ui.controls.core
 
 			}
 			return listeners;
-		}
-
-		private function gestureBuilder(type:String):void
-		{
-			switch (type)
-			{
-				case MouseEvents.SINGLE_CLICK:
-					_singleTap=new TapGesture(this);
-					_singleTap.addEventListener(GestureEvent.GESTURE_RECOGNIZED, onGesture);
-					break;
-				case MouseEvents.DOUBLE_CLICK:
-					_doubleTap=new TapGesture(this);
-					_doubleTap.maxTapDelay=300;
-					_doubleTap.numTapsRequired=2;
-					_singleTap.requireGestureToFail(_doubleTap);
-					_doubleTap.addEventListener(GestureEvent.GESTURE_RECOGNIZED, onGesture);
-					break;
-				case MouseEvents.LONG_PRESS:
-					_longTap=new LongPressGesture(this);
-					_longTap.addEventListener(GestureEvent.GESTURE_BEGAN, onGesture);
-					break;
-			}
-		}
-
-		private function onGesture(event:GestureEvent):void
-		{
-			var g:Gesture=event.target as Gesture;
-			if (g == _singleTap)
-			{
-				dispatchEvent(new GestureEvent(MouseEvents.SINGLE_CLICK, event.newState, event.oldState));
-			}
-			else if (g == _doubleTap)
-			{
-				dispatchEvent(new GestureEvent(MouseEvents.DOUBLE_CLICK, event.newState, event.oldState));
-			}
-			else if (g == _longTap)
-			{
-				dispatchEvent(new GestureEvent(MouseEvents.LONG_PRESS, event.newState, event.oldState));
-			}
-			else
-			{
-				trace("no such gesture");
-			}
 		}
 
 		protected function getShadow(dist:Number, knockout:Boolean=false):DropShadowFilter

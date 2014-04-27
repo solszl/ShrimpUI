@@ -72,12 +72,12 @@ package com.shrimp.framework.ui.container
 
 		override protected function updateDisplayList():void
 		{
+			super.updateDisplayList();
 			if (_layout == null || _layout == undefined)
 			{
 				_layout=new BaseLayout();
 			}
 			_layout.layout(this);
-			super.updateDisplayList();
 		}
 
 		public function set children(value:Vector.<DisplayObject>):void

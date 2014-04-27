@@ -43,6 +43,7 @@ package com.shrimp.framework.ui.controls
 			_format.color=Style.LABEL_COLOR;
 			_textField.selectable=false;
 			_textField.autoSize=TextFieldAutoSize.LEFT;
+			_textField.text=text;
 			addChild(_textField);
 		}
 
@@ -332,18 +333,15 @@ package com.shrimp.framework.ui.controls
 		override protected function commitProperties():void
 		{
 			super.commitProperties();
-			if (_textChanged)
-			{
-				_textChanged=false;
-				_textField.text=_text;
-				html?_textField.htmlText=_text:_textField.text=_text;
-				invalidateDisplayList();
-			}
-
 			if (_textPropertyChanged)
 			{
 				_textPropertyChanged=false;
-				_textField.defaultTextFormat=_format
+				_textField.defaultTextFormat=_format;
+			}
+			
+			if (_textChanged)
+			{
+				_textChanged=false;
 				html?_textField.htmlText=_text:_textField.text=_text;
 				invalidateDisplayList();
 			}
@@ -351,11 +349,11 @@ package com.shrimp.framework.ui.controls
 
 		override protected function measure():void
 		{
-			super.measure();
+			trace("measure",this,"htmlText:"+_textField.htmlText,"text:"+_textField.text);
 			measuredWidth=_textField.textWidth + 4 + _format.indent;
 			measuredHeight=Math.max(_textField.textHeight + 2, 15);
 		}
-
+		
 		override protected function updateDisplayList():void
 		{
 			super.updateDisplayList();
