@@ -34,7 +34,6 @@
 <component class="com.shrimp.framework.managers.PanelManager"/>
 <component class="com.shrimp.framework.managers.PopUpManager"/>
 <component class="com.shrimp.framework.managers.SchedulerManager"/>
-<component class="com.shrimp.framework.managers.ScreenManager"/>
 <component class="com.shrimp.framework.managers.SoundManager"/>
 <component class="com.shrimp.framework.managers.StageManager"/>
 <component class="com.shrimp.framework.managers.ToolTipManager"/>

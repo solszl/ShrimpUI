@@ -2,7 +2,7 @@ package com.shrimp.framework.ui.controls.core
 {
 	import com.shrimp.framework.interfaces.ITooltip;
 	import com.shrimp.framework.managers.ComponentManager;
-	
+
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Shape;
@@ -10,7 +10,7 @@ package com.shrimp.framework.ui.controls.core
 	import flash.events.Event;
 	import flash.filters.DropShadowFilter;
 	import flash.utils.getQualifiedClassName;
-	
+
 	/**
 	 *	组件基类
 	 * @author Sol
@@ -21,7 +21,7 @@ package com.shrimp.framework.ui.controls.core
 		private var _tooltip:Object;
 
 		protected var _listeners:Array;
-		
+
 		private var _initialized:Boolean=false;
 		/**	计算出来的高*/
 		private var _measuredHeight:Number;
@@ -44,12 +44,14 @@ package com.shrimp.framework.ui.controls.core
 		public function Component(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
 		{
 			super();
+
+			preInit();
 			move(xpos, ypos);
-			init();
 			if (parent != null)
 			{
 				parent.addChild(this);
 			}
+			init();
 		}
 
 		public function get explicitHeight():Number
@@ -64,7 +66,7 @@ package com.shrimp.framework.ui.controls.core
 
 		override public function get width():Number
 		{
-			if (!isNaN(explicitWidth))
+			/*if (!isNaN(explicitWidth))
 			{
 				return _explicitWidth;
 			}
@@ -75,6 +77,19 @@ package com.shrimp.framework.ui.controls.core
 			else
 			{
 				return _width;
+			}*/
+
+			if (!isNaN(_width))
+			{
+				return _width;
+			}
+			else if (!isNaN(explicitWidth))
+			{
+				return _explicitWidth;
+			}
+			else
+			{
+				return measuredWidth;
 			}
 		}
 
@@ -90,7 +105,7 @@ package com.shrimp.framework.ui.controls.core
 
 		public function get measuredWidth():Number
 		{
-//			measure();
+			commitProperties();
 			var max:Number=0;
 			for (var i:int=numChildren - 1; i > -1; i--)
 			{
@@ -98,6 +113,8 @@ package com.shrimp.framework.ui.controls.core
 				max=Math.max(comp.x + comp.width, max);
 			}
 			return max;
+
+//			return _measuredWidth;
 		}
 
 
@@ -116,7 +133,7 @@ package com.shrimp.framework.ui.controls.core
 
 		override public function get height():Number
 		{
-			if (!isNaN(explicitHeight))
+			/*if (!isNaN(explicitHeight))
 			{
 				return _explicitHeight;
 			}
@@ -127,9 +144,22 @@ package com.shrimp.framework.ui.controls.core
 			else
 			{
 				return _height;
+			}*/
+			
+			if (!isNaN(_height))
+			{
+				return _height;
+			}
+			else if (!isNaN(explicitHeight))
+			{
+				return explicitHeight;
+			}
+			else
+			{
+				return measuredHeight;
 			}
 		}
-		
+
 		override public function set height(value:Number):void
 		{
 			if (_height == value)
@@ -142,7 +172,7 @@ package com.shrimp.framework.ui.controls.core
 
 		public function get measuredHeight():Number
 		{
-//			measure();
+			commitProperties();
 			var max:Number=0;
 			for (var i:int=numChildren - 1; i > -1; i--)
 			{
@@ -165,10 +195,14 @@ package com.shrimp.framework.ui.controls.core
 			}
 		}
 
-		protected function init():void
+		protected function preInit():void
 		{
 			//初始化监听器
 			_listeners=[];
+		}
+
+		protected function init():void
+		{
 
 			createChildren();
 
@@ -251,12 +285,12 @@ package com.shrimp.framework.ui.controls.core
 
 		protected function creationCompleteHandler(e:Event):void
 		{
-			trace("creationCompleteHandler");
+			//trace("creationCompleteHandler");
 		}
 
 		public function validateNow():void
 		{
-			trace("validateNow");
+			//trace("validateNow");
 			validateProperties();
 			validateDisplayList();
 		}
@@ -265,7 +299,7 @@ package com.shrimp.framework.ui.controls.core
 		{
 			updateDisplayList();
 			ComponentManager.removePaddingDisplay(this);
-			trace("validateDisplayList");
+			//trace("validateDisplayList");
 		}
 
 
@@ -273,35 +307,35 @@ package com.shrimp.framework.ui.controls.core
 		{
 			commitProperties();
 			ComponentManager.removePaddingProperty(this)
-			trace("validateProperties");
+			//trace("validateProperties");
 		}
 
 		public function invalidateDisplayList():void
 		{
 			ComponentManager.addPaddingDisplay(this);
-			trace("invalidateDisplayList");
+			//trace("invalidateDisplayList");
 		}
 
 		public function invalidateProperties():void
 		{
 			ComponentManager.addPaddingProperty(this);
-			trace("invalidateProperties");
+			//trace("invalidateProperties");
 		}
 
 		protected function measure():void
 		{
-			trace("measure",this);
+			//trace("measure",this);
 		}
 
 		protected function updateDisplayList():void
 		{
 			measure();
-			trace("updateDisplayList");
+			//trace("updateDisplayList");
 		}
 
 		protected function commitProperties():void
 		{
-			trace("commitProperties");
+			//trace("commitProperties");
 		}
 
 		public function get horizontalCenter():Number

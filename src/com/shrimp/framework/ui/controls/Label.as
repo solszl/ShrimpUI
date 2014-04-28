@@ -17,8 +17,9 @@ package com.shrimp.framework.ui.controls
 	{
 		public function Label(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0, text:String="")
 		{
-			super(parent, xpos, ypos);
 			this.text=text;
+			super(parent, xpos, ypos);
+			stroke=Style.stroke;
 		}
 
 		protected var _textField:TextField;
@@ -87,7 +88,8 @@ package com.shrimp.framework.ui.controls
 				if (Boolean(_stroke))
 				{
 					var a:Array=StringUtil.split(value);
-					ColorUtil.addFilter(_textField,new GlowFilter(a[0], a[1], a[2], a[3], a[4], a[5]));
+//					ColorUtil.addFilter(_textField,new GlowFilter(uint(a[0]), a[1], a[2], a[3], a[4], a[5]));
+					_textField.filters = [new GlowFilter(uint(a[0]), a[1], a[2], a[3], a[4], a[5])];
 				}
 			}
 		}
@@ -349,7 +351,6 @@ package com.shrimp.framework.ui.controls
 
 		override protected function measure():void
 		{
-			trace("measure",this,"htmlText:"+_textField.htmlText,"text:"+_textField.text);
 			measuredWidth=_textField.textWidth + 4 + _format.indent;
 			measuredHeight=Math.max(_textField.textHeight + 2, 15);
 		}

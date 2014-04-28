@@ -60,6 +60,6 @@ package com.shrimp.framework.ui.controls.core
 		public static const stroke:String="0x292317,1,2,2,16,1"; //color,alpha,blurX,blurY,strength,quality
 
 		/**	文本字 颜色*/
-		public static const LABEL_COLOR:uint=0x000000;
+		public static const LABEL_COLOR:uint=0xFFFFFF;
 	}
 }

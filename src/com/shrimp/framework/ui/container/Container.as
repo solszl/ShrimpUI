@@ -28,27 +28,24 @@ package com.shrimp.framework.ui.container
 
 		override public function addChild(child:DisplayObject):DisplayObject
 		{
-			super.addChild(child);
 			child.addEventListener(Event.RESIZE, onResize, false, 0, true);
 			invalidateDisplayList();
 
-			return child;
+			return super.addChild(child);
 		}
 
 		override public function addChildAt(child:DisplayObject, index:int):DisplayObject
 		{
-			super.addChildAt(child, index);
 			child.addEventListener(Event.RESIZE, onResize, false, 0, true);
 			invalidateDisplayList();
 
-			return child;
+			return super.addChildAt(child, index);
 		}
 
 		override public function removeChild(child:DisplayObject):DisplayObject
 		{
-			super.removeChild(child);
 			child.removeEventListener(Event.RESIZE, onResize);
-			return child;
+			return super.removeChild(child);
 		}
 
 		protected function onResize(event:Event):void
