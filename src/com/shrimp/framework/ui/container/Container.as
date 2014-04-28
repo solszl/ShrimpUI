@@ -4,7 +4,7 @@ package com.shrimp.framework.ui.container
 	import com.shrimp.framework.ui.layout.AbstractLayout;
 	import com.shrimp.framework.ui.layout.BaseLayout;
 	import com.shrimp.framework.ui.layout.ILayout;
-
+	
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
@@ -110,6 +110,16 @@ package com.shrimp.framework.ui.container
 			{
 				removeChildAt(0);
 			}
+		}
+		
+		override public function get measuredHeight():Number
+		{
+			return layout.measureHeight;
+		}
+		
+		override public function get measuredWidth():Number
+		{
+			return layout.measureWidth;
 		}
 
 	}

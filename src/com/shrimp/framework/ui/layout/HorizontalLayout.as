@@ -156,15 +156,6 @@ package com.shrimp.framework.ui.layout
 			if (target)
 				(target as Component).invalidateDisplayList();
 		}
-
-		override public function get measureHeight():Number
-		{
-			return target.height;
-		}
 		
-		override public function get measureWidth():Number
-		{
-			return target.width;
-		}
 	}
 }
