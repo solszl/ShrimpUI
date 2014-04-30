@@ -49,5 +49,16 @@ package com.shrimp.framework.ui.container
 			HorizontalLayout(_layout).verticalAlign=value;
 		}
 		
+		override public function get measuredHeight():Number
+		{
+			validateDisplayList();
+			return HorizontalLayout(_layout).measureHeight;
+		}
+		
+		override public function get measuredWidth():Number
+		{
+			validateDisplayList();
+			return HorizontalLayout(_layout).measureWidth;
+		}
 	}
 }

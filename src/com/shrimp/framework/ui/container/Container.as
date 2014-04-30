@@ -112,15 +112,15 @@ package com.shrimp.framework.ui.container
 			}
 		}
 		
-		override public function get measuredHeight():Number
-		{
-			return layout.measureHeight;
-		}
-		
-		override public function get measuredWidth():Number
-		{
-			return layout.measureWidth;
-		}
+//		override public function get measuredHeight():Number
+//		{
+//			return layout.measureHeight;
+//		}
+//		
+//		override public function get measuredWidth():Number
+//		{
+//			return layout.measureWidth;
+//		}
 
 	}
 }
