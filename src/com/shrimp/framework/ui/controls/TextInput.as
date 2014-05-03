@@ -3,6 +3,7 @@ package com.shrimp.framework.ui.controls
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
 	import flash.events.TextEvent;
+	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFieldType;
 
 	/**
@@ -20,10 +21,10 @@ package com.shrimp.framework.ui.controls
 			setActualSize(128, 22);
 			selectable=true;
 			_textField.type=TextFieldType.INPUT;
-			_textField.autoSize="none";
+			_textField.autoSize=TextFieldAutoSize.NONE;
 			_textField.addEventListener(Event.CHANGE, onTextFieldChange);
 			_textField.addEventListener(TextEvent.TEXT_INPUT, onTextFieldTextInput);
-			color="0x000000";
+//			color="0x000000";
 		}
 
 		private function onTextFieldTextInput(e:TextEvent):void
