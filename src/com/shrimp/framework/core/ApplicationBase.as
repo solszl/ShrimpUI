@@ -9,12 +9,12 @@ package com.shrimp.framework.core
 	 */
 	public class ApplicationBase extends Sprite
 	{
-		public static var application:Sprite;
+		public static var app:Sprite;
 
 		public function ApplicationBase()
 		{
 			super();
-			application=this;
+			app=this;
 		}
 	}
 }

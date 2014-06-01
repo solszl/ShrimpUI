@@ -26,7 +26,7 @@ package com.shrimp.framework.managers.classes
 			if (_instance)
 				throw new Error("PopUpManagerImpl is not allowed instnacing!");
 
-			stage=ApplicationBase.application.stage;
+			stage=ApplicationBase.app.stage;
 		}
 
 		public static function getInstance():PopUpManagerImpl
@@ -71,7 +71,7 @@ package com.shrimp.framework.managers.classes
 
 			if (modalController.isModal() && modalList.length < 1)
 			{
-				ApplicationBase.application.mouseChildren=ApplicationBase.application.mouseEnabled=true;
+				ApplicationBase.app.mouseChildren=ApplicationBase.app.mouseEnabled=true;
 				modalController.removeModal();
 			}
 		}
@@ -95,8 +95,8 @@ package com.shrimp.framework.managers.classes
 				if (!modalList.contains(popUp))
 					modalList.addItem(popUp);
 
-				ApplicationBase.application.mouseChildren=ApplicationBase.application.mouseEnabled=false;
-				modalController.setTarget(ApplicationBase.application);
+				ApplicationBase.app.mouseChildren=ApplicationBase.app.mouseEnabled=false;
+				modalController.setTarget(ApplicationBase.app);
 				modalController.setModal();
 			}
 			return popUp;
