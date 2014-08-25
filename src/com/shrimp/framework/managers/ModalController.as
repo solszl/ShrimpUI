@@ -27,7 +27,7 @@ package com.shrimp.framework.managers
 			{
 				modalMode=true;
 				TweenNano.to(target,_duration/1000,{alpha:0.35});
-				ApplicationBase.application.stage.focus = null;	
+				ApplicationBase.app.stage.focus = null;	
 			}
 		}
 

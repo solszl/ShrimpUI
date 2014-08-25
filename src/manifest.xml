@@ -3,10 +3,8 @@
 <component class="com.shrimp.framework.core.ApplicationBase"/>
 <component class="com.shrimp.framework.core.shrimp_internal"/>
 <component class="com.shrimp.framework.event.CloseEvent"/>
-<component class="com.shrimp.framework.interfaces.IClear"/>
 <component class="com.shrimp.framework.interfaces.IDialog"/>
 <component class="com.shrimp.framework.interfaces.IFactory"/>
-<component class="com.shrimp.framework.interfaces.IGuide"/>
 <component class="com.shrimp.framework.interfaces.IItemRenderer"/>
 <component class="com.shrimp.framework.interfaces.IModule"/>
 <component class="com.shrimp.framework.interfaces.IPanel"/>
@@ -87,7 +85,6 @@
 <component class="com.shrimp.framework.utils.ClassUtils"/>
 <component class="com.shrimp.framework.utils.ColorUtil"/>
 <component class="com.shrimp.framework.utils.DisplayObjectUtils"/>
-<component class="com.shrimp.framework.utils.ImageSnapshot"/>
 <component class="com.shrimp.framework.utils.MathUtil"/>
 <component class="com.shrimp.framework.utils.StringUtil"/>
 <component class="com.shrimp.framework.utils.SWFProfiler"/>
