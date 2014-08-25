@@ -31,7 +31,7 @@ package com.shrimp.framework.managers
 			StageManager.root.blendMode=BlendMode.LAYER;
 			StageManager.root.tabChildren = false;
 			StageManager.stage=root.stage;
-			StageManager.stage.frameRate = 30;
+			StageManager.stage.frameRate = 60;
 			StageManager.stage.scaleMode=StageScaleMode.NO_SCALE;
 			StageManager.stage.align = StageAlign.TOP_LEFT;
 			StageManager.stage.quality="low";
