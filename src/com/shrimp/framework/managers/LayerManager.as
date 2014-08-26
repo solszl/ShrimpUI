@@ -1,5 +1,8 @@
 package com.shrimp.framework.managers
 {
+	import com.shrimp.framework.ui.container.Container;
+	import com.shrimp.framework.ui.controls.core.Component;
+	
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 
@@ -19,12 +22,12 @@ package com.shrimp.framework.managers
 	 */
 	public class LayerManager
 	{
-		public static const LAYER_TIP:String="tips_layer";
-		public static const LYAER_POPUP:String="popup_layer";
-		public static const LAYER_DIALOG:String="dialog_layer";
-		public static const LAYER_PANEL:String="panel_layer";
-		public static const LAYER_UI:String="ui_layer";
-		public static const LAYER_VIEW:String="view_layer";
+		public static const LAYER_TIP:String="layer_tips";
+		public static const LYAER_POPUP:String="layer_popup";
+		public static const LAYER_DIALOG:String="layer_dialog";
+		public static const LAYER_PANEL:String="layer_panel";
+		public static const LAYER_UI:String="layer_ui";
+		public static const LAYER_VIEW:String="layer_view";
 
 		private static var layerContent:Array=[];
 
@@ -72,7 +75,7 @@ package com.shrimp.framework.managers
 
 		private static function reSort():void
 		{
-			layerContent.sortOn("order", Array.NUMERIC | Array.DESCENDING);
+			layerContent = layerContent.sortOn("order", Array.NUMERIC);
 		}
 
 		public static function resize():void
@@ -82,6 +85,31 @@ package com.shrimp.framework.managers
 				(o["layer"] as DisplayObjectContainer).width=StageManager.getStageWidth();
 				(o["layer"] as DisplayObjectContainer).height=StageManager.getStageHeight();
 			}
+		}
+		
+		/**	懒汉构造*/
+		public static function lazyInit():void
+		{
+			var disobj:Component;
+			disobj = new Container();
+			StageManager.root.addChild(disobj);
+			layerContent.push({layer: disobj, order: 1, name: LAYER_VIEW});
+			disobj = new Container();
+			StageManager.root.addChild(disobj);
+			layerContent.push({layer: disobj, order: 2, name: LAYER_UI});
+			disobj = new Container();
+			StageManager.root.addChild(disobj);
+			layerContent.push({layer: disobj, order: 3, name: LAYER_PANEL});
+			disobj = new Container();
+			StageManager.root.addChild(disobj);
+			layerContent.push({layer: disobj, order: 4, name: LAYER_DIALOG});
+			disobj = new Container();
+			StageManager.root.addChild(disobj);
+			layerContent.push({layer: disobj, order: 5, name: LYAER_POPUP});
+			disobj = new Container();
+			StageManager.root.addChild(disobj);
+			layerContent.push({layer: disobj, order: 6, name: LAYER_TIP});
+			reSort();
 		}
 	}
 }

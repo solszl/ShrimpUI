@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
+  <includeClasses>
+    <classEntry path="com.shrimp.framework.ui.controls.Label"/>
+    <classEntry path="com.shrimp.framework.ui.controls.TextInput"/>
+    <classEntry path="com.shrimp.framework.net.socket.CommonSocket"/>
+    <classEntry path="com.shrimp.framework.interfaces.IPanel"/>
+    <classEntry path="com.shrimp.framework.ui.controls.panel.SimplePanel"/>
+    <classEntry path="com.shrimp.framework.ui.controls.panel.AbstractPanel"/>
+    <classEntry path="com.shrimp.framework.managers.LayerManager"/>
+    <classEntry path="com.shrimp.framework.ui.controls.panel.Panel"/>
+    <classEntry path="com.shrimp.framework.interfaces.IDialog"/>
+    <classEntry path="com.shrimp.framework.ui.controls.panel.AbstractDialog"/>
+    <classEntry path="com.shrimp.framework.managers.DialogManager"/>
+    <classEntry path="com.shrimp.framework.managers.Controller"/>
+    <classEntry path="com.shrimp.framework.managers.PanelManager"/>
+    <classEntry path="com.shrimp.framework.load.ResourceDomain"/>
+    <classEntry path="com.shrimp.framework.ui.controls.AutoBitmap"/>
+    <classEntry path="com.shrimp.framework.ui.controls.HScrollBar"/>
+    <classEntry path="com.shrimp.framework.ui.controls.TextArea"/>
+    <classEntry path="com.shrimp.framework.ui.container.ScrollerContainer"/>
+  </includeClasses>
+  <includeResources/>
+  <namespaceManifests>
+    <namespaceManifestEntry manifest="manifest.xml" namespace="library://ns.shrimpui.com/flex"/>
+  </namespaceManifests>
+</flexLibProperties>
