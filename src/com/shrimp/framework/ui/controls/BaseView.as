@@ -3,7 +3,7 @@ package com.shrimp.framework.ui.controls
 	import com.shrimp.framework.interfaces.IView;
 	import com.shrimp.framework.managers.StageManager;
 	import com.shrimp.framework.ui.container.Container;
-
+	
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
 

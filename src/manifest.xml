@@ -4,7 +4,6 @@
 <component class="com.shrimp.framework.core.shrimp_internal"/>
 <component class="com.shrimp.framework.event.CloseEvent"/>
 <component class="com.shrimp.framework.interfaces.IDialog"/>
-<component class="com.shrimp.framework.interfaces.IFactory"/>
 <component class="com.shrimp.framework.interfaces.IItemRenderer"/>
 <component class="com.shrimp.framework.interfaces.IModule"/>
 <component class="com.shrimp.framework.interfaces.IPanel"/>
@@ -46,7 +45,6 @@
 <component class="com.shrimp.framework.ui.container.VBox"/>
 <component class="com.shrimp.framework.ui.controls.box.CheckBoxGroup"/>
 <component class="com.shrimp.framework.ui.controls.box.RadioButtonGroup"/>
-<component class="com.shrimp.framework.ui.controls.core.ClassFactory"/>
 <component class="com.shrimp.framework.ui.controls.core.Component"/>
 <component class="com.shrimp.framework.ui.controls.core.Style"/>
 <component class="com.shrimp.framework.ui.controls.panel.AbstractDialog"/>

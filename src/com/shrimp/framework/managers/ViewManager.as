@@ -2,14 +2,14 @@ package com.shrimp.framework.managers
 {
 	import com.shrimp.framework.interfaces.IView;
 	import com.shrimp.framework.log.Logger;
-	
+
 	import flash.display.DisplayObject;
 	import flash.errors.IllegalOperationError;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.events.IEventDispatcher;
 	import flash.utils.Dictionary;
-	
+
 	import mx.messaging.AbstractConsumer;
 
 	/**
@@ -21,7 +21,7 @@ package com.shrimp.framework.managers
 	{
 		private static var _instance:ViewManager;
 
-		private static var viewMap:Dictionary;
+		private static var viewMap:Dictionary=new Dictionary();
 
 		/**	当前场景枚举值*/
 		private var _currentViewId:int;
@@ -46,22 +46,22 @@ package com.shrimp.framework.managers
 		{
 			super();
 
-			if(_instance)
+			if (_instance)
 			{
 				throw new Error("viewManager is singleton");
 			}
-			
+
 			if (!_instance)
 			{
 				_instance=this;
 			}
 
-			init();
+			initNecessary();
 		}
 
-		private function init():void
+		private function initNecessary():void
 		{
-			viewMap=new Dictionary();
+
 		}
 
 		/**	是否存在某个视图*/
@@ -124,36 +124,36 @@ package com.shrimp.framework.managers
 			{
 				view=viewMap[viewId] as IView;
 			}
-			
+
 			//将前一个场景ID 设置为当前场景ID 
-			_preViewId = _currentViewId;
+			_preViewId=_currentViewId;
 			//设置当前场景ID
-			_currentViewId = viewId;
-			
+			_currentViewId=viewId;
+
 			//当前场景离开
-			if(_currentView)
+			if (_currentView)
 			{
 				_currentView.onHide(hideComplete);
 			}
-			
+
 			PanelManager.getInstance().closeAllPanel();
-			
+
 			dispatchEvent(new Event("viewChanged"));
-			_currentView = view;
+			_currentView=view;
 			_currentView.onShow();
-			
+
 			LayerManager.getLayerByName(LayerManager.LAYER_VIEW).addChild(_currentView as DisplayObject);
 		}
-		
+
 		private function hideComplete():void
 		{
 			LayerManager.getLayerByName(LayerManager.LAYER_VIEW).removeChild(_currentView as DisplayObject);
 		}
-		
+
 		/**	回到前一个场景*/
 		public function backPreview():void
 		{
-			view = _preViewId;
+			view=_preViewId;
 		}
 	}
 }
