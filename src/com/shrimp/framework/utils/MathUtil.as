@@ -1,5 +1,7 @@
 package com.shrimp.framework.utils
 {
+	import flash.errors.IllegalOperationError;
+
 	/**
 	 *	数学工具类
 	 * @author Sol
@@ -56,6 +58,30 @@ package com.shrimp.framework.utils
 				i<<=1;
 			}
 			return i;
+		}
+		
+		/**
+		 *	判断给定数值是否在 给定区间内,包含两段数据[min,max]
+		 * @param value
+		 * @param min
+		 * @param max
+		 * @return
+		 *
+		 */
+		public static function isIn(value:Number, min:Number, max:Number):Boolean
+		{
+			if (min > max)
+			{
+				var msg:String="给定数据存在问题,min:" + min + ",max:" + max + ",value:" + value + '';
+				throw new IllegalOperationError(msg);
+			}
+			
+			if (min == max)
+			{
+				return value == min;
+			}
+			
+			return value >= min && value <= max;
 		}
 	}
 }

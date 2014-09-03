@@ -35,6 +35,7 @@
 <component class="com.shrimp.framework.managers.SoundManager"/>
 <component class="com.shrimp.framework.managers.StageManager"/>
 <component class="com.shrimp.framework.managers.ToolTipManager"/>
+<component class="com.shrimp.framework.managers.ViewManager"/>
 <component class="com.shrimp.framework.managers.WorldClockManager"/>
 <component class="com.shrimp.framework.net.socket.AbstractMessageReceiver"/>
 <component class="com.shrimp.framework.net.socket.CommonSocket"/>
@@ -54,6 +55,7 @@
 <component class="com.shrimp.framework.ui.controls.panel.SimplePanel"/>
 <component class="com.shrimp.framework.ui.controls.Alert"/>
 <component class="com.shrimp.framework.ui.controls.AutoBitmap"/>
+<component class="com.shrimp.framework.ui.controls.BaseView"/>
 <component class="com.shrimp.framework.ui.controls.Button"/>
 <component class="com.shrimp.framework.ui.controls.CheckBox"/>
 <component class="com.shrimp.framework.ui.controls.DataContainer"/>

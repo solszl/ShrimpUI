@@ -64,6 +64,12 @@ package com.shrimp.framework.managers
 			reSort();
 		}
 
+		/**
+		 *	根据层级名字返回容器 
+		 * @param name
+		 * @return 
+		 * 
+		 */		
 		public static function getLayerByName(name:String):DisplayObjectContainer
 		{
 			var result:DisplayObjectContainer;

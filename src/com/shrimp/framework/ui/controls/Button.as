@@ -295,8 +295,16 @@ package com.shrimp.framework.ui.controls
 		{
 			var skinW:Number=bg ? bg.width : 0;
 			var skinH:Number=bg ? bg.height : 0;
-			measuredWidth=Math.max(_label.width + 10, skinW);
-			measuredHeight=Math.max(_label.height, skinH);
+			if(_label.text=="")
+			{
+				measuredWidth=skinW;
+				measuredHeight=skinH;
+			}
+			else
+			{
+				measuredWidth=Math.max(_label.width + 10, skinW);
+				measuredHeight=Math.max(_label.height, skinH);
+			}
 		}
 
 
