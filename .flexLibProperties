@@ -19,6 +19,8 @@
     <classEntry path="com.shrimp.framework.ui.controls.HScrollBar"/>
     <classEntry path="com.shrimp.framework.ui.controls.TextArea"/>
     <classEntry path="com.shrimp.framework.ui.container.ScrollerContainer"/>
+    <classEntry path="com.shrimp.framework.ui.controls.BaseView"/>
+    <classEntry path="com.shrimp.framework.managers.ViewManager"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests>

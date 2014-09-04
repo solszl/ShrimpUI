@@ -55,7 +55,7 @@ package com.shrimp.framework.ui.controls.core
 		/**	默认字号*/
 		public static var fontSize:int=14;
 		/**	默认字体*/
-		public static var fontFamily:String="Microsoft Yahei";
+		public static var fontFamily:String="SimSun";
 		/**	描边颜色*/
 		public static const stroke:String="0x292317,1,2,2,16,1"; //color,alpha,blurX,blurY,strength,quality
 

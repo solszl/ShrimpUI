@@ -22,11 +22,17 @@ package com.shrimp.framework.managers
 	 */
 	public class LayerManager
 	{
+		/**	LAYER_TIP	提示:6*/
 		public static const LAYER_TIP:String="layer_tips";
+		/**	LYAER_POPUP	弹出层:5*/
 		public static const LYAER_POPUP:String="layer_popup";
+		/**	LAYER_DIALOG	对话框:4*/
 		public static const LAYER_DIALOG:String="layer_dialog";
+		/**	LAYER_PANEL	面板层:3*/
 		public static const LAYER_PANEL:String="layer_panel";
+		/**	LAYER_UI	UI层:2*/
 		public static const LAYER_UI:String="layer_ui";
+		/** LAYER_VIEW	场景层:1*/
 		public static const LAYER_VIEW:String="layer_view";
 
 		private static var layerContent:Array=[];
@@ -58,6 +64,12 @@ package com.shrimp.framework.managers
 			reSort();
 		}
 
+		/**
+		 *	根据层级名字返回容器 
+		 * @param name
+		 * @return 
+		 * 
+		 */		
 		public static function getLayerByName(name:String):DisplayObjectContainer
 		{
 			var result:DisplayObjectContainer;
@@ -87,7 +99,14 @@ package com.shrimp.framework.managers
 			}
 		}
 		
-		/**	懒汉构造*/
+		/**	懒汉构造 层次结构
+		 * <li>LAYER_VIEW:1</li>
+		 * <li>LAYER_UI:2</li>
+		 * <li>LAYER_PANEL:3</li>
+		 * <li>LAYER_DIALOG:4</li>
+		 * <li>LYAER_POPUP:5</li>
+		 * <li>LAYER_TIP:6</li>
+		 **/
 		public static function lazyInit():void
 		{
 			var disobj:Component;

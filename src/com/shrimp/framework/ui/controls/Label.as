@@ -4,7 +4,7 @@ package com.shrimp.framework.ui.controls
 	import com.shrimp.framework.ui.controls.core.Style;
 	import com.shrimp.framework.utils.ColorUtil;
 	import com.shrimp.framework.utils.StringUtil;
-	
+
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
 	import flash.filters.GlowFilter;
@@ -12,6 +12,7 @@ package com.shrimp.framework.ui.controls
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFieldType;
 	import flash.text.TextFormat;
+	import flash.system.Capabilities;
 
 	public class Label extends Component
 	{
@@ -89,7 +90,7 @@ package com.shrimp.framework.ui.controls
 				{
 					var a:Array=StringUtil.split(value);
 //					ColorUtil.addFilter(_textField,new GlowFilter(uint(a[0]), a[1], a[2], a[3], a[4], a[5]));
-					_textField.filters = [new GlowFilter(uint(a[0]), a[1], a[2], a[3], a[4], a[5])];
+					_textField.filters=[new GlowFilter(uint(a[0]), a[1], a[2], a[3], a[4], a[5])];
 				}
 			}
 		}
@@ -184,9 +185,17 @@ package com.shrimp.framework.ui.controls
 			return _format.font;
 		}
 
+		[Inspectable(category="General", enumeration="SimSun,Microsoft YaHei", defaultValue="SimSun")]
 		public function set font(value:String):void
 		{
-			_format.font=value;
+			if (flash.system.Capabilities.manufacturer == "Google Pepper" && _format.font == "Microsoft YaHei")
+			{
+				_format.font="微软雅黑";
+			}
+			else
+			{
+				_format.font=value;
+			}
 			_textPropertyChanged=true;
 			invalidateProperties();
 		}
@@ -327,11 +336,12 @@ package com.shrimp.framework.ui.controls
 			_textPropertyChanged=true;
 			invalidateProperties();
 		}
-		
+
 		public function get html():Boolean
 		{
 			return _html;
 		}
+
 		override protected function commitProperties():void
 		{
 			super.commitProperties();
@@ -340,11 +350,11 @@ package com.shrimp.framework.ui.controls
 				_textPropertyChanged=false;
 				_textField.defaultTextFormat=_format;
 			}
-			
+
 			if (_textChanged)
 			{
 				_textChanged=false;
-				html?_textField.htmlText=_text:_textField.text=_text;
+				html ? _textField.htmlText=_text : _textField.text=_text;
 				invalidateDisplayList();
 			}
 		}
@@ -354,7 +364,7 @@ package com.shrimp.framework.ui.controls
 			measuredWidth=_textField.textWidth + 4 + _format.indent;
 			measuredHeight=Math.max(_textField.textHeight + 2, 15);
 		}
-		
+
 		override protected function updateDisplayList():void
 		{
 			super.updateDisplayList();
