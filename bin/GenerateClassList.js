@@ -34,4 +34,8 @@ function scanFla(dirName, fldr){
 		}
 		fc.moveNext();
 	}
+	
 }
+
+alert=function(s){WScript.Echo(s)};
+alert("Done");
