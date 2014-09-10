@@ -33,17 +33,27 @@ package com.shrimp.extensions.clip.core.interfaceClass
 		function set pivot($value:Point):void;
 		
 		/**
-		 *帧率
-		 * 如果设置了frameDuration 设置此参数无效
+		 *刷新频率是否以stage.frameRate为准 默认false
+		 * @return 
+		 */		
+//		function get subjectStageFrame():Boolean;
+//		function set subjectStageFrame($value:Boolean):void;
+		
+		/**
+		 *帧率 如果不设置则默认设为 stage.frameRate;
+		 * 如果设置了frameDuration 设置此参数无效,且get frameRate() 通过计算后如果不能整除则向上取整
+		 * 如果subjectStageFrame = true 则 if(frameRate > stage.frameRate) {frameRate = stage.frameRate}
+		 * 如果subjectStageFrame = false 则 
 		 * @return 
 		 */		
 		function get frameRate():int;
 		function set frameRate($value:int):void;
 		
 		/**
-		 *每帧播放时间 (毫秒)
+		 *每帧播放时间 (毫秒) 如果不设置则默认设置为 Math.floor(1000/stage.frameRate);
 		 * 设置了此参数则 设置的frameRate无效
 		 * 设置此参数后如果想frameRate生效请设置frameDuration=-1
+		 * 如果subjectStageFrame = true 则 frameDuration <= stage.frameRate
 		 * @return 
 		 */		
 		function get frameDuration():int;
@@ -96,10 +106,9 @@ package com.shrimp.extensions.clip.core.interfaceClass
 		function get currentFrameData():IClipFrameData;
 		
 		/**
-		 *更新 
-		 * @param $elpased 更新事件间隔
+		 *更新 （外部最好不要调用）
 		 */		
-		function update($elpased:int):void;
+		function update():void;
 		
 		/**
 		 *播放 

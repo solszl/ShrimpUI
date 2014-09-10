@@ -5,10 +5,12 @@ package com.shrimp.extensions.clip
 	import com.shrimp.extensions.clip.core.interfaceClass.IClipFrameData;
 	import com.shrimp.extensions.clip.core.interfaceClass.IClipFrameDataList;
 	import com.shrimp.extensions.clip.core.interfaceClass.IClipRenderer;
+	import com.shrimp.extensions.clip.data.ClipFrameData;
 	import com.shrimp.framework.managers.WorldClockManager;
 	import com.shrimp.framework.ui.controls.core.Component;
 	
 	import flash.display.MovieClip;
+	import flash.events.Event;
 	import flash.geom.Point;
 	import flash.utils.getQualifiedClassName;
 	import flash.utils.getTimer;
@@ -81,10 +83,7 @@ package com.shrimp.extensions.clip
 			}
 		}
 		
-		/**默认的帧率*/
-		private static const DEFAULT_FRAME_RATE:int = 30;
-		
-		private var _frameRate:int = DEFAULT_FRAME_RATE;
+		private var _frameRate:int = -1;
 		public function get frameRate():int
 		{
 			return this._frameRate;
@@ -94,12 +93,13 @@ package com.shrimp.extensions.clip
 		{
 			if(this.explicitFrameDuration != -1 || this._frameRate == $value) return;
 			this._frameRate = $value;
-			this._frameDuration = Math.round(1000/_frameRate);
+			this._frameDuration = Math.floor(1000/_frameRate);
 		}
 		
 		/**frameDuration外部设置的 -1则认为没设置*/
 		private var explicitFrameDuration:int = -1;
-		private var _frameDuration:int = Math.round(1000/DEFAULT_FRAME_RATE);
+		
+		private var _frameDuration:int = -1;
 		public function get frameDuration():int
 		{
 			return this._frameDuration;
@@ -110,14 +110,15 @@ package com.shrimp.extensions.clip
 			if(this.explicitFrameDuration == $value) return;
 				
 			this.explicitFrameDuration = $value;
+			
 			if(this.explicitFrameDuration != -1)
 			{
 				this._frameDuration = this.explicitFrameDuration;
-				this._frameRate = Math.round(1000/this._frameDuration);
+				this._frameRate = Math.ceil(1000/this._frameDuration);
 			}
 			else
 			{
-				this._frameDuration = Math.round(1000/this.frameRate);
+				this._frameDuration = Math.floor(1000/this.frameRate);
 			}
 		}
 		
@@ -212,7 +213,7 @@ package com.shrimp.extensions.clip
 			return (source? source.totalFrame : 0)
 		}
 		
-		private var _currentFrameIndex:int = -1;
+		private var _currentFrameIndex:int = 0;
 		public function get currentFrameIndex():int
 		{
 			return this._currentFrameIndex;
@@ -225,18 +226,26 @@ package com.shrimp.extensions.clip
 		private function setCurrentFrameIndex($value:int):void
 		{
 			if(this._currentFrameIndex == $value) return;
-			this._currentFrameIndex = $value;
-			if(_currentFrameIndex >= totalFrame)
+			
+			var maxFrameIndex:int = Math.max(0, totalFrame - 1);
+			
+			if($value > maxFrameIndex)
 			{
-				if(repeat != -1)
-				{
-					repeat--;
-				}
+				_currentFrameIndex = $value % maxFrameIndex;
 				
-				if(repeat != 0)
+				if(repeat == -1) return;
+				
+				var passedLoop:int = Math.floor($value / maxFrameIndex);
+				repeat -= passedLoop;
+				
+				if(repeat < 0)
 				{
-					_currentFrameIndex = 0;
+					repeat = 0;
 				}
+			}
+			else
+			{
+				this._currentFrameIndex = $value;
 			}
 		}
 		
@@ -251,7 +260,7 @@ package com.shrimp.extensions.clip
 		{
 			if(_currentFrameData == $frameData) return;
 			
-			if(source && source.totalFrame > 0)
+			if(totalFrame > 0)
 			{
 				setCurrentFrameIndex(source.getFrameIndex($frameData));
 			}
@@ -273,79 +282,143 @@ package com.shrimp.extensions.clip
 			return this._currentFrameData;
 		}
 		
-		public function update($elpased:int):void
+		/**
+		 *一个getTimer()获取的毫秒值, 用于计算时间间隔
+		 */		
+		private var lastTimer:Number = 0;
+		
+		public function update():void
 		{
-			if(!isPlaying)
+			if(!isPlaying) return;
+			
+			/**此处设置当前帧数据*/
+			setCurrentFrameData(source.getFrameDataByIndex(currentFrameIndex));
+			
+			/**已经过去的帧数*/
+			var passedFrame:int;
+			
+			if(lastTimer > 0)
 			{
-				cleanTimer();
+				passedFrame = Math.floor((getTimer() - lastTimer)/ frameDuration);
+			}
+			
+			if(passedFrame <= 0)
+			{
 				return;
 			}
 			
-			/**用于跳帧*/
-			if(stopTimer > -1)
+			/**设置当前帧Index*/
+			setCurrentFrameIndex(currentFrameIndex + passedFrame);
+			
+			lastTimer = getTimer();
+		}
+		
+		/**
+		 *渲染 
+		 * @param $frameData
+		 */		
+		protected function onRender($frameData:IClipFrameData):void
+		{
+			if(clipRenderer)
 			{
-				var passedTimer:int = getTimer() - stopTimer;
-				stopTimer = -1;
-				if(passedTimer < frameDuration) return;
-				
-				/***正常到达的帧数(此帧数累加但是没有做循环)*/
-				var targetFrameIndex:int = currentFrameIndex + Math.floor(passedTimer/frameDuration);
-				if(repeat != -1)
+				if($frameData && $frameData.offset)
 				{
-					repeat = Math.max(0, repeat - Math.floor(targetFrameIndex/totalFrame));
+					clipRenderer.move($frameData.offset.x - pivot.x, $frameData.offset.y - pivot.y);
+				}
+				else if(pivot)
+				{
+					clipRenderer.move(-pivot.x, -pivot.y);
 				}
 				
-				if(repeat == 0)
-				{
-					stop();
-					return;
-				}
-				
-				_currentFrameIndex = targetFrameIndex % totalFrame;
+				clipRenderer.data = $frameData;
 			}
 			
-			nextFrame();
+			if(repeat == 0)
+			{
+				stop();
+			}
+		}
+		
+		/**注册timer @param $startNow 立即开始*/
+		protected function registTimer($startNow:Boolean):void
+		{
+			this._isPlaying = true;
+			WorldClockManager.getInstance().doLoop(frameDuration, update);
+			if($startNow)
+			{
+				update();	
+			}
+		}
+		
+		/**清除timer*/
+		protected function cleanTimer():void
+		{
+			if(!isPlaying) return;
+			this._isPlaying = false;
+			WorldClockManager.getInstance().clearTimer(update);
 		}
 		
 		public function play($frameName:Object=null):void
 		{
-			if(totalFrame < 1) return;
+			if(totalFrame < 1 || repeat == 0) 
+			{
+				trace("当前总帧数为0，或者repeat为0");
+				return;
+			}
+			
+			this._isPlaying = true;
+			this.lastTimer = getTimer();
+			
+			if(!stage)
+			{
+				this.addEventListener(Event.ADDED_TO_STAGE, function add2Stage($e:Event):void
+				{
+					$e.currentTarget.removeEventListener(Event.ADDED_TO_STAGE, add2Stage);
+					startPlay($frameName);
+				});
+			}
+			else
+			{
+				startPlay($frameName);
+			}
+		}
+		
+		/**
+		 *startPlay 
+		 * @param $e
+		 */		
+		private function startPlay($frameName:Object=null):void
+		{
+			if(frameRate == -1)
+			{
+				frameRate = stage.frameRate;
+			}
+			
+			if(!isPlaying) return;
 			
 			if(!clipRenderer)
 			{
 				clipRenderer = createClipRender();
 			}
 			
-			if($frameName)
+			if($frameName && totalFrame > 0)
 			{
-				setCurrentFrameData(source.getFrameData($frameName));
-			}
-			else
-			{
-				update(0);
+				var cData:IClipFrameData = source.getFrameData($frameName);
+				setCurrentFrameIndex(cData ? source.getFrameIndex(cData):0);
 			}
 			
-			registTimer();
+			registTimer($frameName == null);
 		}
-		
-		/**
-		 *停止时的timer（注意只有在stop参数为空才会设置此植用于跳帧）
-		 */		
-		private var stopTimer:int = -1;
 		
 		public function stop($frameName:Object=null):void
 		{
 			cleanTimer();
+			lastTimer = getTimer();
 			
-			if(!$frameName)
-			{
-				stopTimer = getTimer();
-			}
-			else if(totalFrame > 0)
+			if($frameName && totalFrame > 0)
 			{
 				setCurrentFrameData(source.getFrameData($frameName));	
 			}
-			
 		}
 		
 		public function pause():void
@@ -390,52 +463,6 @@ package com.shrimp.extensions.clip
 		protected function createClipRender():IClipRenderer
 		{
 			return ClipRendererManager.instance.getClipRendererInstance(getClipRenderRegistKey());
-		}
-		
-		/**
-		 *渲染 
-		 * @param $frameData
-		 */		
-		protected function onRender($frameData:IClipFrameData):void
-		{
-			if(clipRenderer && $frameData)
-			{
-				if($frameData.offset)
-				{
-					clipRenderer.move($frameData.offset.x - pivot.x, $frameData.offset.y - pivot.y);
-				}
-				else if(pivot)
-				{
-					clipRenderer.move(-pivot.x, -pivot.y);
-				}
-				
-				clipRenderer.data = $frameData;
-			}
-		}
-		
-		/**
-		 *下一帧 
-		 */		
-		protected function nextFrame():void
-		{
-			setCurrentFrameIndex(currentFrameIndex+1);
-			setCurrentFrameData(source.getFrameDataByIndex(currentFrameIndex));
-		}
-		
-		/**注册timer*/
-		protected function registTimer():void
-		{
-			if(isPlaying) return;
-			this._isPlaying = true;
-			WorldClockManager.getInstance().doLoop(frameDuration, update,[0]);
-		}
-		
-		/**清除timer*/
-		protected function cleanTimer():void
-		{
-			if(!isPlaying) return;
-			this._isPlaying = false;
-			WorldClockManager.getInstance().clearTimer(update);
 		}
 		
 		//================================

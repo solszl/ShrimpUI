@@ -35,13 +35,22 @@ package com.shrimp.extensions.clip.render
 			}
 			
 			_data = $value as ClipFrameBitpmapData;
-			if(_data && !_data.bitmapData)
+			
+			if(_data)
 			{
-				_data.addEventListener(ClipDataEvent.FRAME_DATA_IS_READY, frameDataIsReady);
+				if(_data.bitmapData)
+				{
+					this.bitmapData = _data.bitmapData;
+				}
+				else
+				{
+//					this.bitmapData = null;
+					_data.addEventListener(ClipDataEvent.FRAME_DATA_IS_READY, frameDataIsReady);
+				}
 			}
 			else
 			{
-				this.bitmapData = _data.bitmapData;
+				this.bitmapData = null;
 			}
 		}
 		
