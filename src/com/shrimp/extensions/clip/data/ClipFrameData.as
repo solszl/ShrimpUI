@@ -1,10 +1,10 @@
 package com.shrimp.extensions.clip.data
 {
-	import flash.events.EventDispatcher;
-	import flash.geom.Point;
-	
 	import com.shrimp.extensions.clip.core.LazyDispatcher;
 	import com.shrimp.extensions.clip.core.interfaceClass.IClipFrameData;
+	
+	import flash.events.EventDispatcher;
+	import flash.geom.Point;
 	
 	/**
 	 *clip帧数据基类 
@@ -30,15 +30,15 @@ package com.shrimp.extensions.clip.data
 			this._offset = $value;
 		}
 		
-		private var _frameName:Object;
-		public function get frameName():Object
+		private var _frameLabel:String;
+		public function get frameLabel():String
 		{
-			return this._frameName;
+			return this._frameLabel;
 		}
 		
-		public function set frameName($value:Object):void
+		public function set frameLabel($value:String):void
 		{
-			this._frameName = $value;
+			this._frameLabel = $value;
 		}
 		
 		public function destroy($cleanDispather:Boolean):void

@@ -1,12 +1,12 @@
 package com.shrimp.extensions.clip.render
 {
+	import com.shrimp.extensions.clip.core.interfaceClass.IClipRenderer;
+	import com.shrimp.extensions.clip.data.ClipFrameBitpmapData;
+	import com.shrimp.extensions.clip.event.ClipDataEvent;
+	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.DisplayObject;
-	
-	import com.shrimp.extensions.clip.data.ClipFrameBitpmapData;
-	import com.shrimp.extensions.clip.event.ClipDataEvent;
-	import com.shrimp.extensions.clip.core.interfaceClass.IClipRenderer;
 	
 	public class ClipRenderer extends Bitmap implements IClipRenderer
 	{
@@ -26,6 +26,7 @@ package com.shrimp.extensions.clip.render
 		{
 			if(_data == $value) return;
 			
+			
 			if(_data)
 			{
 				if(_data.hasEventListener(ClipDataEvent.FRAME_DATA_IS_READY))
@@ -36,21 +37,22 @@ package com.shrimp.extensions.clip.render
 			
 			_data = $value as ClipFrameBitpmapData;
 			
-			if(_data)
+			updatePos();
+			
+			if(!_data)
 			{
-				if(_data.bitmapData)
-				{
-					this.bitmapData = _data.bitmapData;
-				}
-				else
-				{
-//					this.bitmapData = null;
-					_data.addEventListener(ClipDataEvent.FRAME_DATA_IS_READY, frameDataIsReady);
-				}
+				this.bitmapData = null;
+				return;
+			}
+			
+			if(_data.bitmapData)
+			{
+				this.bitmapData = _data.bitmapData;
 			}
 			else
 			{
-				this.bitmapData = null;
+//				this.bitmapData = null;				//需不需要提前置空旧的bmd
+				_data.addEventListener(ClipDataEvent.FRAME_DATA_IS_READY, frameDataIsReady);
 			}
 		}
 		
@@ -59,10 +61,38 @@ package com.shrimp.extensions.clip.render
 			return this;
 		}
 		
+		/**
+		 *外部设置的x 
+		 */		
+		private var explicit_x:Number = 0;
+		
+		/**
+		 *外部设置的y
+		 */		
+		private var explicit_y:Number = 0;
+		
 		public function move($x:Number, $y:Number):void
 		{
-			this.x = $x;
-			this.y = $y;
+			explicit_x = $x;
+			explicit_y = $y;
+			updatePos();
+		}
+		
+		/**
+		 *更新位置 
+		 */		
+		private function updatePos():void
+		{
+			if(_data && _data.offset)
+			{
+				this.x = explicit_x + _data.offset.x;
+				this.y = explicit_y + _data.offset.y;
+			}
+			else
+			{
+				this.x = explicit_x;
+				this.y = explicit_y;
+			}
 		}
 		
 		public function destroy():void

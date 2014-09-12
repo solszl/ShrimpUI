@@ -9,45 +9,34 @@ package com.shrimp.extensions.clip.core.interfaceClass
 	 */	
 	public interface IClipFrameDataList extends IEventDispatcher
 	{
-		/**数据源 外部如果对Vector数据进行操作后请执行refresh()*/
-//		function get data():Vector.<IClipFrameData>;
-		function set data(value:Vector.<IClipFrameData>):void;
-		
 		/**
 		 *帧总数 
 		 */		
 		function get totalFrame():int;
 		
-		/**获取数据转换后的字典：格式_convertedData[frameName]=IClipFrameData)*/
-//		function get convertedData():Dictionary;
+		/**数据源 外部如果对Vector数据进行操作后请执行refresh()*/
+		function set data(value:Vector.<IClipFrameData>):void;
 		
 		/**
-		 *获取指定名称的IClipFrameData 
-		 * @param $frameName
+		 *获取IClipFrameData 
+		 * @param $frame 帧标签(String) 或者 帧索引(int)
 		 * @return 
 		 */		
-		function getFrameData($frameName:Object):IClipFrameData;
+		function getFrameData($frame:Object):IClipFrameData;
 		
 		/**
-		 *获取指定索引的 IClipFrameData
-		 * @param $index
+		 *某帧的索引（如果不存在则返回-1）
+		 * @param $frame 帧标签(String) 或者 帧索引(int) 或者帧数据(IClipFrameData)
 		 * @return 
 		 */		
-		function getFrameDataByIndex($index:int):IClipFrameData;
+		function getFrameIndex($frame:Object):int;
 		
 		/**
 		 *是否存在某帧 
-		 * @param $frameName
+		 * @param $frame 帧标签(String) 或者 帧索引(int) 或者帧数据(IClipFrameData)
 		 * @return 
 		 */		
-		function hasFrameData($frameName:Object):Boolean;
-		
-		/**
-		 *获取某帧的指定索引 
-		 * @param $frameData
-		 * @return 
-		 */		
-		function getFrameIndex($frameData:IClipFrameData):int;
+		function hasFrameData($frame:Object):Boolean;
 		
 		/**刷新会重新convertedData()并且派发ClipDataEvent.FRAME_DATA_LIST_REFRESH事件*/
 		function refresh():void;
