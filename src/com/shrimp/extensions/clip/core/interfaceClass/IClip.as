@@ -33,17 +33,8 @@ package com.shrimp.extensions.clip.core.interfaceClass
 		function set pivot($value:Point):void;
 		
 		/**
-		 *刷新频率是否以stage.frameRate为准 默认false
-		 * @return 
-		 */		
-//		function get subjectStageFrame():Boolean;
-//		function set subjectStageFrame($value:Boolean):void;
-		
-		/**
 		 *帧率 如果不设置则默认设为 stage.frameRate;
 		 * 如果设置了frameDuration 设置此参数无效,且get frameRate() 通过计算后如果不能整除则向上取整
-		 * 如果subjectStageFrame = true 则 if(frameRate > stage.frameRate) {frameRate = stage.frameRate}
-		 * 如果subjectStageFrame = false 则 
 		 * @return 
 		 */		
 		function get frameRate():int;
@@ -53,7 +44,6 @@ package com.shrimp.extensions.clip.core.interfaceClass
 		 *每帧播放时间 (毫秒) 如果不设置则默认设置为 Math.floor(1000/stage.frameRate);
 		 * 设置了此参数则 设置的frameRate无效
 		 * 设置此参数后如果想frameRate生效请设置frameDuration=-1
-		 * 如果subjectStageFrame = true 则 frameDuration <= stage.frameRate
 		 * @return 
 		 */		
 		function get frameDuration():int;
@@ -69,10 +59,18 @@ package com.shrimp.extensions.clip.core.interfaceClass
 		/**
 		 *循环播放次数 -1无线重复 
 		 * 默认值= -1
+		 * 
+		 * 当设置repeat = 0 时会调用stop(); 停止播放
 		 * @return 
 		 */		
 		function get repeat():int;
 		function set repeat($value:int):void;
+		
+		/**
+		 *已经循环的次数 
+		 * @return 
+		 */		
+		function get repeatCount():int;
 		
 		/**
 		 *数据源 
@@ -88,42 +86,41 @@ package com.shrimp.extensions.clip.core.interfaceClass
 		function get totalFrame():int;
 		
 		/**
-		 *当前帧的名称
+		 *当前帧标签
 		 * @return 
 		 */		
-		function get currentFrameName():Object;
+		function get frameLabel():String;
 		
 		/**
 		 *当前帧索引 
 		 * @return 
 		 */		
-		function get currentFrameIndex():int;
+		function get frameIndex():int;
 		
 		/**
-		 *当前帧的 ClipFrameData
-		 * @return 
+		 *当前帧的数据
 		 */		
-		function get currentFrameData():IClipFrameData;
+		function get frameData():IClipFrameData;
 		
 		/**
-		 *更新 （外部最好不要调用）
+		 *每帧调用的方法
 		 */		
-		function update():void;
+		function frameHandler():void;
 		
 		/**
 		 *播放 
-		 * @param $frameName 从$frameName这一帧开始 
-		 * 如果为null 则根据时间间隔跳帧后继续播放
+		 * @param $frame 将要播放的起始帧 (类型【String 或 int】)
+		 * 							如果为null 则之前的时间间隔跳帧后继续播放
 		 */		
-		function play($frameName:Object = null):void;
+		function play($frame:Object = null):void;
 		
 		/**
 		 *停止 
-		 * @param $frameName 停止到某帧 
-		 * 如果$frameName不为空则停留在指定帧
-		 * 如果$frameName为空则停留在当前帧
+		 * @param $frame 	将要停止到的帧 (类型【String 或 int】)
+		 * 								如果为null 则停留在$frame帧
+		 * 								如果不为null 则停留在当前显示的帧
 		 */		
-		function stop($frameName:Object = null):void;
+		function stop($frame:Object = null):void;
 		
 		/**
 		 *暂停 

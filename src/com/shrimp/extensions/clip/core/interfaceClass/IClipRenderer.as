@@ -23,7 +23,7 @@ package com.shrimp.extensions.clip.core.interfaceClass
 		function get self():DisplayObject;
 		
 		/**
-		 *设置位置(偏移量 - 注册点)
+		 *相对于IClip的位置（根据IClip的注册点而设置）
 		 * @param $x
 		 * @param $y
 		 */		

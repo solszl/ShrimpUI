@@ -1,13 +1,13 @@
 package com.shrimp.extensions.clip.data
 {
-	import flash.events.Event;
-	import flash.events.EventDispatcher;
-	import flash.utils.Dictionary;
-	
 	import com.shrimp.extensions.clip.core.LazyDispatcher;
 	import com.shrimp.extensions.clip.core.interfaceClass.IClipFrameData;
 	import com.shrimp.extensions.clip.core.interfaceClass.IClipFrameDataList;
 	import com.shrimp.extensions.clip.event.ClipDataEvent;
+	
+	import flash.events.Event;
+	import flash.events.EventDispatcher;
+	import flash.utils.Dictionary;
 	
 	public class ClipFrameDataList extends LazyDispatcher implements IClipFrameDataList
 	{
@@ -16,18 +16,11 @@ package com.shrimp.extensions.clip.data
 			super($dispatcher);
 		}
 		
-		protected var _data:Vector.<IClipFrameData>;
-		public function set data(value:Vector.<IClipFrameData>):void
-		{
-			if(_data == value) return;
-			this._data = value;
-			convertVector2Dic(this._data);
-		}
-		
-		public function get data():Vector.<IClipFrameData>
-		{
-			return _data;
-		}
+		/**
+		 *帧标签字典
+		 * 格式：frameLabelDic [标签] = 索引
+		 */		
+		private var frameLabelDic:Dictionary;
 		
 		protected var _totalFrame:int;
 		public function get totalFrame():int
@@ -35,64 +28,96 @@ package com.shrimp.extensions.clip.data
 			return this._totalFrame;
 		}
 		
-		public function refresh():void
+		private var _data:Vector.<IClipFrameData>;
+		public function set data(value:Vector.<IClipFrameData>):void
 		{
-			convertVector2Dic(this._data);
-			dispatchEvent(new ClipDataEvent(ClipDataEvent.FRAME_DATA_LIST_REFRESH));
+			if(_data == value) return;
+			this._data = value;
+			_totalFrame = 0;
+			setData(_data);
 		}
-		
-		protected var _convertedData:Dictionary;
-		
-//		public function get convertedData():Dictionary
-//		{
-//			return _convertedData;
-//		}
 		
 		/**
-		 *转化数据 
-		 * @param $vector
+		 *获取data数据 
+		 * @return 
 		 */		
-		private function convertVector2Dic($vector:Vector.<IClipFrameData>):void
+		protected function getData():Vector.<IClipFrameData>
 		{
-			if(!$vector) return;
-			_convertedData = new Dictionary();
-			_totalFrame = 0;
-			
-			for each(var frameData:IClipFrameData in $vector)
+			if(!_data)
 			{
-				if(frameData.frameName == null)
+				_data = new Vector.<IClipFrameData>();
+			}
+			return _data;
+		}
+		
+		/**
+		 *设置数据 
+		 * @param $data
+		 * @return 
+		 */		
+		private function setData($data:Vector.<IClipFrameData>):void
+		{
+			if(!$data) return;
+			
+			_totalFrame = $data.length;
+			frameLabelDic = new Dictionary();
+			
+			var frameData:IClipFrameData;
+			for(var i:int = 0; i < _totalFrame; i++)
+			{
+				frameData = $data[i];
+				if(!frameData.frameLabel)				
 				{
-					frameData.frameName = _totalFrame;
+					frameData.frameLabel = i + "";
 				}
 				
-				_convertedData[frameData.frameName] = frameData;
-				
-				_totalFrame++;
+				frameLabelDic[frameData.frameLabel] = i;
 			}
 		}
 		
-		public function getFrameData($frameName:Object):IClipFrameData
+		public function getFrameData($frame:Object):IClipFrameData
 		{
-			if(_convertedData && $frameName in _convertedData)
+			var index:int = getFrameIndex($frame);
+			return (index > -1 ? _data[index] : null);
+		}
+		
+		public function getFrameIndex($frame:Object):int
+		{
+			if(totalFrame < 1 || !$frame) return -1;
+			
+			var index:int = -1;
+			if($frame is int)
 			{
-				return (_convertedData[$frameName] as IClipFrameData);
+				index = int($frame);
+				if(index < 0 || index >= totalFrame)
+				{
+					index = -1;
+				}
 			}
-			return null;
+			else if($frame is String)
+			{
+				if($frame in frameLabelDic)
+				{
+					index = frameLabelDic[index];
+				}
+			}
+			else if($frame is IClipFrameData)
+			{
+				index = _data.indexOf(IClipFrameData($frame));
+			}
+			
+			return index;
 		}
 		
-		public function getFrameDataByIndex($index:int):IClipFrameData
+		public function hasFrameData($frame:Object):Boolean
 		{
-			return ((data && $index > -1 && $index < totalFrame)?data[$index] : null);	
+			return (getFrameIndex($frame) != -1);
 		}
 		
-		public function hasFrameData($frameName:Object):Boolean
+		public function refresh():void
 		{
-			return (_convertedData && $frameName in _convertedData);
-		}
-		
-		public function getFrameIndex($frameData:IClipFrameData):int
-		{
-			return (data?data.indexOf($frameData) : -1);
+			setData(_data);
+			dispatchEvent(new ClipDataEvent(ClipDataEvent.FRAME_DATA_LIST_REFRESH));
 		}
 		
 		public function destroy():void
@@ -102,7 +127,8 @@ package com.shrimp.extensions.clip.data
 				_data.length = 0;
 				_data = null;
 			}
-			_convertedData = null;
+			
+			frameLabelDic = null;
 			
 			this._dispatcher = null;
 		}

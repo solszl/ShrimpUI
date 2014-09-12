@@ -16,10 +16,10 @@ package com.shrimp.extensions.clip.core.interfaceClass
 		function set offset($value:Point):void;
 		
 		/**
-		 *帧的名称, 如果外部不进行设置则自动设为int型并且同一个集合中的frameName依次 frameName++
+		 *帧标签, 如果没有手动设置 则会设置为自身索引
 		 */		
-		function get frameName():Object;
-		function set frameName($value:Object):void;
+		function get frameLabel():String;
+		function set frameLabel($value:String):void;
 		
 		/**
 		 *销毁
