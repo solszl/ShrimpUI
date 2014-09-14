@@ -1,5 +1,25 @@
 <?xml version="1.0"?>
 <componentPackage>
+<component class="com.shrimp.extensions.clip.core.interfaceClass.IClip"/>
+<component class="com.shrimp.extensions.clip.core.interfaceClass.IClipDataParser"/>
+<component class="com.shrimp.extensions.clip.core.interfaceClass.IClipFrameData"/>
+<component class="com.shrimp.extensions.clip.core.interfaceClass.IClipFrameDataList"/>
+<component class="com.shrimp.extensions.clip.core.interfaceClass.IClipRenderer"/>
+<component class="com.shrimp.extensions.clip.core.interfaceClass.IDynamicClip"/>
+<component class="com.shrimp.extensions.clip.core.AbsClip"/>
+<component class="com.shrimp.extensions.clip.core.ClipFactory"/>
+<component class="com.shrimp.extensions.clip.core.ClipRendererManager"/>
+<component class="com.shrimp.extensions.clip.core.LazyDispatcher"/>
+<component class="com.shrimp.extensions.clip.core.RecycleManger"/>
+<component class="com.shrimp.extensions.clip.data.ClipDynamicDataList"/>
+<component class="com.shrimp.extensions.clip.data.ClipFrameBitpmapData"/>
+<component class="com.shrimp.extensions.clip.data.ClipFrameData"/>
+<component class="com.shrimp.extensions.clip.data.ClipFrameDataList"/>
+<component class="com.shrimp.extensions.clip.event.ClipDataEvent"/>
+<component class="com.shrimp.extensions.clip.event.ClipEvent"/>
+<component class="com.shrimp.extensions.clip.render.ClipRenderer"/>
+<component class="com.shrimp.extensions.clip.Clip"/>
+<component class="com.shrimp.extensions.clip.CommonClip"/>
 <component class="com.shrimp.framework.core.ApplicationBase"/>
 <component class="com.shrimp.framework.core.shrimp_internal"/>
 <component class="com.shrimp.framework.event.CloseEvent"/>
