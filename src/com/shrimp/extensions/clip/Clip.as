@@ -39,17 +39,32 @@ package com.shrimp.extensions.clip
 		 */		
 		private var startFrameIndex:int;
 		
+		/**
+		 *play()方法被调用过 
+		 */		
+		private var playCalled:Boolean = false;
+		
+		/**
+		 *播放 
+		 * @param $frame 将要播放的起始帧 (类型【String 或 int】
+		 * 							如果是int型: if($frame>totalFrame-1) $frame = $frame%(totalFrame)
+		 * 									this._frameIndex = $frame%(totalFrame - 1)
+		 * 							如果为null 则从当前帧开始播放
+		 */		
 		override public function play($frame:Object=null):void
 		{
+			playCalled = true;
+			
 			if(isPlaying) return;
 			
-			if(totalFrame < 1 || repeat == 0) 
+			if(totalFrame < 1 || repeat == repeatCount) 
 			{
-				trace("当前总帧数为0，或者repeat为0");
+				trace("当前总帧数为0，或者已经全部播放完毕");
+				playCalled = false;
 				return;
 			}
 			
-			startFrameIndex = Math.max(source.getFrameIndex($frame), 0);
+			var startFrameIndex:int = getIndexByFrameParam($frame);
 			this.passedTimer = 0;
 			
 			if(!enablePlay)
@@ -64,6 +79,12 @@ package com.shrimp.extensions.clip
 			{
 				enablePlayHandler();
 			}
+		}
+		
+		override public function stop($frame:Object=null):void
+		{
+			playCalled = false;
+			super.stop($frame);
 		}
 		
 		/**
@@ -91,16 +112,6 @@ package com.shrimp.extensions.clip
 				startFrameIndex += passedFrame;
 			}
 			
-			if(!clipRenderer)
-			{
-				clipRenderer = createClipRender();
-			}
-			
-			if(!clipRenderer)
-			{
-				throw new Error("无法创建clipRenderer，请通过set clipRenderer设置 或者 检查createClipRender方法");
-			}
-			
 			super.play(startFrameIndex);
 			startFrameIndex = 0;
 			
@@ -113,6 +124,8 @@ package com.shrimp.extensions.clip
 		 */		
 		private function unEnablePlayHandler():void
 		{
+			startFrameIndex = frameIndex;
+			
 			if(isPlaying)
 			{
 				this.passedTimer = getTimer();
@@ -139,7 +152,7 @@ package com.shrimp.extensions.clip
 		 */		
 		final protected function invalidateEnablePlay($oldEnablePlay:Boolean):void
 		{
-			if(enablePlayDirty || $oldEnablePlay == enablePlay) return;
+			if(enablePlayDirty || $oldEnablePlay == enablePlay || !playCalled) return;
 			enablePlayDirty = true;
 			invalidateProperties();
 		}
@@ -172,20 +185,15 @@ package com.shrimp.extensions.clip
 		
 		//=======================================================================
 		
-		override protected function commitRenderData($frameData:IClipFrameData):void
+//		override protected function commitRenderData($frameData:IClipFrameData):Boolean
+//		{
+//			return super.commitRenderData($frameData); 
+//		}
+		
+		override protected function enterFrame():void
 		{
-			if(!isPlaying)
-			{
-				if(autoPlay)
-				{
-					play();
-				}
-			}
-			else
-			{
-				super.commitRenderData($frameData);
-				onDispatcher(ClipEvent.FRAME);
-			}
+			super.enterFrame();
+			onDispatcher(ClipEvent.FRAME);
 		}
 		
 		override protected function repeatOnce():void
@@ -196,8 +204,8 @@ package com.shrimp.extensions.clip
 		
 		override protected function repeatComplete():void
 		{
-			super.repeatComplete();
 			onDispatcher(ClipEvent.COMPLETE);
+			super.repeatComplete();
 		}
 		
 		override protected function sourceChanged($oldSource:IClipFrameDataList, $newSource:IClipFrameDataList):void
@@ -227,19 +235,26 @@ package com.shrimp.extensions.clip
 		 * （推荐ClipRendererManager注册后重写getClipRenderRegistKey，因为ClipRendererManager.getClipRendererInstance使用了对象池）
 		 * @return 
 		 */		
-		override protected function createClipRender():IClipRenderer
+		override protected function createDefaultClipRender():IClipRenderer
 		{
-			return ClipRendererManager.instance.getClipRendererInstance(getClipRenderRegistKey());
+			if(!clipRenderer)
+			{
+				clipRenderer = ClipRendererManager.instance.getClipRendererInstance(getClipRenderRegistKey());
+			}
+			return clipRenderer;
 		}
 		
 		override protected function commitProperties():void
 		{
-			super.commitProperties();
 			if(enablePlayDirty)
 			{
-				enablePlay?enablePlayHandler():unEnablePlayHandler();
+				if(playCalled)
+				{
+					enablePlay?enablePlayHandler():unEnablePlayHandler();
+				}
 				enablePlayDirty = false;
 			}
+			super.commitProperties();
 		}
 		
 		//===================================================================

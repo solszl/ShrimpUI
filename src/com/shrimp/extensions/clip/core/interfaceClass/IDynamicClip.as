@@ -8,23 +8,33 @@ package com.shrimp.extensions.clip.core.interfaceClass
 	 */	
 	public interface IDynamicClip extends IEventDispatcher
 	{
-		/**
-		 *新增ClipFrameData数据
-		 * @param $additionList		
-		 *		一个被删除的ClipFrameData列表 
-		 * 		如果之前存在$frameData.frameName对应的数据，覆盖之
-		 * 
-		 * 派发：ClipDataEvent.FRAME_DATA_LIS_ADDED
-		 * @return 新增的ClipFrameData列表
-		 */		
-		function addFrameDatas($additionList:Vector.<IClipFrameData>):Vector.<IClipFrameData>;
 		
 		/**
-		 *根据被删除的frameName列表删除ClipFrameData
-		 * @param $deductionList		Vector集合存储的是被删除的ClipFrameData的frameName
-		 * 派发：ClipDataEvent.FRAME_DATA_LIST_REMOVED
+		 *新增帧
+		 * @param $frameData			新增的帧数据
+		 * @param $index					添加到的索引位置 	-1添加到末尾
+		 */		
+		function addFrameAt($frameData:IClipFrameData, $index:int = -1):IClipFrameData;
+		
+		/**
+		 *移除帧 
+		 * @param $index				将要移除的帧索引
 		 * @return 
 		 */		
-		function removeFrameDatas($deductionList:Vector.<IClipFrameData>):Vector.<IClipFrameData>;
+		function removeFrameAt($index:int):IClipFrameData;
+		
+		/**
+		 *移除帧 
+		 * @param $frameData		将要移除的帧数据
+		 * @return 
+		 */		
+		function removeFrame($frameData:IClipFrameData):IClipFrameData;
+		
+		/**
+		 *替换指定位置的帧 
+		 * @param $frameData		替换后的帧数据（如果本来就存在于数据源中则与$index索引的数据互换位置）
+		 * @param $index				索引位置
+		 */		
+		function replaceFrameAt($frameData:IClipFrameData, $index:int):void;
 	}
 }
