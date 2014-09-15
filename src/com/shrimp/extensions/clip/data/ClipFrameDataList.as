@@ -1,6 +1,8 @@
 package com.shrimp.extensions.clip.data
 {
+	
 	import com.shrimp.extensions.clip.core.LazyDispatcher;
+	import com.shrimp.extensions.clip.core.clip_internal;
 	import com.shrimp.extensions.clip.core.interfaceClass.IClipFrameData;
 	import com.shrimp.extensions.clip.core.interfaceClass.IClipFrameDataList;
 	import com.shrimp.extensions.clip.event.ClipDataEvent;
@@ -8,6 +10,8 @@ package com.shrimp.extensions.clip.data
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.utils.Dictionary;
+	
+	use namespace clip_internal;
 	
 	public class ClipFrameDataList extends LazyDispatcher implements IClipFrameDataList
 	{
@@ -20,34 +24,20 @@ package com.shrimp.extensions.clip.data
 		 *帧标签字典
 		 * 格式：frameLabelDic [标签] = 索引
 		 */		
-		private var frameLabelDic:Dictionary;
+		clip_internal var frameLabelDic:Dictionary;
 		
-		protected var _totalFrame:int;
+		clip_internal var _totalFrame:int;
 		public function get totalFrame():int
 		{
 			return this._totalFrame;
 		}
 		
-		private var _data:Vector.<IClipFrameData>;
+		clip_internal var _data:Vector.<IClipFrameData>;
 		public function set data(value:Vector.<IClipFrameData>):void
 		{
 			if(_data == value) return;
 			this._data = value;
-			_totalFrame = 0;
 			setData(_data);
-		}
-		
-		/**
-		 *获取data数据 
-		 * @return 
-		 */		
-		protected function getData():Vector.<IClipFrameData>
-		{
-			if(!_data)
-			{
-				_data = new Vector.<IClipFrameData>();
-			}
-			return _data;
 		}
 		
 		/**
@@ -55,9 +45,13 @@ package com.shrimp.extensions.clip.data
 		 * @param $data
 		 * @return 
 		 */		
-		private function setData($data:Vector.<IClipFrameData>):void
+		protected function setData($data:Vector.<IClipFrameData>):void
 		{
-			if(!$data) return;
+			if(!$data)
+			{
+				_totalFrame = 0;
+				return;
+			}
 			
 			_totalFrame = $data.length;
 			frameLabelDic = new Dictionary();
@@ -75,35 +69,29 @@ package com.shrimp.extensions.clip.data
 			}
 		}
 		
-		public function getFrameData($frame:Object):IClipFrameData
+		public function getFrameData($index:int):IClipFrameData
 		{
-			var index:int = getFrameIndex($frame);
-			return (index > -1 ? _data[index] : null);
+			if(hasFrameData($index))
+			{
+				return _data[$index];
+			}
+			
+			return null;
 		}
 		
 		public function getFrameIndex($frame:Object):int
 		{
-			if(totalFrame < 1 || !$frame) return -1;
+			if(totalFrame < 1 || $frame == null) return -1;
 			
 			var index:int = -1;
-			if($frame is int)
-			{
-				index = int($frame);
-				if(index < 0 || index >= totalFrame)
-				{
-					index = -1;
-				}
-			}
-			else if($frame is String)
-			{
-				if($frame in frameLabelDic)
-				{
-					index = frameLabelDic[index];
-				}
-			}
-			else if($frame is IClipFrameData)
+			
+			if($frame is IClipFrameData)
 			{
 				index = _data.indexOf(IClipFrameData($frame));
+			}
+			else if($frame is String && $frame in frameLabelDic)
+			{
+				index = frameLabelDic[index];
 			}
 			
 			return index;
@@ -111,6 +99,13 @@ package com.shrimp.extensions.clip.data
 		
 		public function hasFrameData($frame:Object):Boolean
 		{
+			var index:int = -1;
+			if($frame is int)
+			{
+				index = int($frame);
+				return (index > -1 && index < totalFrame);
+			}
+			
 			return (getFrameIndex($frame) != -1);
 		}
 		

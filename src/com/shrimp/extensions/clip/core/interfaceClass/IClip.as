@@ -12,7 +12,7 @@ package com.shrimp.extensions.clip.core.interfaceClass
 		function get isPlaying():Boolean;
 		
 		/**
-		 *是否自动播放 默认false
+		 *是否自动播放 默认false (待定,预留值)
 		 * @return 
 		 */		
 		function get autoPlay():Boolean;
@@ -109,16 +109,16 @@ package com.shrimp.extensions.clip.core.interfaceClass
 		
 		/**
 		 *播放 
-		 * @param $frame 将要播放的起始帧 (类型【String 或 int】)
-		 * 							如果为null 则之前的时间间隔跳帧后继续播放
+		 * @param $frame 将要播放的起始帧 (类型【String 或 int】如果是int型则可以大于totalFrame 并且会计算经过的repeatCount)
+		 * 							如果为null 则从当前帧开始播放
 		 */		
 		function play($frame:Object = null):void;
 		
 		/**
 		 *停止 
 		 * @param $frame 	将要停止到的帧 (类型【String 或 int】)
-		 * 								如果为null 则停留在$frame帧
-		 * 								如果不为null 则停留在当前显示的帧
+		 * 								如果为null 则停留在当前帧
+		 * 								如果不为null 则停留在$frame帧
 		 */		
 		function stop($frame:Object = null):void;
 		

@@ -19,21 +19,21 @@ package com.shrimp.extensions.clip.core.interfaceClass
 		
 		/**
 		 *获取IClipFrameData 
-		 * @param $frame 帧标签(String) 或者 帧索引(int)
+		 * @param $index 帧索引
 		 * @return 
 		 */		
-		function getFrameData($frame:Object):IClipFrameData;
+		function getFrameData($index:int):IClipFrameData;
 		
 		/**
 		 *某帧的索引（如果不存在则返回-1）
-		 * @param $frame 帧标签(String) 或者 帧索引(int) 或者帧数据(IClipFrameData)
+		 * @param $frame 帧标签(String) 或者帧数据(IClipFrameData)
 		 * @return 
 		 */		
 		function getFrameIndex($frame:Object):int;
 		
 		/**
 		 *是否存在某帧 
-		 * @param $frame 帧标签(String) 或者 帧索引(int) 或者帧数据(IClipFrameData)
+		 * @param $frame 帧标签(String) 或者 帧索引(int) 或者 帧数据(IClipFrameData)
 		 * @return 
 		 */		
 		function hasFrameData($frame:Object):Boolean;
