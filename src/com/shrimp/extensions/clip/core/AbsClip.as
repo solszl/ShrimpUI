@@ -4,11 +4,13 @@ package com.shrimp.extensions.clip.core
 	import com.shrimp.extensions.clip.core.interfaceClass.IClipFrameData;
 	import com.shrimp.extensions.clip.core.interfaceClass.IClipFrameDataList;
 	import com.shrimp.extensions.clip.core.interfaceClass.IClipRenderer;
+	import com.shrimp.extensions.clip.event.ClipEvent;
 	import com.shrimp.framework.ui.controls.core.Component;
 	
 	import flash.errors.IllegalOperationError;
 	import flash.geom.Point;
-	
+
+	use namespace clip_internal;
 	
 	/**
 	 *Clip抽象类 
@@ -37,8 +39,7 @@ package com.shrimp.extensions.clip.core
 		{
 			if(this._autoPlay == $value) return;
 			this._autoPlay = $value;
-			invalidateRenderDirty = true;
-			invalidateProperties();
+			//应该是在setSource的时候做自动播放
 		}
 		
 		private var _autoDestroy:Boolean = false;
@@ -139,7 +140,17 @@ package com.shrimp.extensions.clip.core
 		 */		
 		private var invalidateRenderDirty:Boolean = false;
 		
-		protected var _clipRender:IClipRenderer;
+		/**
+		 *渲染延时生效 
+		 */		
+		private function invalidateRender():void
+		{
+			if(!clipRenderer || clipRenderer.data == frameData) return;
+			invalidateRenderDirty = true;
+			invalidateProperties();
+		}
+		
+		private var _clipRender:IClipRenderer;
 		public function get clipRenderer():IClipRenderer
 		{
 			return this._clipRender;
@@ -149,8 +160,7 @@ package com.shrimp.extensions.clip.core
 			if(this._clipRender == $value) return;
 			clipChanged(this._clipRender, $value);
 			this._clipRender = $value;
-			invalidateRenderDirty = true;
-			invalidateProperties();
+			invalidateRender();
 		}
 		
 		private var _source:IClipFrameDataList;
@@ -164,13 +174,15 @@ package com.shrimp.extensions.clip.core
 			if(this._source == $value) return;
 			sourceChanged(this._source, $value);
 			this._source = $value;
-			invalidateRenderDirty = true;
-			invalidateProperties();
+			_totalFrame = source? source.totalFrame : 0;
+			invalidateRender();
 		}
 		
+		
+		clip_internal var _totalFrame:int = 0;
 		public function get totalFrame():int
 		{
-			return (source? source.totalFrame : 0)
+			return _totalFrame;
 		}
 		
 		private var _frameIndex:int = -1;
@@ -195,34 +207,47 @@ package com.shrimp.extensions.clip.core
 		 *设置当前索引 
 		 * @param $value
 		 */		
-		private function setFrameIndex($value:int):void
+		clip_internal function setFrameIndex($value:int):void
 		{
 			if(this._frameIndex == $value) return;
 			
 			var maxFrameIndex:int = Math.max(0, totalFrame - 1);
+			var isRepeat:Boolean = false;
+			var isComplete:Boolean = false; 
 			
-			if($value > maxFrameIndex)
+			if($value >= maxFrameIndex)
 			{
-				_repeatCount += Math.floor($value / maxFrameIndex);
-				_frameIndex = $value % maxFrameIndex;
-			}
-			else
-			{
-				_frameIndex = $value;
+				_repeatCount += Math.floor($value/maxFrameIndex);
+				$value = $value % totalFrame;
+				isRepeat = true;
+				
+				if(repeat != -1 && repeatCount >= repeat)
+				{
+					$value = maxFrameIndex;
+					_repeatCount = repeat;
+					isComplete = true;
+				}
 			}
 			
-			if(repeat != -1 && _repeatCount >= repeat)
-			{
-				_frameIndex = maxFrameIndex;
-				_repeatCount = repeat;
-				cleanTimer(this.frameHandler);
-			}
+			this._frameIndex = $value;
 			
 			_frameData = source.getFrameData(_frameIndex);
 			_frameLabel = _frameData ? _frameData.frameLabel : null;
 			
-			invalidateRenderDirty = true;
-			invalidateProperties();
+			enterFrame();
+			
+			if(isRepeat)
+			{
+				repeatOnce();
+				
+				if(isComplete)
+				{
+					repeatComplete();
+					return;
+				}
+			}
+			
+			invalidateRender();
 		}
 		
 		/**
@@ -230,37 +255,76 @@ package com.shrimp.extensions.clip.core
 		 */		
 		public function frameHandler():void
 		{
-			nextFrame();
+			nextFrame(frameIndex);
 		}
 		
+		/**
+		 *播放 
+		 * @param $frame 将要播放的起始帧 (类型【String 或 int】
+ 		* 									则$frame可以大于totalFrame 并且repeatCount += int($frame)/(totalFrame-1))
+ 		* 									this._frameIndex = $frame%(totalFrame)
+		 * 							如果为null 则从当前帧开始播放
+		 */		
 		public function play($frame:Object=null):void
 		{
-			_repeatCount = 0;
+			if(totalFrame < 1) return;
+			
+			var index:int = getIndexByFrameParam($frame);
 			this._isPlaying = true;
+			createDefaultClipRender();
+			
+			/**先设置当前显示的帧索引*/
+			setFrameIndex(index);
+			invalidateRender();
+		}
+		
+		/**
+		 *根据 $frame 参数 返回index 
+		 * @param $frame
+		 */		
+		protected function getIndexByFrameParam($frame:Object):int
+		{
+			if(totalFrame < 1) 
+			{
+				throw new Error("数据源中不存在$frame:" + $frame);
+			}
 			
 			var index:int = 0;
-			if($frame is String)
-			{
-				index = source.getFrameIndex($frame);
-			}
-			else if($frame is int)
+			
+			if($frame is int)
 			{
 				index = int($frame);
 			}
+			else if($frame != null)
+			{
+				index = source.getFrameIndex($frame);
+			}
 			
-			/**先设置当前显示的帧索引*/
-			setFrameIndex(Math.max(0, index));
+			if(index == -1)
+			{
+				throw new Error("数据源中不存在$frame:" + $frame);
+			}
+			
+			return index;
 		}
 		
 		public function stop($frame:Object=null):void
 		{
-			if(this.isPlaying)
+			if(isPlaying)
 			{
 				cleanTimer(this.frameHandler);
-				this._isPlaying = false;
 			}
 			
-			setFrameIndex(source.getFrameIndex($frame));
+			var index:int = getIndexByFrameParam($frame);
+			
+			createDefaultClipRender();
+			
+			if(index != -1)
+			{
+				setFrameIndex(index);
+			}
+			invalidateRender();
+			this._isPlaying = false;
 		}
 		
 		public function pause():void
@@ -298,10 +362,10 @@ package com.shrimp.extensions.clip.core
 		
 		//================================
 		/**
-		 *下一帧 
-		 * @param $frameIndex	如果$frameIndex > -1 则nextFrame为$frameIndex+1那一帧
+		 *$frameIndex的下一帧 
+		 * @param $frameIndex
 		 */		
-		protected function nextFrame($frameIndex:int = -1):void
+		protected function nextFrame($frameIndex:int):void
 		{
 			if(!isPlaying || totalFrame < 1) return;
 			
@@ -309,8 +373,12 @@ package com.shrimp.extensions.clip.core
 			{
 				$frameIndex = frameIndex;
 			}
+			$frameIndex++;
 			
-			$frameIndex = Math.max(0, $frameIndex + 1);
+			if($frameIndex > totalFrame - 1)
+			{
+				$frameIndex = 0;
+			}
 			
 			setFrameIndex($frameIndex);
 		}
@@ -318,31 +386,32 @@ package com.shrimp.extensions.clip.core
 		/**
 		 *本帧执行完毕开始渲染 
 		 * @param $frameData
+		 * return 是否提交成功
 		 */		
-		protected function commitRenderData($frameData:IClipFrameData):void
+		protected function commitRenderData($frameData:IClipFrameData):Boolean
 		{
-			if(!isPlaying) return;
-			
-			if(clipRenderer)
+			var commitSuccess:Boolean = false;
+			if(clipRenderer && clipRenderer.data != $frameData)
 			{
+				commitSuccess = true;
 				clipRenderer.data = $frameData;
+				
+				//此处可以派发 提交属性成功 的事件
+				
+				if(isNaN(explicitWidth) || isNaN(explicitHeight))
+				{
+					//如果没有外部设置尺寸此处测量一下
+					measure();
+				}
 			}
-			
-			if(frameIndex % (totalFrame -1) == 0)
-			{
-				repeatOnce();
-			}
-			
-			if(_repeatCount == repeat)
-			{
-				repeatComplete();
-			}
-			
-			if(isNaN(explicitWidth) || isNaN(explicitHeight))
-			{
-				//如果没有外部设置尺寸此处测量一下
-				measure();
-			}
+			return commitSuccess;
+		}
+		
+		/**
+		 *一帧 
+		 */		
+		protected function enterFrame():void
+		{
 		}
 		
 		/**
@@ -357,7 +426,7 @@ package com.shrimp.extensions.clip.core
 		 */		
 		protected function repeatComplete():void
 		{
-			autoDestroy ? destroy() : stop();
+			autoDestroy ? destroy() : stop(totalFrame - 1);
 		}
 		
 		/**
@@ -420,11 +489,12 @@ package com.shrimp.extensions.clip.core
 		}
 		
 		/**
-		 *创建clipRender渲染器  抽象方法，子类覆盖
+		 *创建默认clipRender渲染器并赋值给clipRender  抽象方法，子类覆盖
 		 * @return IClipRenderer
 		 */		
-		protected function createClipRender():IClipRenderer
+		protected function createDefaultClipRender():IClipRenderer
 		{
+			if(clipRenderer) return clipRenderer
 			throw new IllegalOperationError("createClipRender 方法 必须被重写");
 		}
 		

@@ -1,11 +1,11 @@
 package com.shrimp.extensions.clip.data
 {
+	import com.shrimp.extensions.clip.event.ClipDataEvent;
+	
 	import flash.display.BitmapData;
 	import flash.events.EventDispatcher;
 	import flash.geom.Point;
 	
-	import com.shrimp.extensions.clip.event.ClipDataEvent;
-	import com.shrimp.extensions.clip.core.LazyDispatcher;
 	
 	/**
 	 *clip 帧数据 
