@@ -9,6 +9,7 @@
 <component class="com.shrimp.extensions.clip.core.AbsClip"/>
 <component class="com.shrimp.extensions.clip.core.ClipFactory"/>
 <component class="com.shrimp.extensions.clip.core.ClipRendererManager"/>
+<component class="com.shrimp.extensions.clip.core.clip_internal"/>
 <component class="com.shrimp.extensions.clip.core.LazyDispatcher"/>
 <component class="com.shrimp.extensions.clip.core.RecycleManger"/>
 <component class="com.shrimp.extensions.clip.data.ClipDynamicDataList"/>
@@ -19,7 +20,7 @@
 <component class="com.shrimp.extensions.clip.event.ClipEvent"/>
 <component class="com.shrimp.extensions.clip.render.ClipRenderer"/>
 <component class="com.shrimp.extensions.clip.Clip"/>
-<component class="com.shrimp.extensions.clip.CommonClip"/>
+<component class="com.shrimp.extensions.clip.DynamicClip"/>
 <component class="com.shrimp.framework.core.ApplicationBase"/>
 <component class="com.shrimp.framework.core.shrimp_internal"/>
 <component class="com.shrimp.framework.event.CloseEvent"/>
@@ -31,6 +32,7 @@
 <component class="com.shrimp.framework.interfaces.IScheduler"/>
 <component class="com.shrimp.framework.interfaces.ITooltip"/>
 <component class="com.shrimp.framework.interfaces.IView"/>
+<component class="com.shrimp.framework.interfaces.IXMLConvertable"/>
 <component class="com.shrimp.framework.load.LoaderManager"/>
 <component class="com.shrimp.framework.load.ResourceDomain"/>
 <component class="com.shrimp.framework.load.ResourceLibrary"/>
@@ -101,6 +103,7 @@
 <component class="com.shrimp.framework.ui.layout.TileLayout"/>
 <component class="com.shrimp.framework.ui.layout.VerticalLayout"/>
 <component class="com.shrimp.framework.utils.ArrayList"/>
+<component class="com.shrimp.framework.utils.ClassPackage"/>
 <component class="com.shrimp.framework.utils.ClassUtils"/>
 <component class="com.shrimp.framework.utils.ColorUtil"/>
 <component class="com.shrimp.framework.utils.DisplayObjectUtils"/>
@@ -108,7 +111,9 @@
 <component class="com.shrimp.framework.utils.StringUtil"/>
 <component class="com.shrimp.framework.utils.SWFProfiler"/>
 <component class="com.shrimp.framework.utils.TimeSpan"/>
+<component class="com.shrimp.framework.utils.XMLBuilder"/>
 <component class="com.shrimp.framework.GlobalConfig"/>
+<component class="com.shrimp.framework.Shrimp"/>
 <component class="com.thirdparts.greensock.ColorMatrix"/>
 <component class="com.thirdparts.greensock.TweenNano"/>
 </componentPackage>

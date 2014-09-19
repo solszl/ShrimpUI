@@ -4,7 +4,7 @@ package com.shrimp.framework.ui.controls.core
 	import com.shrimp.framework.interfaces.IXMLConvertable;
 	import com.shrimp.framework.managers.ComponentManager;
 	import com.shrimp.framework.utils.XMLBuilder;
-	
+
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Shape;
@@ -18,7 +18,7 @@ package com.shrimp.framework.ui.controls.core
 	 * @author Sol
 	 *
 	 */
-	public class Component extends Sprite implements ITooltip,IXMLConvertable
+	public class Component extends Sprite implements ITooltip, IXMLConvertable
 	{
 		private var _tooltip:Object;
 
@@ -147,7 +147,7 @@ package com.shrimp.framework.ui.controls.core
 			{
 				return _height;
 			}*/
-			
+
 			if (!isNaN(_height))
 			{
 				return _height;
@@ -198,13 +198,13 @@ package com.shrimp.framework.ui.controls.core
 		}
 
 		public var xmlTagName:String;
-		
+
 		protected function preInit():void
 		{
 			//初始化监听器
 			_listeners=[];
 			//com.shrimp.framework.ui.controls.compoent::component
-			xmlTagName = getQualifiedClassName(this).split("::")[1];
+			xmlTagName=getQualifiedClassName(this).split("::")[1];
 		}
 
 		protected function init():void
@@ -521,27 +521,38 @@ package com.shrimp.framework.ui.controls.core
 			_bottom=value;
 			invalidateDisplayList();
 		}
-		
+
 		public function toXML():XML
 		{
-			var xml:XML = getXMLTag();
+			var xml:XML=getXMLTag();
 			return xml;
 		}
-		
-		public function parseXML(xml:XML, builder:XMLBuilder = null):void
+
+		public function parseXML(xml:XML, builder:XMLBuilder=null):void
 		{
-			
+
 		}
-		
+
 		public function getXMLTagName():String
 		{
 			return xmlTagName;
 		}
-		
-		final public function getXMLTag():XML
+
+		public function getXMLTag():XML
 		{
-			var xml:XML = XML("<" + getXMLTagName() +"/>");
+			var str:String="<" + getXMLTagName() + "/>";
+			var xml:XML=XML(str);
 			return xml;
+		}
+
+		public function getElementTypeXMLTag():XML
+		{
+			return <elements/>;
+		}
+
+		public function getRelatedObjects():Array
+		{
+			return [];
 		}
 	}
 }
