@@ -352,10 +352,5 @@ package com.shrimp.framework.ui.controls
 		{
 			_toggle=value;
 		}
-		
-		override public function getRelatedObjects():Array
-		{
-			return [Image,Label];
-		}
 	}
 }

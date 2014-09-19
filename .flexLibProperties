@@ -21,9 +21,7 @@
     <classEntry path="com.shrimp.framework.ui.container.ScrollerContainer"/>
     <classEntry path="com.shrimp.framework.ui.controls.BaseView"/>
     <classEntry path="com.shrimp.framework.managers.ViewManager"/>
-    <classEntry path="com.shrimp.framework.interfaces.IXMLConvertable"/>
     <classEntry path="com.shrimp.framework.utils.XMLBuilder"/>
-    <classEntry path="com.shrimp.framework.Shrimp"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests>
