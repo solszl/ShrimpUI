@@ -5,9 +5,10 @@ package com.shrimp.framework.managers.classes
 	import com.shrimp.framework.managers.CursorManager;
 	import com.shrimp.framework.managers.DragManager;
 	import com.thirdparts.greensock.TweenNano;
-
+	
 	import flash.display.DisplayObject;
 	import flash.display.Stage;
+	import flash.errors.IllegalOperationError;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
@@ -120,6 +121,11 @@ package com.shrimp.framework.managers.classes
 		{
 			removeDragImage();
 
+			if(dragInitiator == null)
+			{
+				throw new IllegalOperationError("dragInitiator is null");
+			}
+			
 			dragTarget=dragImage ? dragImage : dragInitiator;
 			origineTargetX=dragTarget.x;
 			origineTargetY=dragTarget.y;
@@ -194,7 +200,7 @@ package com.shrimp.framework.managers.classes
 
 				if (useDropAnimation)
 				{
-					TweenNano.to(dragTarget, 0.3, {x: point.x, y: point.y, width: widthTo, height: heightTo, onCompleteListener: removeDragImage});
+					TweenNano.to(dragTarget, 0.3, {x: point.x, y: point.y, width: widthTo, height: heightTo, onComplete: removeDragImage});
 					dropTarget.dispatchEvent(new DragEvent(DragEvent.DRAG_DROP, dragInitiator, dragImage, dragSource));
 				}
 				else
@@ -209,9 +215,11 @@ package com.shrimp.framework.managers.classes
 			}
 			else
 			{
-				TweenNano.to(dragTarget, 0.3, {x: origineTargetX, y: origineTargetY, onCompleteListener: removeDragImage});
+				TweenNano.to(dragTarget, 0.3, {x: origineTargetX, y: origineTargetY, onComplete: removeDragImage});
 			}
 
+			
+			dragTarget.alpha = 1;
 			dragging=false;
 		}
 

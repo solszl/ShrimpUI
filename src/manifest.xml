@@ -24,6 +24,7 @@
 <component class="com.shrimp.framework.core.ApplicationBase"/>
 <component class="com.shrimp.framework.core.shrimp_internal"/>
 <component class="com.shrimp.framework.event.CloseEvent"/>
+<component class="com.shrimp.framework.event.DragEvent"/>
 <component class="com.shrimp.framework.interfaces.IDialog"/>
 <component class="com.shrimp.framework.interfaces.IItemRenderer"/>
 <component class="com.shrimp.framework.interfaces.IModule"/>
@@ -41,12 +42,16 @@
 <component class="com.shrimp.framework.log.ILoggerClip"/>
 <component class="com.shrimp.framework.log.Logger"/>
 <component class="com.shrimp.framework.log.LoggerClip"/>
+<component class="com.shrimp.framework.managers.classes.CursorManagerImpl"/>
+<component class="com.shrimp.framework.managers.classes.DragManagerImpl"/>
 <component class="com.shrimp.framework.managers.classes.PopUpManagerImpl"/>
 <component class="com.shrimp.framework.managers.classes.ToolTipManagerImpl"/>
 <component class="com.shrimp.framework.managers.AssetsManager"/>
 <component class="com.shrimp.framework.managers.ComponentManager"/>
 <component class="com.shrimp.framework.managers.Controller"/>
+<component class="com.shrimp.framework.managers.CursorManager"/>
 <component class="com.shrimp.framework.managers.DialogManager"/>
+<component class="com.shrimp.framework.managers.DragManager"/>
 <component class="com.shrimp.framework.managers.LayerManager"/>
 <component class="com.shrimp.framework.managers.ModalController"/>
 <component class="com.shrimp.framework.managers.PanelManager"/>

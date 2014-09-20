@@ -2,7 +2,7 @@ package com.shrimp.framework.managers.classes
 {
 
 	import com.shrimp.framework.core.ApplicationBase;
-	
+
 	import flash.display.DisplayObject;
 	import flash.display.InteractiveObject;
 	import flash.display.Stage;
