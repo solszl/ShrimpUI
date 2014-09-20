@@ -32,7 +32,6 @@
 <component class="com.shrimp.framework.interfaces.IScheduler"/>
 <component class="com.shrimp.framework.interfaces.ITooltip"/>
 <component class="com.shrimp.framework.interfaces.IView"/>
-<component class="com.shrimp.framework.interfaces.IXMLConvertable"/>
 <component class="com.shrimp.framework.load.LoaderManager"/>
 <component class="com.shrimp.framework.load.ResourceDomain"/>
 <component class="com.shrimp.framework.load.ResourceLibrary"/>
@@ -111,9 +110,7 @@
 <component class="com.shrimp.framework.utils.StringUtil"/>
 <component class="com.shrimp.framework.utils.SWFProfiler"/>
 <component class="com.shrimp.framework.utils.TimeSpan"/>
-<component class="com.shrimp.framework.utils.XMLBuilder"/>
 <component class="com.shrimp.framework.GlobalConfig"/>
-<component class="com.shrimp.framework.Shrimp"/>
 <component class="com.thirdparts.greensock.ColorMatrix"/>
 <component class="com.thirdparts.greensock.TweenNano"/>
 </componentPackage>
