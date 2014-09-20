@@ -24,6 +24,9 @@
     <classEntry path="com.shrimp.framework.interfaces.IXMLConvertable"/>
     <classEntry path="com.shrimp.framework.utils.XMLBuilder"/>
     <classEntry path="com.shrimp.framework.Shrimp"/>
+    <classEntry path="com.shrimp.framework.managers.DragManager"/>
+    <classEntry path="com.shrimp.framework.managers.classes.DragManagerImpl"/>
+    <classEntry path="com.shrimp.framework.event.DragEvent"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests>
