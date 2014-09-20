@@ -107,6 +107,7 @@
 <component class="com.shrimp.framework.ui.layout.TileLayout"/>
 <component class="com.shrimp.framework.ui.layout.VerticalLayout"/>
 <component class="com.shrimp.framework.utils.ArrayList"/>
+<component class="com.shrimp.framework.utils.ClassFactory"/>
 <component class="com.shrimp.framework.utils.ClassPackage"/>
 <component class="com.shrimp.framework.utils.ClassUtils"/>
 <component class="com.shrimp.framework.utils.ColorUtil"/>
