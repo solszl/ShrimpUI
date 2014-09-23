@@ -122,13 +122,6 @@ package com.shrimp.framework.ui.controls
 		override protected function commitProperties():void
 		{
 			super.commitProperties();
-			if (_labelChanged)
-			{
-				_labelChanged=false;
-				_label.text=_labelText;
-				_label.validateNow();
-				invalidateDisplayList();
-			}
 
 			if (_skinDirty)
 			{
@@ -169,6 +162,15 @@ package com.shrimp.framework.ui.controls
 				lastState=state;
 				_skinDirty=false;
 			}
+			
+			if (_labelChanged)
+			{
+				_labelChanged=false;
+				_label.text=_labelText;
+				_label.validateNow();
+				validateSize();
+				trace("from button commit properties::",_label.width,_label.height);
+			}
 		}
 
 		private var lastState:int=-1;
@@ -176,10 +178,6 @@ package com.shrimp.framework.ui.controls
 		override protected function updateDisplayList():void
 		{
 			super.updateDisplayList();
-			if (bg.width != _width)
-				bg.width=_width;
-			if (bg.height != _height)
-				bg.height=_height;
 			doLabelAlign();
 		}
 
@@ -251,7 +249,7 @@ package com.shrimp.framework.ui.controls
 			_skinClass=value;
 
 			bg.source=value;
-			invalidateDisplayList();
+			invalidateSize();
 		}
 
 		public function get skinClass():Object
@@ -272,7 +270,7 @@ package com.shrimp.framework.ui.controls
 			_overSkin=value;
 
 			bg.source=value;
-			invalidateDisplayList();
+			invalidateSize();
 		}
 
 		public function set selectedSkinClass(value:Object):void
@@ -288,11 +286,18 @@ package com.shrimp.framework.ui.controls
 			_selectedSkin=value;
 
 			bg.source=value;
-			invalidateDisplayList();
+			invalidateSize();
 		}
 
 		override protected function measure():void
 		{
+			super.measure();
+//			if (bg.width != _width)
+//				bg.width=_width;
+//			if (bg.height != _height)
+//				bg.height=_height;
+			bg.width =_label.width+10;
+			bg.height = _label.height;
 			var skinW:Number=bg ? bg.width : 0;
 			var skinH:Number=bg ? bg.height : 0;
 			if(_label.text=="")

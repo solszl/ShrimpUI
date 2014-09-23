@@ -98,15 +98,15 @@ package com.shrimp.framework.ui.controls.core
 				return;
 			_width=value;
 			_explicitWidth=value;
-			invalidateDisplayList();
+			invalidateSize();
 			dispatchEvent(new Event(Event.RESIZE));
 		}
 
 		public function get measuredWidth():Number
 		{
-			commitProperties();
+//			commitProperties();
 			var max:Number=0;
-			for (var i:int=numChildren - 1; i > -1; i--)
+			for (var i:int=numChildren - 1; i > 0; i--)
 			{
 				var comp:DisplayObject=getChildAt(i);
 				max=Math.max(comp.x + comp.width, max);
@@ -165,15 +165,15 @@ package com.shrimp.framework.ui.controls.core
 				return;
 			_height=value;
 			_explicitHeight=value;
-			invalidateDisplayList();
+			invalidateSize();
 			dispatchEvent(new Event(Event.RESIZE));
 		}
 
 		public function get measuredHeight():Number
 		{
-			commitProperties();
+//			commitProperties();
 			var max:Number=0;
-			for (var i:int=numChildren - 1; i > -1; i--)
+			for (var i:int=numChildren - 1; i > 0; i--)
 			{
 				var comp:DisplayObject=getChildAt(i);
 				max=Math.max(comp.y + comp.height, max);
@@ -291,6 +291,7 @@ package com.shrimp.framework.ui.controls.core
 		{
 			trace("validateNow",this);
 			validateProperties();
+			validateSize();
 			validateDisplayList();
 		}
 
@@ -308,6 +309,12 @@ package com.shrimp.framework.ui.controls.core
 			commitProperties();
 			ComponentManager.removePaddingProperty(this)
 		}
+		
+		public function validateSize():void
+		{
+			measure();
+			ComponentManager.removePaddingSize(this);
+		}
 
 		public function invalidateDisplayList():void
 		{
@@ -319,6 +326,12 @@ package com.shrimp.framework.ui.controls.core
 		{
 			trace("invalidateProperties",this);
 			ComponentManager.addPaddingProperty(this);
+		}
+		
+		public function invalidateSize():void
+		{
+			trace("invalidateSize",this);
+			ComponentManager.addPaddingSize(this);
 		}
 
 		protected function measure():void
@@ -334,10 +347,10 @@ package com.shrimp.framework.ui.controls.core
 		protected function commitProperties():void
 		{
 			trace("commitProperties",this);
-			if(isNaN(_explicitWidth)||isNaN(_explicitHeight))
-			{
-				measure();
-			}
+//			if(isNaN(_explicitWidth)||isNaN(_explicitHeight))
+//			{
+//				measure();
+//			}
 		}
 
 		public function get horizontalCenter():Number

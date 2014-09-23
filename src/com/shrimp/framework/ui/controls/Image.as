@@ -5,7 +5,7 @@ package com.shrimp.framework.ui.controls
 	import com.shrimp.framework.managers.AssetsManager;
 	import com.shrimp.framework.ui.controls.core.Component;
 	import com.shrimp.framework.utils.DisplayObjectUtils;
-
+	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.DisplayObject;
@@ -86,7 +86,7 @@ package com.shrimp.framework.ui.controls
 				_img.bitmapData=bit;
 				_img.width=bit.width;
 				_img.height=bit.height;
-				invalidateDisplayList();
+				invalidateSize();
 			}
 			else if (value is BitmapData)
 			{
@@ -94,7 +94,7 @@ package com.shrimp.framework.ui.controls
 				_img.bitmapData=bit;
 				_img.width=bit.width;
 				_img.height=bit.height;
-				invalidateDisplayList();
+				invalidateSize();
 			}
 			_source=value;
 		}
@@ -129,25 +129,58 @@ package com.shrimp.framework.ui.controls
 
 			_usescale9Rect=value != null;
 
+			_img.scale9Rect = value;
+			
 			if (_img.bitmapData == null)
 				return;
 
-			invalidateProperties();
+			invalidateSize();
 		}
 
 		override protected function measure():void
 		{
+			super.measure();
 			measuredWidth=_img.width;
 			measuredHeight=_img.height;
 		}
 
+		override public function set width(value:Number):void
+		{
+			super.width = value;
+			_img.width = value;
+		}
+		
+		override public function get width():Number
+		{
+			if(!_img.bitmapData)
+			{
+				return super.width;
+			}
+			return _img.bitmapData.width;
+		}
+		
+		override public function set height(value:Number):void
+		{
+			super.height = value;
+			_img.height = value;
+		}
+		
+		override public function get height():Number
+		{
+			if(!_img.bitmapData)
+			{
+				return super.height;
+			}
+			return _img.bitmapData.height;
+		}
+		
 		override protected function updateDisplayList():void
 		{
 			if (_img && _img.bitmapData)
 			{
 				super.updateDisplayList();
 
-				if (_usescale9Rect && (width>scale9Rect.right || height > scale9Rect.bottom))
+				if (_usescale9Rect)// && (width>scale9Rect.right || height > scale9Rect.bottom)
 				{
 					_img.bitmapData=DisplayObjectUtils.scale9Bmd(_img.bitmapData, scale9Rect, width, height);
 				}

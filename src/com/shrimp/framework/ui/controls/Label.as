@@ -372,8 +372,6 @@ package com.shrimp.framework.ui.controls
 			super.updateDisplayList();
 			_textField.width=_width;
 			_textField.height=_height;
-			_textField.border=true;
-			_textField.borderColor=0x0000FF;
 			if (_textField.type == TextFieldType.DYNAMIC && _textField.multiline == false)
 			{
 				var w:Number=_width;

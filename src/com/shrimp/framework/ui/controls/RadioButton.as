@@ -80,6 +80,7 @@ package com.shrimp.framework.ui.controls
 			_labelChanged = true;
 			
 			invalidateProperties();
+			invalidateSize();
 		}
 		override protected function commitProperties():void
 		{

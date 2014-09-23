@@ -5,6 +5,7 @@ package com.shrimp.framework.ui.controls
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.DisplayObject;
+	import flash.events.Event;
 	import flash.geom.Rectangle;
 
 	/**
@@ -44,7 +45,7 @@ package com.shrimp.framework.ui.controls
 		{
 			_scale9Rect=value;
 			useScale9Rect=value != null;
-			updateDisplayList();
+			validateSize();
 		}
 
 		/**宽度(显示时四舍五入)*/
@@ -58,7 +59,7 @@ package com.shrimp.framework.ui.controls
 			if (_width != value)
 			{
 				_width=value;
-				updateDisplayList();
+				validateSize();
 			}
 		}
 
@@ -73,13 +74,24 @@ package com.shrimp.framework.ui.controls
 			if (_height != value)
 			{
 				_height=value;
-				updateDisplayList();
+				validateSize();
 			}
 		}
 
-
-		public function updateDisplayList():void
+		public function validateSize():void
+		{	
+			measure();
+		}
+		
+		protected function measure():void
 		{
+			addEventListener(Event.ENTER_FRAME,updateDisplayList);
+//			updateDisplayList();
+		}
+
+		public function updateDisplayList(e:Event=null):void
+		{
+			removeEventListener(Event.ENTER_FRAME,updateDisplayList);
 			if (bitmapData)
 			{
 				if (useScale9Rect)
