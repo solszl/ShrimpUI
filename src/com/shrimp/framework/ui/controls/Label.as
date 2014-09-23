@@ -4,15 +4,15 @@ package com.shrimp.framework.ui.controls
 	import com.shrimp.framework.ui.controls.core.Style;
 	import com.shrimp.framework.utils.ColorUtil;
 	import com.shrimp.framework.utils.StringUtil;
-
+	
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
 	import flash.filters.GlowFilter;
+	import flash.system.Capabilities;
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFieldType;
 	import flash.text.TextFormat;
-	import flash.system.Capabilities;
 
 	public class Label extends Component
 	{
@@ -44,7 +44,7 @@ package com.shrimp.framework.ui.controls
 			_format.size=Style.fontSize;
 			_format.color=Style.LABEL_COLOR;
 			_textField.selectable=false;
-			_textField.autoSize=TextFieldAutoSize.LEFT;
+//			_textField.autoSize=TextFieldAutoSize.LEFT;
 			_textField.text=text;
 			addChild(_textField);
 		}
@@ -209,6 +209,7 @@ package com.shrimp.framework.ui.controls
 		public function set align(value:String):void
 		{
 			_format.align=value;
+//			_textField.autoSize = value;
 			_textPropertyChanged=true;
 			invalidateProperties();
 		}
@@ -356,6 +357,7 @@ package com.shrimp.framework.ui.controls
 				_textChanged=false;
 				html ? _textField.htmlText=_text : _textField.text=_text;
 				invalidateDisplayList();
+				measure();
 			}
 		}
 
@@ -370,6 +372,8 @@ package com.shrimp.framework.ui.controls
 			super.updateDisplayList();
 			_textField.width=_width;
 			_textField.height=_height;
+			_textField.border=true;
+			_textField.borderColor=0x0000FF;
 			if (_textField.type == TextFieldType.DYNAMIC && _textField.multiline == false)
 			{
 				var w:Number=_width;

@@ -192,15 +192,17 @@ package com.shrimp.framework.managers.classes
 			{
 				var widthTo:Number=dropTarget.width;
 				var heightTo:Number=dropTarget.height;
-				var point:Point=dropTarget.localToGlobal(new Point(dropTarget.x, dropTarget.y));
-				dragTarget.width*=dropImageScale;
-				dragTarget.height*=dropImageScale;
-				dragTarget.x=point.x + (dropTarget.width - dragTarget.width) / 2;
-				dragTarget.y=point.y + (dropTarget.height - dragTarget.height) / 2;
+				var point:Point=dropTarget.localToGlobal(new Point());//dropTarget.x, dropTarget.y
+				var targetPoint:Point = dropTarget.globalToLocal(new Point(stage.mouseX,stage.mouseY));
+//				dragTarget.width*=dropImageScale;
+//				dragTarget.height*=dropImageScale;
+				dragTarget.scaleX = dragTarget.scaleY = dropImageScale;
+				dragTarget.x=point.x + targetPoint.x;//(dropTarget.width - dragTarget.width) / 2;
+				dragTarget.y=point.y + targetPoint.y;//(dropTarget.height - dragTarget.height) / 2;
 
 				if (useDropAnimation)
 				{
-					TweenNano.to(dragTarget, 0.3, {x: point.x, y: point.y, width: widthTo, height: heightTo, onComplete: removeDragImage});
+					TweenNano.to(dragTarget, 0.3, {x: dragTarget.x, y: dragTarget.y,scaleX:1,scaleY:1, onComplete: removeDragImage});
 					dropTarget.dispatchEvent(new DragEvent(DragEvent.DRAG_DROP, dragInitiator, dragImage, dragSource));
 				}
 				else

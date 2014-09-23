@@ -78,14 +78,13 @@ package com.shrimp.framework.ui.controls.core
 			{
 				return _width;
 			}*/
-
-			if (!isNaN(_width))
-			{
-				return _width;
-			}
-			else if (!isNaN(explicitWidth))
+			if (!isNaN(explicitWidth))
 			{
 				return _explicitWidth;
+			}
+			else if (!isNaN(_width))
+			{
+				return _width;
 			}
 			else
 			{
@@ -146,13 +145,13 @@ package com.shrimp.framework.ui.controls.core
 				return _height;
 			}*/
 
-			if (!isNaN(_height))
-			{
-				return _height;
-			}
-			else if (!isNaN(explicitHeight))
+			if (!isNaN(explicitHeight))
 			{
 				return explicitHeight;
+			}
+			else if (!isNaN(_height))
+			{
+				return _height;
 			}
 			else
 			{
@@ -206,8 +205,8 @@ package com.shrimp.framework.ui.controls.core
 
 			createChildren();
 
-			invalidateProperties();
-			invalidateDisplayList();
+//			invalidateProperties();
+//			invalidateDisplayList();
 			tabChildren=tabEnabled=false;
 			ComponentManager.addPreInitComponent(this);
 		}
@@ -226,8 +225,8 @@ package com.shrimp.framework.ui.controls.core
 
 		public function setActualSize(w:Number, h:Number):void
 		{
-			_explicitWidth=w;
-			_explicitHeight=h;
+//			_explicitWidth=w;
+//			_explicitHeight=h;
 
 			_width=isNaN(w) ? _measuredWidth : w;
 
@@ -285,57 +284,60 @@ package com.shrimp.framework.ui.controls.core
 
 		protected function creationCompleteHandler(e:Event):void
 		{
-			//trace("creationCompleteHandler");
+			trace("creationCompleteHandler",this);
 		}
 
 		public function validateNow():void
 		{
-			//trace("validateNow");
+			trace("validateNow",this);
 			validateProperties();
 			validateDisplayList();
 		}
 
 		public function validateDisplayList():void
 		{
+			trace("validateDisplayList",this);
 			updateDisplayList();
 			ComponentManager.removePaddingDisplay(this);
-			//trace("validateDisplayList");
 		}
 
 
 		public function validateProperties():void
 		{
+			trace("validateProperties",this);
 			commitProperties();
 			ComponentManager.removePaddingProperty(this)
-			//trace("validateProperties");
 		}
 
 		public function invalidateDisplayList():void
 		{
+			trace("invalidateDisplayList",this);
 			ComponentManager.addPaddingDisplay(this);
-			//trace("invalidateDisplayList");
 		}
 
 		public function invalidateProperties():void
 		{
+			trace("invalidateProperties",this);
 			ComponentManager.addPaddingProperty(this);
-			//trace("invalidateProperties");
 		}
 
 		protected function measure():void
 		{
-			//trace("measure",this);
+			trace("measure",this);
 		}
 
 		protected function updateDisplayList():void
 		{
-			measure();
-			//trace("updateDisplayList");
+			trace("updateDisplayList",this);
 		}
 
 		protected function commitProperties():void
 		{
-			//trace("commitProperties");
+			trace("commitProperties",this);
+			if(isNaN(_explicitWidth)||isNaN(_explicitHeight))
+			{
+				measure();
+			}
 		}
 
 		public function get horizontalCenter():Number

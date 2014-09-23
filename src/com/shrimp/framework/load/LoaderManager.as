@@ -40,9 +40,12 @@ package com.shrimp.framework.load
 		public static function load(loadItem:Object, complete:Function=null, progress:Function=null, error:Function=null, useCache:Boolean=true):void
 		{
 			var content:Object=ResourceLoader.getResLoaded(loadItem.url);
-			onCompleteCallBack=complete;
-			onProgressCallBack=progress;
-			onFailedCallBack=error;
+//			onCompleteCallBack=complete;
+//			onProgressCallBack=progress;
+//			onFailedCallBack=error;
+			loadItem.complete = complete;
+			loadItem.progress = progress;
+			loadItem.error = error;
 			if (content != null)
 			{
 				endLoad(loadItem, content, null);
@@ -116,9 +119,14 @@ package com.shrimp.framework.load
 				}
 			}
 
-			if (onCompleteCallBack!=null)
+//			if (onCompleteCallBack!=null)
+//			{
+//				onCompleteCallBack(info, content, domain)
+//			}
+			
+			if(info.complete)
 			{
-				onCompleteCallBack(info, content, domain)
+				info.complete(info, content, domain);
 			}
 		}
 

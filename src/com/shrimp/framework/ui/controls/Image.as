@@ -132,7 +132,7 @@ package com.shrimp.framework.ui.controls
 			if (_img.bitmapData == null)
 				return;
 
-			invalidateDisplayList();
+			invalidateProperties();
 		}
 
 		override protected function measure():void
@@ -147,7 +147,7 @@ package com.shrimp.framework.ui.controls
 			{
 				super.updateDisplayList();
 
-				if (_usescale9Rect)
+				if (_usescale9Rect && (width>scale9Rect.right || height > scale9Rect.bottom))
 				{
 					_img.bitmapData=DisplayObjectUtils.scale9Bmd(_img.bitmapData, scale9Rect, width, height);
 				}
