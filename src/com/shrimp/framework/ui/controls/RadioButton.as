@@ -37,10 +37,11 @@ package com.shrimp.framework.ui.controls
 			icon.skinClass = Style.radioBtnSkin;
 			icon.selected=false;
 			icon.toggle = true;
-			icon.validateNow();
+			icon.invalidateProperties();
+			icon.invalidateSize();
 			lbl= new Label(this,icon.width+gap,0);
 			lbl.text=this._label;
-			lbl.validateNow();
+			lbl.invalidateProperties();
 			addEventListener(MouseEvent.CLICK,onClick);
 		}
 		

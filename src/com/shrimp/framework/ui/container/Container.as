@@ -64,6 +64,7 @@ package com.shrimp.framework.ui.container
 				return;
 
 			_layout=value;
+			invalidateSize();
 			invalidateDisplayList();
 		}
 

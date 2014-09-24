@@ -74,8 +74,6 @@ package com.shrimp.framework.ui.layout
 //			target.setActualSize(_measureWidth,_measureHeight);
 			target.width = _measureWidth;
 			target.height = _measureHeight;
-			target.invalidateSize();
-			target.invalidateDisplayList();
 		}
 
 		protected function validataAlignH():void
