@@ -60,7 +60,7 @@ package com.shrimp.framework.ui.controls
 		{
 			bg=new Image(this);
 			bg.scale9Rect=new Rectangle(4,4,12,12);
-			_label=new Label(this);
+			_label=new Label();
 			_label.mouseEnabled=false;
 			_label.mouseChildren=false;
 			_labelColor=_label.color;
@@ -158,7 +158,7 @@ package com.shrimp.framework.ui.controls
 						break;
 				}
 
-				updateDisplayList();
+//				updateDisplayList();
 				lastState=state;
 				_skinDirty=false;
 			}
@@ -169,6 +169,7 @@ package com.shrimp.framework.ui.controls
 				_label.text=_labelText;
 				_label.validateNow();
 				validateSize();
+				invalidateDisplayList();
 				trace("from button commit properties::",_label.width,_label.height);
 			}
 		}
@@ -178,6 +179,10 @@ package com.shrimp.framework.ui.controls
 		override protected function updateDisplayList():void
 		{
 			super.updateDisplayList();
+			if(!this.contains(_label))
+			{
+				this.addChild(_label);
+			}
 			doLabelAlign();
 		}
 
@@ -292,12 +297,12 @@ package com.shrimp.framework.ui.controls
 		override protected function measure():void
 		{
 			super.measure();
-//			if (bg.width != _width)
-//				bg.width=_width;
-//			if (bg.height != _height)
-//				bg.height=_height;
-			bg.width =_label.width+10;
-			bg.height = _label.height;
+			if (bg.width != _width)
+				bg.width=_width;
+			if (bg.height != _height)
+				bg.height=_height;
+//			bg.width =_label.width+10;
+//			bg.height = _label.height;
 			var skinW:Number=bg ? bg.width : 0;
 			var skinH:Number=bg ? bg.height : 0;
 			if(_label.text=="")

@@ -44,7 +44,6 @@ package com.shrimp.framework.ui.controls
 			_format.size=Style.fontSize;
 			_format.color=Style.LABEL_COLOR;
 			_textField.selectable=false;
-//			_textField.autoSize=TextFieldAutoSize.LEFT;
 			_textField.text=text;
 			addChild(_textField);
 		}
@@ -356,22 +355,23 @@ package com.shrimp.framework.ui.controls
 			{
 				_textChanged=false;
 				html ? _textField.htmlText=_text : _textField.text=_text;
+				invalidateSize();
 				invalidateDisplayList();
-				measure();
 			}
 		}
 
 		override protected function measure():void
 		{
+			trace("measure from label");
 			measuredWidth=_textField.textWidth + 4 + _format.indent;
-			measuredHeight=Math.max(_textField.textHeight + 2, 15);
+			measuredHeight=Math.max(_textField.textHeight + 4, 15);
 		}
 
 		override protected function updateDisplayList():void
 		{
 			super.updateDisplayList();
-			_textField.width=_width;
-			_textField.height=_height;
+			_textField.width=width;
+			_textField.height=height;
 			if (_textField.type == TextFieldType.DYNAMIC && _textField.multiline == false)
 			{
 				var w:Number=_width;

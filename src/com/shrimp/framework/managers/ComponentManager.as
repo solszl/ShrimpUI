@@ -133,15 +133,13 @@ package com.shrimp.framework.managers
 			ispaddingUpdate = true;
 //			rn.addEventListener(Event.RENDER,onEnerFrame);
 			rn.addEventListener(Event.ENTER_FRAME, onEnerFrame);
-
-
 		}
 
 		private static function onEnerFrame(e:Event):void
 		{
 			run();
-//			ispaddingUpdate = false;
-//			rn.removeEventListener(Event.ENTER_FRAME,onEnerFrame);
+			ispaddingUpdate = false;
+			rn.removeEventListener(Event.ENTER_FRAME,onEnerFrame);
 		}
 	}
 }

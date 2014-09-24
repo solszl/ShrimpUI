@@ -62,6 +62,9 @@ package com.shrimp.framework.ui.controls
 					if (AssetsManager.hasLoaded(String(value)))
 					{
 						_img.bitmapData=AssetsManager.getInstance().getBitmapData(String(value));
+						invalidateProperties();
+						invalidateSize();
+						invalidateDisplayList();
 					}
 					else
 					{
@@ -81,12 +84,14 @@ package com.shrimp.framework.ui.controls
 				}
 				else
 				{
-					bit=DisplayObjectUtils.getDisplayBmd(new value());
+					bit=DisplayObjectUtils.getDisplayBmd(new value());//(new value()).bitmapData;//
 				}
 				_img.bitmapData=bit;
 				_img.width=bit.width;
 				_img.height=bit.height;
+				invalidateProperties();
 				invalidateSize();
+				invalidateDisplayList();
 			}
 			else if (value is BitmapData)
 			{
@@ -94,7 +99,9 @@ package com.shrimp.framework.ui.controls
 				_img.bitmapData=bit;
 				_img.width=bit.width;
 				_img.height=bit.height;
+				invalidateProperties();
 				invalidateSize();
+				invalidateDisplayList();
 			}
 			_source=value;
 		}
@@ -103,7 +110,10 @@ package com.shrimp.framework.ui.controls
 		{
 			_img.bitmapData=(content as BitmapData);
 			AssetsManager.getInstance().cacheBitmapData(String(_source), _img.bitmapData);
-			validateNow();
+//			validateNow();
+			invalidateProperties();
+			invalidateSize();
+			invalidateDisplayList();
 		}
 
 		protected function onFailed(url:String):void
@@ -134,6 +144,7 @@ package com.shrimp.framework.ui.controls
 			if (_img.bitmapData == null)
 				return;
 
+			invalidateProperties();
 			invalidateSize();
 		}
 

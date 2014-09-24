@@ -71,7 +71,11 @@ package com.shrimp.framework.ui.layout
 				}
 			}
 			_measureWidth+=_gap * (numChildren - 1);
-			target.setActualSize(_measureWidth,_measureHeight);
+//			target.setActualSize(_measureWidth,_measureHeight);
+			target.width = _measureWidth;
+			target.height = _measureHeight;
+			target.invalidateSize();
+			target.invalidateDisplayList();
 		}
 
 		protected function validataAlignH():void

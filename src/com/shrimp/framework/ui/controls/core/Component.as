@@ -125,6 +125,7 @@ package com.shrimp.framework.ui.controls.core
 				if (_width != _measuredWidth)
 				{
 					_width=_measuredWidth;
+					validateSize();
 					dispatchEvent(new Event(Event.RESIZE))
 				}
 			}
@@ -189,6 +190,7 @@ package com.shrimp.framework.ui.controls.core
 				if (_height != _measuredHeight)
 				{
 					_height=_measuredHeight;
+					validateSize();
 					dispatchEvent(new Event(Event.RESIZE))
 				}
 			}
