@@ -1,6 +1,6 @@
 package com.shrimp.framework.managers
 {
-	import com.shrimp.framework.ui.container.Container;
+	import com.shrimp.framework.ui.container.Box;
 	import com.shrimp.framework.ui.controls.core.Component;
 	
 	import flash.display.DisplayObject;
@@ -110,22 +110,22 @@ package com.shrimp.framework.managers
 		public static function lazyInit():void
 		{
 			var disobj:Component;
-			disobj = new Container();
+			disobj = new Box();
 			StageManager.root.addChild(disobj);
 			layerContent.push({layer: disobj, order: 1, name: LAYER_VIEW});
-			disobj = new Container();
+			disobj = new Box();
 			StageManager.root.addChild(disobj);
 			layerContent.push({layer: disobj, order: 2, name: LAYER_UI});
-			disobj = new Container();
+			disobj = new Box();
 			StageManager.root.addChild(disobj);
 			layerContent.push({layer: disobj, order: 3, name: LAYER_PANEL});
-			disobj = new Container();
+			disobj = new Box();
 			StageManager.root.addChild(disobj);
 			layerContent.push({layer: disobj, order: 4, name: LAYER_DIALOG});
-			disobj = new Container();
+			disobj = new Box();
 			StageManager.root.addChild(disobj);
 			layerContent.push({layer: disobj, order: 5, name: LYAER_POPUP});
-			disobj = new Container();
+			disobj = new Box();
 			StageManager.root.addChild(disobj);
 			layerContent.push({layer: disobj, order: 6, name: LAYER_TIP});
 			reSort();

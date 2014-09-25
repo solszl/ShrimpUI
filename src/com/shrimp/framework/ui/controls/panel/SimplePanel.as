@@ -1,7 +1,7 @@
 package com.shrimp.framework.ui.controls.panel
 {
 	import com.shrimp.framework.interfaces.IPanel;
-	import com.shrimp.framework.ui.container.Container;
+	import com.shrimp.framework.ui.container.Box;
 	
 	import flash.display.DisplayObjectContainer;
 
@@ -10,7 +10,7 @@ package com.shrimp.framework.ui.controls.panel
 	 * @author Sol
 	 * 
 	 */	
-	public class SimplePanel extends Container implements IPanel
+	public class SimplePanel extends Box implements IPanel
 	{
 		/**	面板数据*/
 		private var _data:*;

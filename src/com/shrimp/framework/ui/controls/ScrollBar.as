@@ -2,7 +2,7 @@ package com.shrimp.framework.ui.controls
 {
 	import com.shrimp.framework.GlobalConfig;
 	import com.shrimp.framework.managers.WorldClockManager;
-	import com.shrimp.framework.ui.container.Container;
+	import com.shrimp.framework.ui.container.Box;
 	import com.shrimp.framework.ui.controls.core.Component;
 	import com.shrimp.framework.ui.controls.core.Style;
 	
@@ -13,7 +13,7 @@ package com.shrimp.framework.ui.controls
 	import flash.geom.Point;
 
 	[Event(name="change", type="flash.events.Event")]
-	public class ScrollBar extends Container
+	public class ScrollBar extends Box
 	{
 		/**水平移动*/
 		public static const HORIZONTAL:String="horizontal";

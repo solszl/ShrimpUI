@@ -1,6 +1,6 @@
 package com.shrimp.framework.ui.controls.box
 {
-	import com.shrimp.framework.ui.container.Container;
+	import com.shrimp.framework.ui.container.Box;
 	
 	import flash.display.DisplayObjectContainer;
 	
@@ -9,7 +9,7 @@ package com.shrimp.framework.ui.controls.box
 	 * @author Sol
 	 * 
 	 */	
-	public class CheckBoxGroup extends Container
+	public class CheckBoxGroup extends Box
 	{
 		public function CheckBoxGroup(groupName:String="",parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
 		{

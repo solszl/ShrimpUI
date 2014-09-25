@@ -1,12 +1,12 @@
 package com.shrimp.framework.ui.controls
 {
 	import com.shrimp.framework.interfaces.IItemRenderer;
-	import com.shrimp.framework.ui.container.Container;
+	import com.shrimp.framework.ui.container.Box;
 	
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
 	
-	public class ItemRender extends Container implements IItemRenderer
+	public class ItemRender extends Box implements IItemRenderer
 	{
 		public function ItemRender(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
 		{

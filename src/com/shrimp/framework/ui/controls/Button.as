@@ -3,30 +3,30 @@ package com.shrimp.framework.ui.controls
 	import com.shrimp.framework.ui.controls.core.Component;
 	import com.shrimp.framework.ui.controls.core.Style;
 	import com.shrimp.framework.utils.ColorUtil;
-	
+
 	import flash.display.DisplayObjectContainer;
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
 
 	public class Button extends Component
 	{
-		protected static var stateMap:Object={"rollOver": 1, "rollOut": 0, "mouseDown": 2, "mouseUp": 1, "selected": 2};
+		protected static var stateMap:Object = {"rollOver": 1, "rollOut": 0, "mouseDown": 2, "mouseUp": 1, "selected": 2};
 		private var bg:Image;
 
-		public function Button(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0, label:String="")
+		public function Button(parent:DisplayObjectContainer = null, xpos:Number = 0, ypos:Number = 0, label:String = "")
 		{
 			super(parent, xpos, ypos);
 //			setActualSize(100,30);
-			mouseChildren=false;
-			this.label=label;
+			mouseChildren = false;
+			this.label = label;
 
 		}
 
 		override protected function init():void
 		{
 			super.init();
-			buttonMode=true;
-			useHandCursor=true;
+			buttonMode = true;
+			useHandCursor = true;
 			addEventListener(MouseEvent.ROLL_OVER, onMouse);
 			addEventListener(MouseEvent.ROLL_OUT, onMouse);
 			addEventListener(MouseEvent.MOUSE_DOWN, onMouse);
@@ -44,32 +44,32 @@ package com.shrimp.framework.ui.controls
 			{
 				if (_toggle)
 				{
-					selected=!_selected;
+					selected = !_selected;
 				}
 				return;
 			}
 			if (_selected == false && !toggle)
 			{
-				state=stateMap[e.type];
+				state = stateMap[e.type];
 			}
-			_skinDirty=true;
+			_skinDirty = true;
 			invalidateProperties();
 		}
 
 		override protected function createChildren():void
 		{
-			bg=new Image(this);
-			bg.scale9Rect=new Rectangle(4,4,12,12);
-			_label=new Label();
-			_label.mouseEnabled=false;
-			_label.mouseChildren=false;
-			_labelColor=_label.color;
+			bg = new Image(this);
+//			bg.scale9Rect=new Rectangle(4,4,12,12);
+			_label = new Label();
+			_label.mouseEnabled = false;
+			_label.mouseChildren = false;
+			_labelColor = _label.color;
 		}
 
 		protected var _label:Label;
-		protected var _labelText:String="";
-		private var _labelChanged:Boolean=false;
-		private var _over:Boolean=false;
+		protected var _labelText:String = "";
+		private var _labelChanged:Boolean = false;
+		private var _over:Boolean = false;
 
 		public function get label():String
 		{
@@ -81,17 +81,18 @@ package com.shrimp.framework.ui.controls
 			if (_labelText == value)
 				return;
 
-			_labelChanged=true;
-			_labelText=value;
+			_labelChanged = true;
+			_labelText = value;
 
 			invalidateProperties();
+			invalidateSize();
 		}
 
-		private var _labelColor:Object=0;
+		private var _labelColor:Object = 0;
 
 		public function set labelColor(value:Object):void
 		{
-			_label.color=value;
+			_label.color = value;
 		}
 
 		public function get labelColor():Object
@@ -106,7 +107,7 @@ package com.shrimp.framework.ui.controls
 
 		public function set labelSize(value:uint):void
 		{
-			_label.fontSize=value;
+			_label.fontSize = value;
 		}
 
 		public function get bold():Boolean
@@ -116,18 +117,24 @@ package com.shrimp.framework.ui.controls
 
 		public function set bold(value:Boolean):void
 		{
-			_label.bold=value;
+			_label.bold = value;
 		}
 
 		override protected function commitProperties():void
 		{
 			super.commitProperties();
 
+			if (scale9RectChanged)
+			{
+				scale9RectChanged = false;
+				bg.scale9Rect = this.scale9Rect;
+			}
+
 			if (_skinDirty)
 			{
 				if (lastState == state)
 					return;
-				bg.source=_skinClass;
+				bg.source = _skinClass;
 				//根据状态 更新按钮皮肤 0：normal  1：over 2:down
 				switch (state)
 				{
@@ -137,7 +144,7 @@ package com.shrimp.framework.ui.controls
 					case 1:
 						if (_overSkin)
 						{
-							bg.source=_overSkin;
+							bg.source = _overSkin;
 						}
 						else
 						{
@@ -148,7 +155,7 @@ package com.shrimp.framework.ui.controls
 					case 2:
 						if (_selectedSkin)
 						{
-							bg.source=_selectedSkin;
+							bg.source = _selectedSkin;
 						}
 						else
 						{
@@ -159,34 +166,44 @@ package com.shrimp.framework.ui.controls
 				}
 
 //				updateDisplayList();
-				lastState=state;
-				_skinDirty=false;
+				lastState = state;
+				_skinDirty = false;
 			}
-			
+
 			if (_labelChanged)
 			{
-				_labelChanged=false;
-				_label.text=_labelText;
+				_labelChanged = false;
+				_label.text = _labelText;
 				_label.validateNow();
 				validateSize();
 				invalidateDisplayList();
-				trace("from button commit properties::",_label.width,_label.height);
+				trace("from button commit properties::", _label.width, _label.height);
 			}
 		}
 
-		private var lastState:int=-1;
+		private var lastState:int = -1;
 
 		override protected function updateDisplayList():void
 		{
-			super.updateDisplayList();
-			if(!this.contains(_label))
+			if (bg.width != width)
+				bg.width = width;
+			if (bg.height != height)
+				bg.height = height;
+			if (!this.contains(_label))
 			{
 				this.addChild(_label);
 			}
+
+//			if(this.scale9Rect!=null)
+//			{
+//				bg.width = measuredWidth;
+//				bg.height = measuredHeight;
+//			}
+			super.updateDisplayList();
 			doLabelAlign();
 		}
 
-		[Inspectable(category="General", enumeration="top-left,top-center,top-right,middle-left,middle-center,middle-right,bottom-left,bottom-center,bottom-right", defaultValue="middle-center")]
+		[Inspectable(category = "General", enumeration = "top-left,top-center,top-right,middle-left,middle-center,middle-right,bottom-left,bottom-center,bottom-right", defaultValue = "middle-center")]
 		public function get labelAlign():String
 		{
 			return _labelAlign;
@@ -197,63 +214,63 @@ package com.shrimp.framework.ui.controls
 			if (value == _labelAlign)
 				return;
 
-			_labelAlign=value;
+			_labelAlign = value;
 
 			invalidateDisplayList();
 		}
 
 		private function doLabelAlign():void
 		{
-			var arr:Array=_labelAlign.split("-");
+			var arr:Array = _labelAlign.split("-");
 
 			if (arr[1] == "left")
 			{
-				_label.x=0;
+				_label.x = 0;
 			}
 			else if (arr[1] == "center")
 			{
-				_label.x=_width / 2 - _label.width / 2
+				_label.x = _width / 2 - _label.width / 2
 			}
 			else
 			{
-				_label.x=_width - _label.width;
+				_label.x = _width - _label.width;
 			}
 
 			if (arr[0] == "top")
 			{
-				_label.y=0;
+				_label.y = 0;
 			}
 			else if (arr[0] == "middle")
 			{
-				_label.y=_height / 2 - _label.height / 2;
+				_label.y = _height / 2 - _label.height / 2;
 			}
 			else
 			{
-				_label.y=_height - _label.height;
+				_label.y = _height - _label.height;
 			}
 		}
 
-		private var _labelAlign:String="middle-center";
+		private var _labelAlign:String = "middle-center";
 
-		private var _skinClass:Object=Style.defaultBtnNormalSkin;
+		private var _skinClass:Object = Style.defaultBtnNormalSkin;
 		private var _overSkin:Object;
 		private var _selectedSkin:Object;
 
-		private var _skinDirty:Boolean=true;
+		private var _skinDirty:Boolean = true;
 
 		public function set skinClass(value:Object):void
 		{
 			if (value == null)
 			{
-				value=Style.defaultBtnNormalSkin;
+				value = Style.defaultBtnNormalSkin;
 			}
 
 			if (value == _skinClass)
 				return;
 
-			_skinClass=value;
+			_skinClass = value;
 
-			bg.source=value;
+			bg.source = value;
 			invalidateSize();
 		}
 
@@ -266,15 +283,15 @@ package com.shrimp.framework.ui.controls
 		{
 			if (value == null)
 			{
-				value=Style.defaultBtnNormalSkin;
+				value = Style.defaultBtnNormalSkin;
 			}
 
 			if (value == _skinClass)
 				return;
 
-			_overSkin=value;
+			_overSkin = value;
 
-			bg.source=value;
+			bg.source = value;
 			invalidateSize();
 		}
 
@@ -282,39 +299,44 @@ package com.shrimp.framework.ui.controls
 		{
 			if (value == null)
 			{
-				value=Style.defaultBtnSelectedSkin;
+				value = Style.defaultBtnSelectedSkin;
 			}
 
 			if (value == _skinClass)
 				return;
 
-			_selectedSkin=value;
+			_selectedSkin = value;
 
-			bg.source=value;
+			bg.source = value;
 			invalidateSize();
 		}
 
 		override protected function measure():void
 		{
 			super.measure();
-			if (bg.width != _width)
-				bg.width=_width;
-			if (bg.height != _height)
-				bg.height=_height;
-//			bg.width =_label.width+10;
-//			bg.height = _label.height;
-			var skinW:Number=bg ? bg.width : 0;
-			var skinH:Number=bg ? bg.height : 0;
-			if(_label.text=="")
+			if (this.scale9Rect)
 			{
-				measuredWidth=skinW;
-				measuredHeight=skinH;
+				measuredWidth = _label.width + 10;
+				measuredHeight = _label.height;
 			}
 			else
 			{
-				measuredWidth=Math.max(_label.width + 10, skinW);
-				measuredHeight=Math.max(_label.height, skinH);
+				var skinW:Number = bg ? bg.width : 0;
+				var skinH:Number = bg ? bg.height : 0;
+				if (_label.text == "")
+				{
+					measuredWidth = skinW;
+					measuredHeight = skinH;
+				}
+				else
+				{
+					measuredWidth = Math.max(_label.width + 10, skinW);
+					measuredHeight = Math.max(_label.height, skinH);
+				}
 			}
+
+//			bg.width =_label.width+10;
+//			bg.height = _label.height;
 		}
 
 
@@ -325,7 +347,7 @@ package com.shrimp.framework.ui.controls
 			if (_state == value)
 				return;
 
-			_state=value;
+			_state = value;
 		}
 
 		private function get state():int
@@ -333,7 +355,7 @@ package com.shrimp.framework.ui.controls
 			return _state;
 		}
 
-		private var _selected:Boolean=false;
+		private var _selected:Boolean = false;
 
 		public function get selected():Boolean
 		{
@@ -345,9 +367,9 @@ package com.shrimp.framework.ui.controls
 			if (_selected == value)
 				return;
 
-			_selected=value;
-			state=_selected ? stateMap["selected"] : stateMap["rollOut"];
-			_skinDirty=true;
+			_selected = value;
+			state = _selected ? stateMap["selected"] : stateMap["rollOut"];
+			_skinDirty = true;
 			updateDisplayList();
 		}
 
@@ -360,7 +382,29 @@ package com.shrimp.framework.ui.controls
 
 		public function set toggle(value:Boolean):void
 		{
-			_toggle=value;
+			_toggle = value;
 		}
+
+		/**	九宫格*/
+		public function get scale9Rect():Rectangle
+		{
+			return _scale9Rect;
+		}
+
+		public function set scale9Rect(value:Rectangle):void
+		{
+			if (_scale9Rect == value)
+			{
+				return;
+			}
+			_scale9Rect = value;
+			scale9RectChanged = true;
+			invalidateProperties();
+			invalidateSize();
+		}
+
+		private var scale9RectChanged:Boolean = false;
+		private var _scale9Rect:Rectangle;
+
 	}
 }

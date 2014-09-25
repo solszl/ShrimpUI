@@ -1,7 +1,7 @@
 package com.shrimp.framework.managers
 {
 	import com.shrimp.framework.ui.controls.core.Component;
-
+	
 	import flash.display.Shape;
 	import flash.events.Event;
 	import flash.utils.Dictionary;
@@ -117,6 +117,9 @@ package com.shrimp.framework.managers
 					delete _preInitComponentList[target];
 				}
 			}
+			
+			count++;
+			trace(count);
 		}
 
 		private static var rn:Shape;
@@ -135,6 +138,7 @@ package com.shrimp.framework.managers
 			rn.addEventListener(Event.ENTER_FRAME, onEnerFrame);
 		}
 
+		private static var count:int;
 		private static function onEnerFrame(e:Event):void
 		{
 			run();

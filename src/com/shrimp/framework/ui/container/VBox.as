@@ -5,7 +5,7 @@ package com.shrimp.framework.ui.container
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 
-	public class VBox extends Container
+	public class VBox extends Box
 	{
 		public function VBox(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
 		{

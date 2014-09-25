@@ -2,12 +2,12 @@ package com.shrimp.framework.ui.controls
 {
 	import com.shrimp.framework.interfaces.IView;
 	import com.shrimp.framework.managers.StageManager;
-	import com.shrimp.framework.ui.container.Container;
+	import com.shrimp.framework.ui.container.Box;
 	
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
 
-	public class BaseView extends Container implements IView
+	public class BaseView extends Box implements IView
 	{
 		/**	资源是否已经准备完毕*/
 		protected var resourcePrepared:Boolean=false;

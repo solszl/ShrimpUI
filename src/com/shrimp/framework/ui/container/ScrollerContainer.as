@@ -12,12 +12,12 @@ package com.shrimp.framework.ui.container
 	import flash.events.Event;
 	import flash.geom.Rectangle;
 
-	public class ScrollerContainer extends Container
+	public class ScrollerContainer extends Box
 	{
 		protected var _vScrollBar:VScrollBar;
 		protected var _hScrollBar:HScrollBar;
 
-		protected var _content:Container;
+		protected var _content:Box;
 
 		public function ScrollerContainer(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
 		{
@@ -27,7 +27,7 @@ package com.shrimp.framework.ui.container
 		override protected function createChildren():void
 		{
 			super.createChildren();
-			_content=new Container();
+			_content=new Box();
 			_content.setActualSize(250, 250);
 			_vScrollBar=new VScrollBar();
 			_vScrollBar.addEventListener(Event.CHANGE, onScrollBarChange);

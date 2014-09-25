@@ -15,12 +15,12 @@ package com.shrimp.framework.ui.container
 	 *
 	 */
 	[DefaultProperty("children")]
-	public class Container extends Component
+	public class Box extends Component
 	{
 		protected var _layout:*;
 		private var _children:Vector.<DisplayObject>
 
-		public function Container(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
+		public function Box(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
 		{
 			super(parent, xpos, ypos);
 			mouseChildren=true;
@@ -50,6 +50,7 @@ package com.shrimp.framework.ui.container
 
 		protected function onResize(event:Event):void
 		{
+			invalidateSize();
 			invalidateDisplayList();
 		}
 

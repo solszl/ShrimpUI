@@ -35,7 +35,6 @@ package com.shrimp.framework.ui.controls
 
 		override protected function createChildren():void
 		{
-
 			_textField=new TextField();
 			_textField.defaultTextFormat=new TextFormat(Style.fontFamily, Style.fontSize, Style.LABEL_COLOR);
 

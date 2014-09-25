@@ -2,7 +2,7 @@ package com.shrimp.framework.ui.controls.panel
 {
 	import com.shrimp.framework.interfaces.IPanel;
 	import com.shrimp.framework.managers.PanelManager;
-	import com.shrimp.framework.ui.container.Container;
+	import com.shrimp.framework.ui.container.Box;
 	import com.shrimp.framework.ui.controls.Button;
 	import com.shrimp.framework.ui.controls.core.Style;
 	import com.shrimp.framework.utils.ClassUtils;
@@ -20,7 +20,7 @@ package com.shrimp.framework.ui.controls.panel
 	public class AbstractPanel extends SimplePanel implements IPanel
 	{
 
-		protected var contentHolder:Container;
+		protected var contentHolder:Box;
 		protected var _showCloseBtn:Boolean;
 		protected var _closeBtn:Button;
 
@@ -34,7 +34,7 @@ package com.shrimp.framework.ui.controls.panel
 		override protected function createChildren():void
 		{
 			super.createChildren();
-			contentHolder=new Container();
+			contentHolder=new Box();
 			super.addChildAt(contentHolder, 0);
 		}
 

@@ -1,6 +1,6 @@
 package com.shrimp.framework.ui.controls.box
 {
-	import com.shrimp.framework.ui.container.Container;
+	import com.shrimp.framework.ui.container.Box;
 	import com.shrimp.framework.ui.controls.RadioButton;
 	import com.shrimp.framework.ui.layout.AbstractLayout;
 	import com.shrimp.framework.ui.layout.HorizontalLayout;
@@ -13,7 +13,7 @@ package com.shrimp.framework.ui.controls.box
 	 * @author Sol
 	 * 
 	 */	
-	public class RadioButtonGroup extends Container
+	public class RadioButtonGroup extends Box
 	{
 		private var _groupName:String;
 

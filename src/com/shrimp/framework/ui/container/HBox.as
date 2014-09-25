@@ -5,7 +5,7 @@ package com.shrimp.framework.ui.container
 	
 	import flash.display.DisplayObjectContainer;
 
-	public class HBox extends Container
+	public class HBox extends Box
 	{
 		public function HBox(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
 		{
@@ -51,13 +51,13 @@ package com.shrimp.framework.ui.container
 		
 		override public function get measuredHeight():Number
 		{
-			validateDisplayList();
+//			validateDisplayList();
 			return HorizontalLayout(_layout).measureHeight;
 		}
 		
 		override public function get measuredWidth():Number
 		{
-			validateDisplayList();
+//			validateDisplayList();
 			return HorizontalLayout(_layout).measureWidth;
 		}
 	}

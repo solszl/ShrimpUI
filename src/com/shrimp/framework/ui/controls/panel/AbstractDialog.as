@@ -3,7 +3,7 @@ package com.shrimp.framework.ui.controls.panel
 	import com.shrimp.framework.interfaces.IDialog;
 	import com.shrimp.framework.managers.DialogManager;
 	import com.shrimp.framework.managers.LayerManager;
-	import com.shrimp.framework.ui.container.Container;
+	import com.shrimp.framework.ui.container.Box;
 	import com.shrimp.framework.ui.controls.Button;
 	import com.shrimp.framework.ui.controls.core.Style;
 	import com.shrimp.framework.utils.ClassUtils;
@@ -14,7 +14,7 @@ package com.shrimp.framework.ui.controls.panel
 	import flash.utils.getQualifiedClassName;
 	import flash.utils.getQualifiedSuperclassName;
 
-	public class AbstractDialog extends Container implements IDialog
+	public class AbstractDialog extends Box implements IDialog
 	{
 		protected var _modal:Boolean=false;
 		private var _modalChanged:Boolean=false;

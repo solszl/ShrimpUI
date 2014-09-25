@@ -96,6 +96,7 @@ package com.shrimp.framework.ui.layout
 					}
 				}
 			}
+			target.invalidateSize();
 			target.invalidateDisplayList();
 		}
 

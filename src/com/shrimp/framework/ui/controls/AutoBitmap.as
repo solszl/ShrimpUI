@@ -52,6 +52,7 @@ package com.shrimp.framework.ui.controls
 		override public function get width():Number
 		{
 			return isNaN(_width) ? (super.bitmapData ? super.bitmapData.width : super.width) : _width;
+			
 		}
 
 		override public function set width(value:Number):void
@@ -59,7 +60,6 @@ package com.shrimp.framework.ui.controls
 			if (_width != value)
 			{
 				_width=value;
-				validateSize();
 			}
 		}
 
@@ -74,7 +74,6 @@ package com.shrimp.framework.ui.controls
 			if (_height != value)
 			{
 				_height=value;
-				validateSize();
 			}
 		}
 
@@ -85,13 +84,13 @@ package com.shrimp.framework.ui.controls
 		
 		protected function measure():void
 		{
-			addEventListener(Event.ENTER_FRAME,updateDisplayList);
-//			updateDisplayList();
+//			addEventListener(Event.ENTER_FRAME,updateDisplayList);
+			updateDisplayList();
 		}
 
 		public function updateDisplayList(e:Event=null):void
 		{
-			removeEventListener(Event.ENTER_FRAME,updateDisplayList);
+//			removeEventListener(Event.ENTER_FRAME,updateDisplayList);
 			if (bitmapData)
 			{
 				if (useScale9Rect)

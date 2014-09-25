@@ -33,7 +33,7 @@ package com.shrimp.framework.ui.controls.core
 
 		/**	明确的高*/
 		protected var _explicitHeight:Number=NaN;
-		/**	明确宽*/
+		/**	明确的宽*/
 		protected var _explicitWidth:Number=NaN;
 
 		private var _horizontalCenter:Number=NaN;
@@ -66,18 +66,6 @@ package com.shrimp.framework.ui.controls.core
 
 		override public function get width():Number
 		{
-			/*if (!isNaN(explicitWidth))
-			{
-				return _explicitWidth;
-			}
-			else if (measuredWidth != 0)
-			{
-				return measuredWidth;
-			}
-			else
-			{
-				return _width;
-			}*/
 			if (!isNaN(explicitWidth))
 			{
 				return _explicitWidth;
@@ -96,9 +84,19 @@ package com.shrimp.framework.ui.controls.core
 		{
 			if (_width == value)
 				return;
-			_width=value;
-			_explicitWidth=value;
-			invalidateSize();
+			
+			if(explicitWidth != value)
+			{
+				_explicitWidth=value;
+				invalidateSize();
+			}
+			
+			if(_width == value)
+			{
+				_width=value;
+				invalidateProperties();
+				invalidateDisplayList();
+			}
 			dispatchEvent(new Event(Event.RESIZE));
 		}
 
@@ -125,7 +123,6 @@ package com.shrimp.framework.ui.controls.core
 				if (_width != _measuredWidth)
 				{
 					_width=_measuredWidth;
-					validateSize();
 					dispatchEvent(new Event(Event.RESIZE))
 				}
 			}
@@ -164,9 +161,19 @@ package com.shrimp.framework.ui.controls.core
 		{
 			if (_height == value)
 				return;
-			_height=value;
-			_explicitHeight=value;
-			invalidateSize();
+			
+			if(explicitHeight!=value)
+			{
+				_explicitHeight = value;
+				invalidateSize();
+			}
+			
+			if(_height!=value)
+			{
+				_height=value;
+				invalidateProperties();
+				invalidateDisplayList();
+			}
 			dispatchEvent(new Event(Event.RESIZE));
 		}
 
@@ -190,7 +197,6 @@ package com.shrimp.framework.ui.controls.core
 				if (_height != _measuredHeight)
 				{
 					_height=_measuredHeight;
-					validateSize();
 					dispatchEvent(new Event(Event.RESIZE))
 				}
 			}
@@ -315,6 +321,7 @@ package com.shrimp.framework.ui.controls.core
 		public function validateSize():void
 		{
 			measure();
+			invalidateDisplayList();
 			ComponentManager.removePaddingSize(this);
 		}
 
@@ -338,11 +345,15 @@ package com.shrimp.framework.ui.controls.core
 
 		protected function measure():void
 		{
+			measuredHeight = 0;
+			measuredWidth = 0;
 			trace("measure",this);
 		}
 
 		protected function updateDisplayList():void
 		{
+			_width = width;
+			_height = height;
 			trace("updateDisplayList",this);
 		}
 

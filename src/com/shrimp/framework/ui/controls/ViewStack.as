@@ -1,11 +1,11 @@
 package com.shrimp.framework.ui.controls
 {
-	import com.shrimp.framework.ui.container.Container;
+	import com.shrimp.framework.ui.container.Box;
 	
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 
-	public class ViewStack extends Container
+	public class ViewStack extends Box
 	{
 		public function ViewStack(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
 		{

@@ -151,6 +151,7 @@ package com.shrimp.framework.ui.controls
 		override protected function measure():void
 		{
 			super.measure();
+//			_img.validateSize();
 			measuredWidth=_img.width;
 			measuredHeight=_img.height;
 		}
@@ -167,7 +168,7 @@ package com.shrimp.framework.ui.controls
 			{
 				return super.width;
 			}
-			return _img.bitmapData.width;
+			return _img.width;
 		}
 		
 		override public function set height(value:Number):void
@@ -182,7 +183,7 @@ package com.shrimp.framework.ui.controls
 			{
 				return super.height;
 			}
-			return _img.bitmapData.height;
+			return _img.height;
 		}
 		
 		override protected function updateDisplayList():void

@@ -1,6 +1,6 @@
 package com.shrimp.framework.ui.controls
 {
-	import com.shrimp.framework.ui.container.Container;
+	import com.shrimp.framework.ui.container.Box;
 	import com.shrimp.framework.ui.controls.core.Style;
 	import com.shrimp.framework.ui.layout.HorizontalLayout;
 	import com.shrimp.framework.ui.layout.VerticalLayout;
@@ -17,7 +17,7 @@ package com.shrimp.framework.ui.controls
 	 *
 	 */
 	[Event(name="select", type="flash.events.Event")]
-	public class TabBar extends Container
+	public class TabBar extends Box
 	{
 		protected var _direction:String;
 		//方向发生变化
