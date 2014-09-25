@@ -6,12 +6,13 @@ package com.shrimp.framework.ui.controls
 	import com.shrimp.framework.ui.controls.core.Component;
 	import com.shrimp.framework.ui.controls.core.Style;
 	import com.shrimp.framework.utils.StringUtil;
-
+	
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
 	import flash.events.TextEvent;
+	import flash.geom.Rectangle;
 	import flash.net.URLRequest;
 	import flash.net.navigateToURL;
 	import flash.text.TextField;
@@ -226,6 +227,7 @@ package com.shrimp.framework.ui.controls
 			button.label=label;
 			button.setActualSize(Alert.buttonWidth, Alert.buttonHeight);
 			button.x=buttonContainer.numChildren * (btnGap + buttonWidth);
+			button.scale9Rect = new Rectangle(4,4,12,12);
 			button.addEventListener(MouseEvent.CLICK, clickHandler, false, 0, true);
 			if (button.objData == null)
 				button.objData=new Object();
