@@ -42,6 +42,8 @@ package com.shrimp.framework.ui.controls
 			lbl= new Label(this,icon.width+gap,0);
 			lbl.text=this._label;
 			lbl.invalidateProperties();
+			invalidateProperties();
+			invalidateSize();
 			addEventListener(MouseEvent.CLICK,onClick);
 		}
 		
@@ -53,6 +55,10 @@ package com.shrimp.framework.ui.controls
 		
 		public function set selected(b:Boolean):void
 		{
+			if(icon.selected == b)
+			{
+				return;
+			}
 			icon.selected = b;
 			icon.validateProperties();
 		}
@@ -67,6 +73,8 @@ package com.shrimp.framework.ui.controls
 			super.updateDisplayList();
 			lbl.move(icon.width+gap,0);
 			icon.move(0,Math.abs(icon.height-lbl.height)*.5);
+			
+			trace(this.width,this.height);
 		}
 		
 		public function get label():String
@@ -91,6 +99,7 @@ package com.shrimp.framework.ui.controls
 				lbl.text=_label;
 				lbl.validateNow();
 				
+				invalidateSize();
 				invalidateDisplayList();
 			}
 		}
