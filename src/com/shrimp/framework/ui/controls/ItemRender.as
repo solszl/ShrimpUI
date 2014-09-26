@@ -27,6 +27,9 @@ package com.shrimp.framework.ui.controls
 				return;
 			
 			_data=value;
+			invalidateProperties();
+			invalidateSize();
+			invalidateDisplayList();
 			dispatchEvent(new Event("dataChange"));
 		}
 		

@@ -1,7 +1,8 @@
 package com.shrimp.framework.ui.layout
 {
+	import com.shrimp.framework.ui.controls.Button;
 	import com.shrimp.framework.ui.controls.core.Component;
-
+	
 	import flash.display.DisplayObject;
 
 	public class BaseLayout extends AbstractLayout
@@ -98,6 +99,8 @@ package com.shrimp.framework.ui.layout
 			}
 			target.invalidateSize();
 			target.invalidateDisplayList();
+			target.width = measureWidth;
+			target.height = measureHeight;
 		}
 
 		override public function get measureHeight():Number

@@ -65,6 +65,7 @@ package com.shrimp.framework.ui.container
 				return;
 
 			_layout=value;
+			invalidateProperties();
 			invalidateSize();
 			invalidateDisplayList();
 		}
@@ -77,6 +78,7 @@ package com.shrimp.framework.ui.container
 				_layout=new BaseLayout();
 			}
 			_layout.layout(this);
+			showBorder();
 		}
 
 		public function set children(value:Vector.<DisplayObject>):void

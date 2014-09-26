@@ -97,6 +97,7 @@ package com.shrimp.framework.ui.controls
 			_dataProvierChanged=true;
 			
 			invalidateProperties();
+			invalidateSize();
 		}
 		
 		public function get itemRender():IFactory
@@ -186,6 +187,7 @@ package com.shrimp.framework.ui.controls
 				_dataProvierChanged = false;
 				_listItemClassChanged= false;
 				
+				invalidateSize();
 				invalidateDisplayList();
 			}
 			
@@ -239,6 +241,7 @@ package com.shrimp.framework.ui.controls
 			
 			_selectedIndexChanged = true;
 			invalidateProperties();
+			invalidateSize();
 		}
 		
 		/**
@@ -340,6 +343,7 @@ package com.shrimp.framework.ui.controls
 		{
 			addChild(DisplayObject(createItemRender(item,_dataProvider.length)));
 			
+			invalidateSize();
 			invalidateDisplayList();
 		}
 		
@@ -347,6 +351,7 @@ package com.shrimp.framework.ui.controls
 		{
 			addChildAt(DisplayObject(createItemRender(item,index)), index);
 			
+			invalidateSize();
 			invalidateDisplayList();
 		}
 		
