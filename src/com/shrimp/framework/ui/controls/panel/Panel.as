@@ -51,6 +51,8 @@ package com.shrimp.framework.ui.controls.panel
 				visible=true;
 				panel_layer.setChildIndex(this, panel_layer.numChildren - 1);
 			}
+			
+			invalidateDisplayList();
 		}
 	}
 }

@@ -2,10 +2,12 @@ package com.shrimp.framework.ui.controls
 {
 	import com.shrimp.framework.ui.controls.core.Component;
 	import com.shrimp.framework.ui.controls.core.Style;
-
+	import com.shrimp.framework.utils.DisplayObjectUtils;
+	
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import flash.geom.Point;
 
 	/**
 	 *	复选框
@@ -21,6 +23,8 @@ package com.shrimp.framework.ui.controls
 		{
 			this._label = label;
 			super(parent, xpos, ypos);
+			buttonMode=true;
+			useHandCursor=true;
 			mouseChildren = false;
 		}
 		/**	复选框皮肤和文字间隔*/
@@ -49,6 +53,9 @@ package com.shrimp.framework.ui.controls
 		protected function onClick(event:MouseEvent):void
 		{
 			selected = !selected;
+			var arr:Array = [];
+			DisplayObjectUtils.getObjectsUnderPoint(stage,new Point(event.stageX,event.stageY),arr);
+			trace(arr.join(','));
 		}
 
 		public function set selected(b:Boolean):void

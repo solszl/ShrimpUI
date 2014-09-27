@@ -91,7 +91,7 @@ package com.shrimp.framework.ui.controls.core
 				invalidateSize();
 			}
 			
-			if(_width == value)
+			if(_width != value)
 			{
 				_width=value;
 				invalidateProperties();

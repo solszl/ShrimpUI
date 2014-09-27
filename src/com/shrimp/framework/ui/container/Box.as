@@ -29,6 +29,7 @@ package com.shrimp.framework.ui.container
 		override public function addChild(child:DisplayObject):DisplayObject
 		{
 			child.addEventListener(Event.RESIZE, onResize, false, 0, true);
+			invalidateSize();
 			invalidateDisplayList();
 
 			return super.addChild(child);
@@ -37,6 +38,7 @@ package com.shrimp.framework.ui.container
 		override public function addChildAt(child:DisplayObject, index:int):DisplayObject
 		{
 			child.addEventListener(Event.RESIZE, onResize, false, 0, true);
+			invalidateSize();
 			invalidateDisplayList();
 
 			return super.addChildAt(child, index);
@@ -45,6 +47,8 @@ package com.shrimp.framework.ui.container
 		override public function removeChild(child:DisplayObject):DisplayObject
 		{
 			child.removeEventListener(Event.RESIZE, onResize);
+			invalidateSize();
+			invalidateDisplayList();
 			return super.removeChild(child);
 		}
 
@@ -78,7 +82,6 @@ package com.shrimp.framework.ui.container
 				_layout=new BaseLayout();
 			}
 			_layout.layout(this);
-			showBorder();
 		}
 
 		public function set children(value:Vector.<DisplayObject>):void
@@ -99,6 +102,7 @@ package com.shrimp.framework.ui.container
 				}
 
 				invalidateProperties();
+				invalidateSize();
 				invalidateDisplayList();
 			}
 		}
@@ -114,6 +118,9 @@ package com.shrimp.framework.ui.container
 			{
 				removeChildAt(0);
 			}
+			
+			invalidateSize();
+			invalidateDisplayList();
 		}
 		
 //		override public function get measuredHeight():Number

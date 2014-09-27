@@ -40,8 +40,9 @@ package com.shrimp.framework.ui.controls.box
 			
 			this._source = value;
 			_dataProviderChanged=true;
-			
-			validateNow();
+			invalidateProperties();
+			invalidateSize();
+			invalidateDisplayList();
 		}
 		
 		override protected function commitProperties():void
@@ -128,7 +129,8 @@ package com.shrimp.framework.ui.controls.box
 			{
 				rb.label=data.toString();
 			}
-			rb.validateNow();
+			rb.validateSize();
+			rb.validateDisplayList();
 			return rb;
 		}
 		

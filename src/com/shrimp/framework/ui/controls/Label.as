@@ -37,7 +37,7 @@ package com.shrimp.framework.ui.controls
 		{
 			_textField=new TextField();
 			_textField.defaultTextFormat=new TextFormat(Style.fontFamily, Style.fontSize, Style.LABEL_COLOR);
-
+			_textField.height = 10;
 			_format=_textField.defaultTextFormat;
 			_format.font=Style.fontFamily;
 			_format.size=Style.fontSize;

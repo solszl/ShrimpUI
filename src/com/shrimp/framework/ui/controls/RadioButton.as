@@ -21,6 +21,8 @@ package com.shrimp.framework.ui.controls
 			this._label=label;
 			super(parent, xpos, ypos);
 			mouseChildren=false;
+			buttonMode=true;
+			useHandCursor=true;
 		}
 		
 		/**	复选框皮肤和文字间隔*/
@@ -73,8 +75,6 @@ package com.shrimp.framework.ui.controls
 			super.updateDisplayList();
 			lbl.move(icon.width+gap,0);
 			icon.move(0,Math.abs(icon.height-lbl.height)*.5);
-			
-			trace(this.width,this.height);
 		}
 		
 		public function get label():String
@@ -110,5 +110,20 @@ package com.shrimp.framework.ui.controls
 			measuredWidth = icon.width+gap+lbl.width;
 			measuredHeight=Math.max(icon.height,lbl.height);
 		}
+		
+		public function set normalSkin(skin:Object):void
+		{
+			icon.skinClass = skin;
+			invalidateSize();
+			invalidateDisplayList();
+		}
+		
+		public function set selectedSkin(skin:Object):void
+		{
+			icon.selectedSkinClass = skin;
+			invalidateSize();
+			invalidateDisplayList();
+		}
+		
 	}
 }

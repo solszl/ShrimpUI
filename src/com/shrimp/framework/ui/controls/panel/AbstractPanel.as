@@ -87,7 +87,7 @@ package com.shrimp.framework.ui.controls.panel
 
 			if (_showCloseBtn)
 			{
-				_closeBtn.move(_width - _closeBtn.width - 1, -27);
+				_closeBtn.move(_width - _closeBtn.width, -27);
 			}
 		}
 

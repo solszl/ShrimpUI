@@ -164,11 +164,13 @@ package com.shrimp.framework.ui.controls
 		
 		override public function get width():Number
 		{
-			if(!_img.bitmapData)
-			{
-				return super.width;
-			}
-			return _img.width;
+//			if(!_img.bitmapData)
+//			{
+//				return super.width;
+//			}
+//			return _img.width;
+			
+			return super.width!=0?super.width:_img.width;
 		}
 		
 		override public function set height(value:Number):void
@@ -179,11 +181,13 @@ package com.shrimp.framework.ui.controls
 		
 		override public function get height():Number
 		{
-			if(!_img.bitmapData)
-			{
-				return super.height;
-			}
-			return _img.height;
+//			if(!_img.bitmapData)
+//			{
+//				return super.height;
+//			}
+//			return _img.height;
+			
+			return super.height!=0?super.height:_img.height;
 		}
 		
 		override protected function updateDisplayList():void
@@ -192,9 +196,9 @@ package com.shrimp.framework.ui.controls
 			{
 				super.updateDisplayList();
 
-				if (_usescale9Rect)// && (width>scale9Rect.right || height > scale9Rect.bottom)
+				if (_usescale9Rect)
 				{
-					_img.bitmapData=DisplayObjectUtils.scale9Bmd(_img.bitmapData, scale9Rect, width, height);
+					_img.bitmapData=DisplayObjectUtils.scale9Bmd(_img.bitmapData, scale9Rect,width,height);
 				}
 				else
 				{
