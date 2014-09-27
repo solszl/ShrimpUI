@@ -97,7 +97,7 @@ package com.shrimp.framework.ui.layout
 					}
 				}
 			}
-			target.invalidateSize();
+//			target.invalidateSize();
 			target.invalidateDisplayList();
 			target.width = measureWidth;
 			target.height = measureHeight;

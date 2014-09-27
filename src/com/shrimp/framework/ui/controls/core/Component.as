@@ -256,12 +256,11 @@ package com.shrimp.framework.ui.controls.core
 		/**显示边框*/
 		public function showBorder(color:uint=0xff0000):void
 		{
-			removeChildByName("border");
-			var border:Shape=new Shape();
-			border.name="border";
-			border.graphics.lineStyle(1, color);
-			border.graphics.drawRect(0, 0, width, height);
-			addChild(border);
+			with(this)
+			{
+				graphics.lineStyle(1, color);
+				graphics.drawRect(0, 0, width, height);
+			}
 		}
 
 		public function set toolTip(value:Object):void
