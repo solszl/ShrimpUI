@@ -63,6 +63,7 @@ package com.shrimp.framework.ui.layout
 				child=target.getChildAt(i);
 				child.x=xpos;
 				xpos+=child.width;
+				trace("child, i:",i,child,child.width);
 				xpos+=_gap;
 				_measureWidth+=child.width;
 				if (_measureHeight < child.height)
@@ -74,6 +75,8 @@ package com.shrimp.framework.ui.layout
 //			target.setActualSize(_measureWidth,_measureHeight);
 			target.width = _measureWidth;
 			target.height = _measureHeight;
+			
+			trace("target::",target,target.width);
 		}
 
 		protected function validataAlignH():void

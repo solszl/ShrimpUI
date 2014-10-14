@@ -69,6 +69,7 @@ package com.shrimp.framework.ui.controls
 				dispatchEvent(new Event(Event.CHANGE));
 			}
 			invalidateProperties();
+			invalidateSize();
 		}
 
 
@@ -361,9 +362,10 @@ package com.shrimp.framework.ui.controls
 
 		override protected function measure():void
 		{
-			trace("measure from label");
+			super.measure();
 			measuredWidth=_textField.textWidth + 4 + _format.indent;
 			measuredHeight=Math.max(_textField.textHeight + 4, 15);
+			trace("measure from label:",measuredWidth,measuredHeight);
 		}
 
 		override protected function updateDisplayList():void

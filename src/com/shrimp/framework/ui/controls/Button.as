@@ -323,6 +323,8 @@ package com.shrimp.framework.ui.controls
 			{
 				var skinW:Number = bg ? bg.width : 0;
 				var skinH:Number = bg ? bg.height : 0;
+				skinH = isNaN(skinH)?0:skinH;
+				skinW = isNaN(skinW)?0:skinW;
 				if (_label.text == "")
 				{
 					measuredWidth = skinW;
@@ -335,8 +337,6 @@ package com.shrimp.framework.ui.controls
 				}
 			}
 
-//			bg.width =_label.width+10;
-//			bg.height = _label.height;
 		}
 
 

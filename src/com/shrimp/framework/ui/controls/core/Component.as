@@ -102,16 +102,15 @@ package com.shrimp.framework.ui.controls.core
 
 		public function get measuredWidth():Number
 		{
-//			commitProperties();
-			var max:Number=0;
-			for (var i:int=numChildren - 1; i > 0; i--)
-			{
-				var comp:DisplayObject=getChildAt(i);
-				max=Math.max(comp.x + comp.width, max);
-			}
-			return max;
+//			var max:Number=0;
+//			for (var i:int=numChildren - 1; i > 0; i--)
+//			{
+//				var comp:DisplayObject=getChildAt(i);
+//				max=Math.max(comp.x + comp.width, max);
+//			}
+//			return max;
 
-//			return _measuredWidth;
+			return _measuredWidth;
 		}
 
 
@@ -179,14 +178,14 @@ package com.shrimp.framework.ui.controls.core
 
 		public function get measuredHeight():Number
 		{
-//			commitProperties();
-			var max:Number=0;
-			for (var i:int=numChildren - 1; i > 0; i--)
-			{
-				var comp:DisplayObject=getChildAt(i);
-				max=Math.max(comp.y + comp.height, max);
-			}
-			return max;
+//			var max:Number=0;
+//			for (var i:int=numChildren - 1; i > 0; i--)
+//			{
+//				var comp:DisplayObject=getChildAt(i);
+//				max=Math.max(comp.y + comp.height, max);
+//			}
+//			return max;
+			return _measuredHeight;
 		}
 
 		public function set measuredHeight(value:Number):void
@@ -233,8 +232,8 @@ package com.shrimp.framework.ui.controls.core
 
 		public function setActualSize(w:Number, h:Number):void
 		{
-//			_explicitWidth=w;
-//			_explicitHeight=h;
+			_explicitWidth=w;
+			_explicitHeight=h;
 
 			_width=isNaN(w) ? _measuredWidth : w;
 
@@ -291,12 +290,12 @@ package com.shrimp.framework.ui.controls.core
 
 		protected function creationCompleteHandler(e:Event):void
 		{
-			trace("creationCompleteHandler",this);
+			out("creationCompleteHandler");
 		}
 
 		public function validateNow():void
 		{
-			trace("validateNow",this);
+			out("validateNow");
 			validateProperties();
 			validateSize();
 			validateDisplayList();
@@ -304,7 +303,7 @@ package com.shrimp.framework.ui.controls.core
 
 		public function validateDisplayList():void
 		{
-			trace("validateDisplayList",this);
+			out("validateDisplayList");
 			updateDisplayList();
 			ComponentManager.removePaddingDisplay(this);
 		}
@@ -312,7 +311,7 @@ package com.shrimp.framework.ui.controls.core
 
 		public function validateProperties():void
 		{
-			trace("validateProperties",this);
+			out("validateProperties");
 			commitProperties();
 			ComponentManager.removePaddingProperty(this)
 		}
@@ -326,19 +325,19 @@ package com.shrimp.framework.ui.controls.core
 
 		public function invalidateDisplayList():void
 		{
-			trace("invalidateDisplayList",this);
+			out("invalidateDisplayList");
 			ComponentManager.addPaddingDisplay(this);
 		}
 
 		public function invalidateProperties():void
 		{
-			trace("invalidateProperties",this);
+			out("invalidateProperties");
 			ComponentManager.addPaddingProperty(this);
 		}
 		
 		public function invalidateSize():void
 		{
-			trace("invalidateSize",this);
+			out("invalidateSize");
 			ComponentManager.addPaddingSize(this);
 		}
 
@@ -346,19 +345,19 @@ package com.shrimp.framework.ui.controls.core
 		{
 			measuredHeight = 0;
 			measuredWidth = 0;
-			trace("measure",this);
+			out("measure");
 		}
 
 		protected function updateDisplayList():void
 		{
 			_width = width;
 			_height = height;
-			trace("updateDisplayList",this);
+			out("updateDisplayList");
 		}
 
 		protected function commitProperties():void
 		{
-			trace("commitProperties",this);
+			out("commitProperties");
 //			if(isNaN(_explicitWidth)||isNaN(_explicitHeight))
 //			{
 //				measure();
@@ -541,6 +540,11 @@ package com.shrimp.framework.ui.controls.core
 
 			_bottom=value;
 			invalidateDisplayList();
+		}
+		
+		private function out(type:String):void
+		{
+			trace(type,this);
 		}
 	}
 }
