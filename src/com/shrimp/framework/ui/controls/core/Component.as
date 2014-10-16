@@ -17,6 +17,10 @@ package com.shrimp.framework.ui.controls.core
 	 */
 	public class Component extends Sprite implements ITooltip
 	{
+		
+		//新手引导名字
+		private var _guideName:String;
+		
 		private var _tooltip:Object;
 
 		protected var _listeners:Array;
@@ -535,5 +539,17 @@ package com.shrimp.framework.ui.controls.core
 		{
 			trace(type,this);
 		}
+
+		/**	新手引导名字*/
+		public function get guideName():String
+		{
+			return _guideName;
+		}
+
+		public function set guideName(value:String):void
+		{
+			_guideName = value;
+		}
+
 	}
 }
