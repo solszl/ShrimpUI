@@ -10,10 +10,14 @@ package com.shrimp.framework.ui.controls
 	import flash.filters.GlowFilter;
 	import flash.system.Capabilities;
 	import flash.text.TextField;
-	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFieldType;
 	import flash.text.TextFormat;
 
+	/**
+	 *	标签组件 
+	 * @author Sol
+	 * 
+	 */	
 	public class Label extends Component
 	{
 		public function Label(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0, text:String="")
@@ -23,7 +27,9 @@ package com.shrimp.framework.ui.controls
 			stroke=Style.stroke;
 		}
 
+		/**	每个label内包含的textField*/
 		protected var _textField:TextField;
+		/**	textField对应的文本格式*/
 		protected var _format:TextFormat;
 		protected var _text:String="";
 		protected var _html:Boolean;
@@ -105,6 +111,7 @@ package com.shrimp.framework.ui.controls
 			_textField.multiline=value;
 			_textPropertyChanged=true;
 			invalidateProperties();
+			invalidateSize();
 		}
 
 		/**宽高是否自适应*/
@@ -118,6 +125,7 @@ package com.shrimp.framework.ui.controls
 			_textField.autoSize=value;
 			_textPropertyChanged=true;
 			invalidateProperties();
+			invalidateSize();
 		}
 
 		/**是否自动换行*/
@@ -197,6 +205,7 @@ package com.shrimp.framework.ui.controls
 			}
 			_textPropertyChanged=true;
 			invalidateProperties();
+			invalidateSize();
 		}
 
 		[Inspectable(category="General", enumeration="left,right,center", defaultValue="left")]
@@ -205,12 +214,16 @@ package com.shrimp.framework.ui.controls
 			return _format.align;
 		}
 
+		/**
+		 *	设置文本对其齐 ,默认左对齐
+		 * @param value
+		 */		
 		public function set align(value:String):void
 		{
 			_format.align=value;
-//			_textField.autoSize = value;
 			_textPropertyChanged=true;
 			invalidateProperties();
+			invalidateSize();
 		}
 
 		/**粗体类型*/
@@ -224,6 +237,7 @@ package com.shrimp.framework.ui.controls
 			_format.bold=value;
 			_textPropertyChanged=true;
 			invalidateProperties();
+			invalidateSize();
 		}
 
 		/**垂直间距*/
@@ -237,6 +251,7 @@ package com.shrimp.framework.ui.controls
 			_format.leading=value;
 			_textPropertyChanged=true;
 			invalidateProperties();
+			invalidateSize();
 		}
 
 		/**第一个字符的缩进*/
@@ -250,6 +265,7 @@ package com.shrimp.framework.ui.controls
 			_format.indent=value;
 			_textPropertyChanged=true;
 			invalidateProperties();
+			invalidateSize();
 		}
 
 		/**字体大小*/
@@ -263,6 +279,7 @@ package com.shrimp.framework.ui.controls
 			_format.size=value;
 			_textPropertyChanged=true;
 			invalidateProperties();
+			invalidateSize();
 		}
 
 		/**下划线类型*/
@@ -289,6 +306,7 @@ package com.shrimp.framework.ui.controls
 			_format.letterSpacing=value;
 			_textPropertyChanged=true;
 			invalidateProperties();
+			invalidateSize();
 		}
 
 		public function get margin():String
@@ -303,6 +321,7 @@ package com.shrimp.framework.ui.controls
 			_textField.y=_margin[1];
 			_textPropertyChanged=true;
 			invalidateProperties();
+			invalidateSize();
 		}
 
 		/**格式*/
@@ -316,6 +335,7 @@ package com.shrimp.framework.ui.controls
 			_format=value;
 			_textPropertyChanged=true;
 			invalidateProperties();
+			invalidateSize();
 		}
 
 		/**文本控件实体*/
@@ -355,8 +375,6 @@ package com.shrimp.framework.ui.controls
 			{
 				_textChanged=false;
 				html ? _textField.htmlText=_text : _textField.text=_text;
-				invalidateSize();
-				invalidateDisplayList();
 			}
 		}
 
@@ -365,7 +383,6 @@ package com.shrimp.framework.ui.controls
 			super.measure();
 			measuredWidth=_textField.textWidth + 4 + _format.indent;
 			measuredHeight=Math.max(_textField.textHeight + 4, 15);
-			trace("measure from label:",measuredWidth,measuredHeight);
 		}
 
 		override protected function updateDisplayList():void

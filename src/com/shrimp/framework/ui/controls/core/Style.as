@@ -52,9 +52,9 @@ package com.shrimp.framework.ui.controls.core
 		[Embed(source="/assets/buttons/closeBtn.png")]
 		public static const panelCloseBtn:Class;
 
-		/**	默认字号*/
+		/**	默认字号 14*/
 		public static var fontSize:int=14;
-		/**	默认字体*/
+		/**	默认字体 SimSun*/
 		public static var fontFamily:String="SimSun";
 		/**	描边颜色*/
 		public static const stroke:String="0x292317,1,2,2,16,1"; //color,alpha,blurX,blurY,strength,quality

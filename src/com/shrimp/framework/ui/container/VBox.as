@@ -57,13 +57,13 @@ package com.shrimp.framework.ui.container
 		
 		override public function get measuredHeight():Number
 		{
-			validateDisplayList();
+//			validateDisplayList();
 			return VerticalLayout(_layout).measureHeight;
 		}
 		
 		override public function get measuredWidth():Number
 		{
-			validateDisplayList();
+//			validateDisplayList();
 			return VerticalLayout(_layout).measureWidth;
 		}
 	}

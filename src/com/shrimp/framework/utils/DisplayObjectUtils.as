@@ -115,7 +115,12 @@ package com.shrimp.framework.utils
 			{
 				return source;
 			}
-
+			
+			if((w<rect.left+source.width - rect.right)||h<rect.top+source.height-rect.bottom)
+			{
+				return source;
+			}
+			
 			var m:Matrix=new Matrix();
 			var result:BitmapData=new BitmapData(w, h, true, 0x000000);
 			var origin:Rectangle;

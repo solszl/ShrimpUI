@@ -3,7 +3,8 @@ package com.shrimp.framework.ui.controls
 	import com.shrimp.framework.ui.controls.core.Component;
 	import com.shrimp.framework.ui.controls.core.Style;
 	import com.shrimp.framework.utils.ColorUtil;
-
+	import com.shrimp.framework.utils.StringUtil;
+	
 	import flash.display.DisplayObjectContainer;
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
@@ -17,16 +18,21 @@ package com.shrimp.framework.ui.controls
 		{
 			super(parent, xpos, ypos);
 //			setActualSize(100,30);
-			mouseChildren = false;
 			this.label = label;
 
 		}
 
+		override protected function preInit():void
+		{
+			super.preInit();
+			mouseChildren = false;
+			buttonMode = true;
+			useHandCursor = true;
+		}
+		
 		override protected function init():void
 		{
 			super.init();
-			buttonMode = true;
-			useHandCursor = true;
 			addEventListener(MouseEvent.ROLL_OVER, onMouse);
 			addEventListener(MouseEvent.ROLL_OUT, onMouse);
 			addEventListener(MouseEvent.MOUSE_DOWN, onMouse);
@@ -54,16 +60,18 @@ package com.shrimp.framework.ui.controls
 			}
 			_skinDirty = true;
 			invalidateProperties();
+			invalidateSize();
 		}
 
 		override protected function createChildren():void
 		{
 			bg = new Image(this);
-//			bg.scale9Rect=new Rectangle(4,4,12,12);
+			bg.scale9Rect=new Rectangle(4,4,12,12);
 			_label = new Label();
 			_label.mouseEnabled = false;
 			_label.mouseChildren = false;
 			_labelColor = _label.color;
+			invalidateDisplayList();
 		}
 
 		protected var _label:Label;
@@ -73,7 +81,8 @@ package com.shrimp.framework.ui.controls
 
 		public function get label():String
 		{
-			return _labelText;
+			return _label.text;
+//			return _labelText;
 		}
 
 		public function set label(value:String):void
@@ -83,7 +92,7 @@ package com.shrimp.framework.ui.controls
 
 			_labelChanged = true;
 			_labelText = value;
-
+			_label.text = value;
 			invalidateProperties();
 			invalidateSize();
 		}
@@ -108,6 +117,8 @@ package com.shrimp.framework.ui.controls
 		public function set labelSize(value:uint):void
 		{
 			_label.fontSize = value;
+			_labelChanged=true;
+			invalidateSize();
 		}
 
 		public function get bold():Boolean
@@ -118,6 +129,8 @@ package com.shrimp.framework.ui.controls
 		public function set bold(value:Boolean):void
 		{
 			_label.bold = value;
+			_labelChanged=true;
+			invalidateSize();
 		}
 
 		override protected function commitProperties():void
@@ -172,11 +185,20 @@ package com.shrimp.framework.ui.controls
 
 			if (_labelChanged)
 			{
-				_labelChanged = false;
 				_label.text = _labelText;
-				_label.validateNow();
-				validateSize();
-				invalidateDisplayList();
+				_labelChanged = false;
+				if(!StringUtil.isNullOrEmpty(_labelText))
+				{
+					if (!this.contains(_label))
+					{
+						this.addChild(_label);
+					}
+				}
+				else if(_label.parent)
+				{
+					_label.parent.removeChild(_label);
+				}
+				
 				trace("from button commit properties::", _label.width, _label.height);
 			}
 		}
@@ -185,24 +207,18 @@ package com.shrimp.framework.ui.controls
 
 		override protected function updateDisplayList():void
 		{
-			if (bg.width != width)
-				bg.width = width;
-			if (bg.height != height)
-				bg.height = height;
-			if (!this.contains(_label))
-			{
-				this.addChild(_label);
-			}
-
-//			if(this.scale9Rect!=null)
-//			{
-//				bg.width = measuredWidth;
-//				bg.height = measuredHeight;
-//			}
 			super.updateDisplayList();
+			bg.width = width;
+			bg.height = height;
+			
 			doLabelAlign();
+			
+			trace("bg",bg.getSizePosition());
 		}
 
+		/**
+		 * "top-left,top-center,top-right,middle-left,middle-center,middle-right,bottom-left,bottom-center,bottom-right", defaultValue = "middle-center"
+		 */		
 		[Inspectable(category = "General", enumeration = "top-left,top-center,top-right,middle-left,middle-center,middle-right,bottom-left,bottom-center,bottom-right", defaultValue = "middle-center")]
 		public function get labelAlign():String
 		{
@@ -216,7 +232,7 @@ package com.shrimp.framework.ui.controls
 
 			_labelAlign = value;
 
-			invalidateDisplayList();
+			invalidateSize();
 		}
 
 		private function doLabelAlign():void
@@ -265,12 +281,13 @@ package com.shrimp.framework.ui.controls
 				value = Style.defaultBtnNormalSkin;
 			}
 
-			if (value == _skinClass)
+			if (value == _skinClass && value!=Style.defaultBtnNormalSkin)
 				return;
 
 			_skinClass = value;
 
 			bg.source = value;
+			invalidateProperties();
 			invalidateSize();
 		}
 
@@ -286,12 +303,13 @@ package com.shrimp.framework.ui.controls
 				value = Style.defaultBtnNormalSkin;
 			}
 
-			if (value == _skinClass)
+			if (value == _skinClass && value != Style.defaultBtnNormalSkin)
 				return;
 
 			_overSkin = value;
 
 			bg.source = value;
+			invalidateProperties();
 			invalidateSize();
 		}
 
@@ -302,18 +320,26 @@ package com.shrimp.framework.ui.controls
 				value = Style.defaultBtnSelectedSkin;
 			}
 
-			if (value == _skinClass)
+			if (value == _skinClass && value!= Style.defaultBtnSelectedSkin)
 				return;
 
 			_selectedSkin = value;
 
 			bg.source = value;
+			invalidateProperties();
 			invalidateSize();
 		}
 
 		override protected function measure():void
 		{
 			super.measure();
+			if(_label)
+			{
+				_label.validateNow();
+			}
+			
+			bg.validateNow();
+			
 			if (this.scale9Rect)
 			{
 				measuredWidth = _label.width + 10;
@@ -323,8 +349,6 @@ package com.shrimp.framework.ui.controls
 			{
 				var skinW:Number = bg ? bg.width : 0;
 				var skinH:Number = bg ? bg.height : 0;
-				skinH = isNaN(skinH)?0:skinH;
-				skinW = isNaN(skinW)?0:skinW;
 				if (_label.text == "")
 				{
 					measuredWidth = skinW;
@@ -339,7 +363,6 @@ package com.shrimp.framework.ui.controls
 
 		}
 
-
 		private var _state:int;
 
 		private function set state(value:int):void
@@ -348,6 +371,8 @@ package com.shrimp.framework.ui.controls
 				return;
 
 			_state = value;
+			invalidateProperties();
+			invalidateSize();
 		}
 
 		private function get state():int

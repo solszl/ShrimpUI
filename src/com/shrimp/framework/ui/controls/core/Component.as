@@ -5,7 +5,6 @@ package com.shrimp.framework.ui.controls.core
 	
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
-	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.filters.DropShadowFilter;
@@ -28,8 +27,8 @@ package com.shrimp.framework.ui.controls.core
 		/**	计算出来的宽*/
 		private var _measuredWidth:Number;
 
-		protected var _height:Number;
-		protected var _width:Number;
+		protected var _height:Number=NaN;
+		protected var _width:Number=NaN;
 
 		/**	明确的高*/
 		protected var _explicitHeight:Number=NaN;
@@ -70,46 +69,40 @@ package com.shrimp.framework.ui.controls.core
 			{
 				return _explicitWidth;
 			}
-			else if (!isNaN(_width))
+			else if(!isNaN(_measuredWidth))
 			{
-				return _width;
+				return measuredWidth;
 			}
 			else
 			{
-				return measuredWidth;
+				return _width||0;
 			}
 		}
 
 		override public function set width(value:Number):void
 		{
-			if (_width == value)
+			if (explicitWidth == value)
 				return;
 			
-			if(explicitWidth != value)
-			{
-				_explicitWidth=value;
-				invalidateSize();
-			}
+			_explicitWidth = _width = value;
+			invalidateProperties();
+			invalidateSize();
 			
-			if(_width != value)
-			{
-				_width=value;
-				invalidateProperties();
-				invalidateDisplayList();
-			}
-			dispatchEvent(new Event(Event.RESIZE));
+//			if(explicitWidth != value)
+//			{
+//				_explicitWidth=value;
+//			}
+//			
+//			if(_width != value)
+//			{
+//				_width=value;
+//				invalidateProperties();
+//				invalidateDisplayList();
+//			}
 		}
 
 		public function get measuredWidth():Number
 		{
-//			var max:Number=0;
-//			for (var i:int=numChildren - 1; i > 0; i--)
-//			{
-//				var comp:DisplayObject=getChildAt(i);
-//				max=Math.max(comp.x + comp.width, max);
-//			}
-//			return max;
-
 			return _measuredWidth;
 		}
 
@@ -129,62 +122,46 @@ package com.shrimp.framework.ui.controls.core
 
 		override public function get height():Number
 		{
-			/*if (!isNaN(explicitHeight))
-			{
-				return _explicitHeight;
-			}
-			else if (measuredHeight != 0)
-			{
-				return measuredHeight;
-			}
-			else
-			{
-				return _height;
-			}*/
-
 			if (!isNaN(explicitHeight))
 			{
 				return explicitHeight;
 			}
-			else if (!isNaN(_height))
+			else if(!isNaN(_measuredHeight))
 			{
-				return _height;
+				return measuredHeight;
 			}
 			else
 			{
-				return measuredHeight;
+				return _height||0;
 			}
 		}
 
 		override public function set height(value:Number):void
 		{
-			if (_height == value)
+			if (_explicitHeight == value)
 				return;
 			
-			if(explicitHeight!=value)
-			{
-				_explicitHeight = value;
-				invalidateSize();
-			}
+			_explicitHeight = _height = value;
+			invalidateProperties();
+			invalidateSize();
 			
-			if(_height!=value)
-			{
-				_height=value;
-				invalidateProperties();
-				invalidateDisplayList();
-			}
-			dispatchEvent(new Event(Event.RESIZE));
+//			if(explicitHeight!=value)
+//			{
+//				_explicitHeight = value;
+//				invalidateSize();
+//			}
+//			
+//			if(_height!=value)
+//			{
+//				_height=value;
+//				invalidateProperties();
+//				invalidateDisplayList();
+//			}
+//			dispatchEvent(new Event(Event.RESIZE));
 		}
 
 		public function get measuredHeight():Number
 		{
-//			var max:Number=0;
-//			for (var i:int=numChildren - 1; i > 0; i--)
-//			{
-//				var comp:DisplayObject=getChildAt(i);
-//				max=Math.max(comp.y + comp.height, max);
-//			}
-//			return max;
 			return _measuredHeight;
 		}
 
@@ -207,13 +184,11 @@ package com.shrimp.framework.ui.controls.core
 			_listeners=[];
 		}
 
+		/**	默认初始化*/		
 		protected function init():void
 		{
-
 			createChildren();
 
-//			invalidateProperties();
-//			invalidateDisplayList();
 			tabChildren=tabEnabled=false;
 			ComponentManager.addPreInitComponent(this);
 		}
@@ -316,10 +291,23 @@ package com.shrimp.framework.ui.controls.core
 			ComponentManager.removePaddingProperty(this)
 		}
 		
+		private var oldW:Number=-1;
+		private var oldH:Number=-1;
+		
 		public function validateSize():void
 		{
-			measure();
-			invalidateDisplayList();
+			if(isNaN(explicitWidth)||isNaN(explicitHeight))
+			{
+				measure();
+			}
+			
+			if(oldW != width || oldH != height)
+			{
+				oldW = width;
+				oldH = height;
+				invalidateDisplayList();				
+				dispatchEvent(new Event(Event.RESIZE));
+			}
 			ComponentManager.removePaddingSize(this);
 		}
 
@@ -358,10 +346,6 @@ package com.shrimp.framework.ui.controls.core
 		protected function commitProperties():void
 		{
 			out("commitProperties");
-//			if(isNaN(_explicitWidth)||isNaN(_explicitHeight))
-//			{
-//				measure();
-//			}
 		}
 
 		public function get horizontalCenter():Number
@@ -461,6 +445,11 @@ package com.shrimp.framework.ui.controls.core
 			return new DropShadowFilter(dist, 45, 0x000000, 1, 2, 2);
 		}
 
+		/**
+		 *	拿到组件的宽,高,X,Y,以及反射出来的名字 
+		 * @return 
+		 * 
+		 */		
 		public function getSizePosition():String
 		{
 			return "width:" + width + ", height:" + height + ", x:" + x + ", y:" + y + ", type:" + getQualifiedClassName(this);

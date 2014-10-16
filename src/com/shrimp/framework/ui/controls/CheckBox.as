@@ -85,15 +85,15 @@ package com.shrimp.framework.ui.controls
 
 		public function get label():String
 		{
-			return _label;
+			return lbl.text;
 		}
 
 		public function set label(value:String):void
 		{
-			if (_label == value)
+			if (lbl.text == value)
 				return;
 
-			_label = value;
+			lbl.text = value;
 			_labelChanged = true;
 
 			invalidateProperties();
@@ -104,9 +104,7 @@ package com.shrimp.framework.ui.controls
 			if (_labelChanged)
 			{
 				_labelChanged = false;
-				lbl.text = _label;
 				lbl.validateNow();
-				
 				invalidateSize();
 				invalidateDisplayList();
 			}
