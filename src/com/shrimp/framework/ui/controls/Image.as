@@ -6,7 +6,7 @@ package com.shrimp.framework.ui.controls
 	import com.shrimp.framework.managers.AssetsManager;
 	import com.shrimp.framework.ui.controls.core.Component;
 	import com.shrimp.framework.utils.DisplayObjectUtils;
-
+	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.DisplayObject;
@@ -106,6 +106,10 @@ package com.shrimp.framework.ui.controls
 		protected function onComplete(item:Object, content:Object, domain:ApplicationDomain):void
 		{
 			setBitmapData(content as BitmapData);
+			if(this.parent && this.parent is Component)
+			{
+				(this.parent as Component).validateSize();
+			}
 		}
 
 		/**	当动态加载资源为空的时候, 在图片左上角画一个 红色4x4的红点*/
