@@ -106,10 +106,6 @@ package com.shrimp.framework.ui.controls
 		protected function onComplete(item:Object, content:Object, domain:ApplicationDomain):void
 		{
 			setBitmapData(content as BitmapData);
-			if(this.parent && this.parent is Component)
-			{
-				(this.parent as Component).validateSize();
-			}
 		}
 
 		/**	当动态加载资源为空的时候, 在图片左上角画一个 红色4x4的红点*/
