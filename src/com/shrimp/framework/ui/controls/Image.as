@@ -6,7 +6,7 @@ package com.shrimp.framework.ui.controls
 	import com.shrimp.framework.managers.AssetsManager;
 	import com.shrimp.framework.ui.controls.core.Component;
 	import com.shrimp.framework.utils.DisplayObjectUtils;
-
+	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.DisplayObject;
@@ -21,6 +21,8 @@ package com.shrimp.framework.ui.controls
 	{
 		/**	每个Image都包含着一个AutoBitmap,所有操作均对此对象进行操作*/
 		private var _img:AutoBitmap;
+		/**	资源图片设置给source后的回调,该回调会在destory的时候置空*/
+		public var loadComplete:Function;
 
 		public function Image(parent:DisplayObjectContainer = null, xpos:Number = 0, ypos:Number = 0)
 		{
@@ -106,6 +108,11 @@ package com.shrimp.framework.ui.controls
 		protected function onComplete(item:Object, content:Object, domain:ApplicationDomain):void
 		{
 			setBitmapData(content as BitmapData);
+			if(loadComplete!=null)
+			{
+				loadComplete();
+			}
+			
 		}
 
 		/**	当动态加载资源为空的时候, 在图片左上角画一个 红色4x4的红点*/
@@ -207,6 +214,7 @@ package com.shrimp.framework.ui.controls
 		public function destory():void
 		{
 			_img.destory();
+			loadComplete=null;
 		}
 	}
 }

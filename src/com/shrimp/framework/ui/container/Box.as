@@ -122,16 +122,5 @@ package com.shrimp.framework.ui.container
 			invalidateSize();
 			invalidateDisplayList();
 		}
-		
-//		override public function get measuredHeight():Number
-//		{
-//			return layout.measureHeight;
-//		}
-//		
-//		override public function get measuredWidth():Number
-//		{
-//			return layout.measureWidth;
-//		}
-
 	}
 }

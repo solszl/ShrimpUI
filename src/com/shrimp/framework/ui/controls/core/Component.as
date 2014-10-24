@@ -537,7 +537,7 @@ package com.shrimp.framework.ui.controls.core
 		
 		private function out(type:String):void
 		{
-			trace(type,this);
+//			trace(type,this);
 		}
 
 		/**	新手引导名字*/

@@ -1,7 +1,7 @@
 package com.shrimp.framework.managers
 {
 	import com.shrimp.framework.ui.controls.core.Component;
-	
+
 	import flash.display.Shape;
 	import flash.events.Event;
 	import flash.utils.Dictionary;
@@ -18,10 +18,10 @@ package com.shrimp.framework.managers
 		private static var _paddingDisplayList:Dictionary = new Dictionary(true);
 		private static var _paddingSizeList:Dictionary = new Dictionary(true);
 
-		private static var _paddingSize:Boolean=false;
-		private static var _paddingProperty:Boolean=false;
-		private static var _paddingDisplay:Boolean=false;
-		
+		private static var _paddingSize:Boolean = false;
+		private static var _paddingProperty:Boolean = false;
+		private static var _paddingDisplay:Boolean = false;
+
 		public static function addPreInitComponent(target:Component):void
 		{
 			if (!(target in _preInitComponentList))
@@ -33,7 +33,7 @@ package com.shrimp.framework.managers
 
 		public static function addPaddingDisplay(target:Component):void
 		{
-			_paddingDisplay=true
+			_paddingDisplay = true
 			if (!(target in _paddingDisplayList))
 			{
 				requireUpdate();
@@ -43,7 +43,7 @@ package com.shrimp.framework.managers
 
 		public static function addPaddingProperty(target:Component):void
 		{
-			_paddingProperty=true;
+			_paddingProperty = true;
 			if (!(target in _paddingPropertyList))
 			{
 				requireUpdate();
@@ -53,7 +53,7 @@ package com.shrimp.framework.managers
 
 		public static function addPaddingSize(target:Component):void
 		{
-			_paddingSize=true;
+			_paddingSize = true;
 			if (!(target in _paddingSizeList))
 			{
 				requireUpdate();
@@ -106,30 +106,29 @@ package com.shrimp.framework.managers
 				target.validateProperties();
 			}
 
-			_paddingProperty=false;
-			
+			_paddingProperty = false;
+
 			for (target in _paddingSizeList)
 			{
 				target.validateSize();
 			}
-			
-			_paddingSize=false;
+
+			_paddingSize = false;
 
 			for (target in _paddingDisplayList)
 			{
 				target.validateDisplayList();
 			}
-			
+
 			_paddingDisplay = false;
-			
-			if(_paddingSize||_paddingProperty||_paddingDisplay)
+
+			if (_paddingSize || _paddingProperty || _paddingDisplay)
 			{
-				trace("run again:::::",_paddingSize,_paddingProperty,_paddingDisplay);
 				run();
 				return;
 			}
 
-			
+
 			for (target in _preInitComponentList)
 			{
 				if (_preInitComponentList[target]["displayListReady"] && _preInitComponentList[target]["propertiesReady"] && _preInitComponentList[target]["changeSize"])
@@ -138,7 +137,7 @@ package com.shrimp.framework.managers
 					delete _preInitComponentList[target];
 				}
 			}
-			
+
 			count++;
 			trace(count);
 		}
@@ -155,17 +154,18 @@ package com.shrimp.framework.managers
 				return;
 
 			ispaddingUpdate = true;
-			rn.addEventListener(Event.RENDER,onEnterFrame);
+			rn.addEventListener(Event.RENDER, onEnterFrame);
 			rn.addEventListener(Event.ENTER_FRAME, onEnterFrame);
 		}
 
 		private static var count:int;
+
 		private static function onEnterFrame(e:Event):void
 		{
 			run();
 			ispaddingUpdate = false;
-			rn.removeEventListener(Event.ENTER_FRAME,onEnterFrame);
-			rn.removeEventListener(Event.RENDER,onEnterFrame);
+			rn.removeEventListener(Event.ENTER_FRAME, onEnterFrame);
+			rn.removeEventListener(Event.RENDER, onEnterFrame);
 		}
 	}
 }

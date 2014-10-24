@@ -198,8 +198,6 @@ package com.shrimp.framework.ui.controls
 				{
 					_label.parent.removeChild(_label);
 				}
-				
-				trace("from button commit properties::", _label.width, _label.height);
 			}
 		}
 
@@ -211,9 +209,8 @@ package com.shrimp.framework.ui.controls
 			bg.width = width;
 			bg.height = height;
 			
+			//对label进行布局
 			doLabelAlign();
-			
-			trace("bg",bg.getSizePosition());
 		}
 
 		/**

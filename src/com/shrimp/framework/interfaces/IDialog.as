@@ -9,6 +9,5 @@ package com.shrimp.framework.interfaces
 		function isOpen():Boolean;
 		function dispose():void;
 		function clean():void;
-		
 	}
 }
