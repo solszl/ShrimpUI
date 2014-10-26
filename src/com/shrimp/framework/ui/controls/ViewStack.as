@@ -27,7 +27,8 @@ package com.shrimp.framework.ui.controls
 				return;
 			_selectedIndex=value;
 			selectedIndexChanged=true;
-			validateNow();
+			invalidateProperties();
+			invalidateDisplayList();
 		}
 		//当前选中的视窗
 		private var currentChild:DisplayObject;

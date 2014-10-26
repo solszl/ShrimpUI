@@ -19,9 +19,9 @@ package com.shrimp.framework
 		public static var SLIDER_HANDLE:uint=0xFFFFFF;
 		public static var SLIDER_THUMB:uint=0x000000;
 		
-		/**	弹窗 内存持久化时间*/
+		/**	弹窗 内存持久化时间 默认5分钟*/
 		public static var DIALOG_PERSISTENCE_MEMORY:int=5000;
-		/**	面板内存持久化时间*/
+		/**	面板内存持久化时间 默认5分钟*/
 		public static var PANEL_PERSISTENCE_MEMORY:int=5000;
 		
 		/**	ScrollBar是否可拖拽*/

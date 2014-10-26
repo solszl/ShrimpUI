@@ -66,7 +66,7 @@ package com.shrimp.framework.ui.controls
 		override protected function createChildren():void
 		{
 			bg = new Image(this);
-			bg.scale9Rect=new Rectangle(4,4,12,12);
+//			bg.scale9Rect=new Rectangle(4,4,12,12);
 			_label = new Label();
 			_label.mouseEnabled = false;
 			_label.mouseChildren = false;

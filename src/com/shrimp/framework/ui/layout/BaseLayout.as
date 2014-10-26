@@ -98,9 +98,9 @@ package com.shrimp.framework.ui.layout
 				}
 			}
 //			target.invalidateSize();
-			target.invalidateDisplayList();
 			target.width = measureWidth;
 			target.height = measureHeight;
+			target.invalidateDisplayList();
 		}
 
 		override public function get measureHeight():Number

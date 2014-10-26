@@ -116,5 +116,10 @@ package com.shrimp.framework.ui.controls
 			measuredWidth = icon.width + gap + lbl.width;
 			measuredHeight = Math.max(icon.height, lbl.height);
 		}
+		
+		public function get textField():Label
+		{
+			return lbl;
+		}
 	}
 }

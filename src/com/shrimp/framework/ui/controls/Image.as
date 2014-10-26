@@ -56,7 +56,7 @@ package com.shrimp.framework.ui.controls
 			if (_source == value)
 				return;
 			_img.bitmapData = null;
-
+			_source = value;
 			if (value is String)
 			{
 				if (String(value).indexOf("Embed(") == 0)
@@ -101,7 +101,6 @@ package com.shrimp.framework.ui.controls
 			{
 				setBitmapData(value as BitmapData);
 			}
-			_source = value;
 		}
 
 		/**	动态资源加载完成回调,在此回调中,设置图片内容*/
