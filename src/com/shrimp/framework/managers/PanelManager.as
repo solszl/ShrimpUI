@@ -3,8 +3,10 @@ package com.shrimp.framework.managers
 	import com.shrimp.framework.GlobalConfig;
 	import com.shrimp.framework.interfaces.IPanel;
 	import com.shrimp.framework.interfaces.IScheduler;
+	import com.shrimp.framework.ui.controls.panel.Panel;
 	import com.shrimp.framework.utils.ClassUtils;
 	
+	import flash.errors.IllegalOperationError;
 	import flash.utils.Dictionary;
 	import flash.utils.getQualifiedClassName;
 	import flash.utils.getTimer;
@@ -46,7 +48,7 @@ package com.shrimp.framework.managers
 		 * @param arg	打开参数
 		 * 
 		 */		
-		public function showPanel(clazz:Class,useModal:Boolean,loadRemoteRes:Boolean=true,...arg):void
+		public function showPanel(panelId:int,useModal:Boolean,loadRemoteRes:Boolean=true,...arg):void
 		{
 			//遍历打开列表.如果面板不是独立于其他的,则关闭,打开指定面板
 			for each(var openPanel:* in openMap)
@@ -57,40 +59,38 @@ package com.shrimp.framework.managers
 				
 				if(p.standAlone==false)
 				{
-					closePanel(ClassUtils.getClass(getQualifiedClassName(p)));
+					closePanel(panelId);
 				}
 			}
 			
-			var panel:IPanel = getPanel(clazz);
+			var panel:IPanel = getPanel(panelId);
 			panel.modal = useModal;
 			panel.show(arg);
-			var key:String = ClassUtils.getClassName(clazz);
-			openMap[key]=panel;
+			openMap[panelId]=panel;
 		}
 		
 		/**	开门某个面板*/
-		public function togglePanel(clazz:Class,useModal:Boolean):void
+		public function togglePanel(panelId:int,useModal:Boolean):void
 		{
-			if(isOpen(clazz))
+			if(isOpen(panelId))
 			{
-				closePanel(clazz);
+				closePanel(panelId);
 			}
 			else
 			{
-				showPanel(clazz,useModal);
+				showPanel(panelId,useModal);
 			}
 		}
 		
 		/**	关闭某个面板*/
-		public function closePanel(clazz:Class):void
+		public function closePanel(panelId:int):void
 		{
-			var key:String = ClassUtils.getClassName(clazz);
-			if(key in openMap)
+			if(panelId in openMap)
 			{
-				var panel:IPanel = getPanel(clazz);
+				var panel:IPanel = getPanel(panelId);
 				panel.hide();
 				panel.clean();
-				delete openMap[key];
+				delete openMap[panelId];
 			}
 		}
 		
@@ -106,10 +106,10 @@ package com.shrimp.framework.managers
 		}
 		
 		/**	判断某个面板是否处在打开状态*/
-		public function isOpen(clazz:Class):Boolean
+		public function isOpen(panelId:int):Boolean
 		{
 			
-			return ClassUtils.getClassName(clazz) in openMap; 
+			return panelId in openMap; 
 		}
 		
 		/**	实现IScheduler接口的run函数 */		
@@ -130,22 +130,37 @@ package com.shrimp.framework.managers
 			}
 		}
 		
-		public function getPanel(clazz:Class):IPanel
+		public function getPanel(panelId:int):IPanel
 		{
 			var panel:IPanel;
-			var key:String = ClassUtils.getClassName(clazz);
-			if(panelMap[key])
+			if(panelMap[panelId]==null)
 			{
-				panel = (panelMap[key]).panel as IPanel;
-			}
-			else
-			{
-				panel = new clazz();
+				throw new Error("no such panelId,",panelId);
 			}
 			
-			panelMap[key]={panel:panel,time:getTimer(),key:key};
+			var obj:Object = panelMap[panelId];
+			
+			if(obj.panel is Class)
+			{
+				panel = new (obj.panel);
+			}
+			else if(obj.panel is IPanel)
+			{
+				panel = obj.panel;
+			}
+			
+			panelMap[panelId]={panel:panel,time:getTimer(),key:panelId};
 			
 			return panel;
+		}
+		
+		public static function registPanel(id:int,panel:*):void
+		{
+			var obj:Object = new Object();
+			obj.panel = panel;
+			obj.time = getTimer();
+			obj.key = id;
+			panelMap[id] = obj;
 		}
 		
 	}

@@ -1,6 +1,7 @@
 package com.shrimp.framework.ui.controls.panel
 {
 	import com.shrimp.framework.managers.LayerManager;
+	import com.shrimp.framework.ui.controls.core.Component;
 	
 	import flash.display.DisplayObjectContainer;
 
@@ -32,7 +33,7 @@ package com.shrimp.framework.ui.controls.panel
 
 		override public function show(... arg):void
 		{
-			var panel_layer:DisplayObjectContainer=LayerManager.getLayerByName(LayerManager.LAYER_PANEL);
+			var panel_layer:Component=LayerManager.getLayerByName(LayerManager.LAYER_PANEL);
 
 			if (!panel_layer)
 				throw new Error("unregistered panel layer in LayerManager");
@@ -42,8 +43,8 @@ package com.shrimp.framework.ui.controls.panel
 				panel_layer.addChild(this);
 				if (_autoCenter)
 				{
-					x=(panel_layer.width - width) >> 1;
-					y=(panel_layer.height - height) >> 1;
+					x=Math.round((panel_layer.width - width) >> 1);
+					y=Math.round((panel_layer.height - height) >> 1);
 				}
 			}
 			else

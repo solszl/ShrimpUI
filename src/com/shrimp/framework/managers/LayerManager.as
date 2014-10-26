@@ -1,10 +1,10 @@
 package com.shrimp.framework.managers
 {
-	import com.shrimp.framework.ui.container.Box;
 	import com.shrimp.framework.ui.controls.core.Component;
 	
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
+	import flash.display.Sprite;
 
 	/**
 	 *	层级管理器
@@ -44,7 +44,7 @@ package com.shrimp.framework.managers
 		 * @param name	名字
 		 *
 		 */
-		public static function registLayer(layer:DisplayObject, order:int, name:String):void
+		public static function registLayer(layer:Component, order:int, name:String):void
 		{
 			layerContent.push({layer: layer, order: order, name: name});
 
@@ -70,14 +70,14 @@ package com.shrimp.framework.managers
 		 * @return 
 		 * 
 		 */		
-		public static function getLayerByName(name:String):DisplayObjectContainer
+		public static function getLayerByName(name:String):Component
 		{
-			var result:DisplayObjectContainer;
+			var result:Component;
 			for each (var o:Object in layerContent)
 			{
 				if (o["name"] == name)
 				{
-					result=o["layer"] as DisplayObjectContainer;
+					result=o["layer"] as Component;
 					break;
 				}
 			}
@@ -94,8 +94,8 @@ package com.shrimp.framework.managers
 		{
 			for each (var o:Object in layerContent)
 			{
-				(o["layer"] as DisplayObjectContainer).width=StageManager.getStageWidth();
-				(o["layer"] as DisplayObjectContainer).height=StageManager.getStageHeight();
+				(o["layer"] as Component).width=StageManager.getStageWidth();
+				(o["layer"] as Component).height=StageManager.getStageHeight();
 			}
 		}
 		
@@ -110,24 +110,25 @@ package com.shrimp.framework.managers
 		public static function lazyInit():void
 		{
 			var disobj:Component;
-			disobj = new Box();
+			disobj = new Component();
 			StageManager.root.addChild(disobj);
 			layerContent.push({layer: disobj, order: 1, name: LAYER_VIEW});
-			disobj = new Box();
+			disobj = new Component();
 			StageManager.root.addChild(disobj);
 			layerContent.push({layer: disobj, order: 2, name: LAYER_UI});
-			disobj = new Box();
+			disobj = new Component();
 			StageManager.root.addChild(disobj);
 			layerContent.push({layer: disobj, order: 3, name: LAYER_PANEL});
-			disobj = new Box();
+			disobj = new Component();
 			StageManager.root.addChild(disobj);
 			layerContent.push({layer: disobj, order: 4, name: LAYER_DIALOG});
-			disobj = new Box();
+			disobj = new Component();
 			StageManager.root.addChild(disobj);
 			layerContent.push({layer: disobj, order: 5, name: LYAER_POPUP});
-			disobj = new Box();
+			disobj = new Component();
 			StageManager.root.addChild(disobj);
 			layerContent.push({layer: disobj, order: 6, name: LAYER_TIP});
+			resize();
 			reSort();
 		}
 	}

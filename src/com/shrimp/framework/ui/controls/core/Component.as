@@ -218,7 +218,7 @@ package com.shrimp.framework.ui.controls.core
 
 			_height=isNaN(h) ? _measuredHeight : h;
 
-			invalidateDisplayList();
+			invalidateSize();
 		}
 
 		/**根据名字删除子对象，如找不到不会抛出异常*/

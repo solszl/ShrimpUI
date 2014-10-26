@@ -2,14 +2,14 @@ package com.shrimp.framework.managers
 {
 	import com.shrimp.framework.interfaces.IView;
 	import com.shrimp.framework.log.Logger;
-
+	
 	import flash.display.DisplayObject;
 	import flash.errors.IllegalOperationError;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.events.IEventDispatcher;
 	import flash.utils.Dictionary;
-
+	
 	import mx.messaging.AbstractConsumer;
 
 	/**
@@ -31,6 +31,8 @@ package com.shrimp.framework.managers
 
 		/**	前置场景  @default -1*/
 		private var _preViewId:int=-1;
+		
+		public static var defaultView:Number = 1;
 
 		public static function getInstance():ViewManager
 		{
