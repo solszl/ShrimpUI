@@ -1,5 +1,7 @@
 package com.shrimp.framework.utils
 {
+	import com.shrimp.framework.managers.StageManager;
+	
 	import flash.display.BitmapData;
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
@@ -157,6 +159,20 @@ package com.shrimp.framework.utils
 			}
 
 			return result;
+		}
+		
+		/**
+		 *	根据传入的点,返回该点下所有显示对象 
+		 * @param xpos	横坐标
+		 * @param ypos	纵坐标
+		 * @return 	返回该点层级对应关系的组件列表
+		 * 
+		 */		
+		public static function getUnderObjects(xpos:Number,ypos:Number):Array
+		{
+			var arr:Array = [];
+			DisplayObjectUtils.getObjectsUnderPoint(StageManager.stage,new Point(xpos,ypos),arr);
+			return arr;
 		}
 	}
 }

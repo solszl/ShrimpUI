@@ -207,7 +207,12 @@ package com.shrimp.framework.ui.controls
 			_target=value;
 			if (value)
 			{
-				_target.addEventListener(MouseEvent.MOUSE_WHEEL, onMouseWheel);
+				//鼠标滚轮支持?
+				if(GlobalConfig.SCROLLBAR_MOUSE_WHEEL_ENABLE)
+				{
+					_target.addEventListener(MouseEvent.MOUSE_WHEEL, onMouseWheel);
+				}
+				//是否可拖拽内容实现 滚动
 				if (_touchable)
 				{
 					_target.addEventListener(MouseEvent.MOUSE_DOWN, onTargetMouseDown);

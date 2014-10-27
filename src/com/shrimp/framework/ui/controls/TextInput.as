@@ -73,6 +73,7 @@ package com.shrimp.framework.ui.controls
 
 		public function set displayAsPassword(b:Boolean):void
 		{
+			_textField.selectable = false;
 			_textField.displayAsPassword=b;
 		}
 

@@ -26,6 +26,7 @@ package com.shrimp.framework
 		
 		/**	ScrollBar是否可拖拽*/
 		public static var SCROLLBAR_TOUCHABLE:Boolean=true;
+		public static var SCROLLBAR_MOUSE_WHEEL_ENABLE:Boolean = false;
 		
 	}
 }

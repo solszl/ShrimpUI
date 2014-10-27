@@ -3,6 +3,7 @@ package com.shrimp.framework.managers
 	import com.shrimp.framework.GlobalConfig;
 	import com.shrimp.framework.interfaces.IPanel;
 	import com.shrimp.framework.interfaces.IScheduler;
+	import com.shrimp.framework.ui.controls.Alert;
 	import com.shrimp.framework.ui.controls.panel.Panel;
 	import com.shrimp.framework.utils.ClassUtils;
 	
@@ -50,6 +51,12 @@ package com.shrimp.framework.managers
 		 */		
 		public function showPanel(panelId:int,useModal:Boolean,loadRemoteRes:Boolean=true,...arg):void
 		{
+			if(panelId == -1)
+			{
+				Alert.show("面板ID 不允许为负数,请检查,panelId:"+panelId);
+				return;
+			}
+			
 			//遍历打开列表.如果面板不是独立于其他的,则关闭,打开指定面板
 			for each(var openPanel:* in openMap)
 			{

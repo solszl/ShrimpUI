@@ -53,9 +53,6 @@ package com.shrimp.framework.ui.controls
 		protected function onClick(event:MouseEvent):void
 		{
 			selected = !selected;
-			var arr:Array = [];
-			DisplayObjectUtils.getObjectsUnderPoint(stage,new Point(event.stageX,event.stageY),arr);
-			trace(arr.join(','));
 		}
 
 		public function set selected(b:Boolean):void
