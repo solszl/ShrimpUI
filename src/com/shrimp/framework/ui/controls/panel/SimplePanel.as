@@ -19,6 +19,8 @@ package com.shrimp.framework.ui.controls.panel
 		/**	面板是否打开了*/
 		private var _isOpen:Boolean;
 		private var _useModal:Boolean;
+		
+		private var _panelId:int;
 
 		public function SimplePanel(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
 		{
@@ -82,6 +84,16 @@ package com.shrimp.framework.ui.controls.panel
 		public function dispose():void
 		{
 			
+		}
+		
+		public function set panelId(value:int):void
+		{
+			_panelId = value;
+		}
+		
+		public function get panelId():int
+		{
+			return _panelId;
 		}
 
 	}

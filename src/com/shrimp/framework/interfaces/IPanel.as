@@ -18,5 +18,7 @@ package com.shrimp.framework.interfaces
 		function get modal():Boolean;
 		function clean():void;
 		function dispose():void;
+		function set panelId(value:int):void;
+		function get panelId():int;
 	}
 }

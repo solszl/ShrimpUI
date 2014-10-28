@@ -66,12 +66,13 @@ package com.shrimp.framework.managers
 				
 				if(p.standAlone==false)
 				{
-					closePanel(panelId);
+					closePanel(p.panelId);
 				}
 			}
 			
 			var panel:IPanel = getPanel(panelId);
 			panel.modal = useModal;
+			panel.panelId = panelId;
 			panel.show(arg);
 			openMap[panelId]=panel;
 		}

@@ -115,7 +115,7 @@ package com.shrimp.framework.ui.controls.panel
 
 		protected function onCloseBtnClick(event:MouseEvent):void
 		{
-			hide();
+			PanelManager.getInstance().closePanel(panelId);
 		}
 
 	}

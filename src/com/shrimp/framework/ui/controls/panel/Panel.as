@@ -19,9 +19,10 @@ package com.shrimp.framework.ui.controls.panel
 
 		override public function hide():void
 		{
-			if (this.parent)
+			var panel_layer:Component=LayerManager.getLayerByName(LayerManager.LAYER_PANEL);
+			if (panel_layer && panel_layer.contains(this))
 			{
-				this.parent.removeChild(this);
+				panel_layer.removeChild(this);
 				onCloseBtnClick(null);
 			}
 		}
