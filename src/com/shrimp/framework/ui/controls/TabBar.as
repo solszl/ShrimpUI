@@ -1,5 +1,6 @@
 package com.shrimp.framework.ui.controls
 {
+	import com.shrimp.framework.core.shrimp_internal;
 	import com.shrimp.framework.ui.container.Box;
 	import com.shrimp.framework.ui.controls.core.Style;
 	import com.shrimp.framework.ui.layout.HorizontalLayout;
@@ -19,6 +20,8 @@ package com.shrimp.framework.ui.controls
 	[Event(name="select", type="flash.events.Event")]
 	public class TabBar extends Box
 	{
+		public static const VERTICAL:String="vertical";
+		public static const HORIZONTAL:String="horizontal";
 		protected var _direction:String;
 		//方向发生变化
 		private var directionChanged:Boolean=false;
@@ -45,16 +48,12 @@ package com.shrimp.framework.ui.controls
 			{
 				index=getChildIndex(item);
 			}
-			if(selectedIndex==index)
+			
+			shrimp_internal::setSelected(index);
+			if(hasEventListener(Event.SELECT))
 			{
-				Button(item).selected=true;
-				return;
+				dispatchEvent(new Event(Event.SELECT));
 			}
-			selectedIndex=index;
-//			if(hasEventListener(Event.SELECT))
-//			{
-//				dispatchEvent(new Event("select"));
-//			}
 		}
 		
 		/**	页签方向*/
@@ -71,6 +70,7 @@ package com.shrimp.framework.ui.controls
 			_direction=value;
 			directionChanged=true;
 			invalidateProperties();
+			invalidateSize();
 		}
 
 		override protected function commitProperties():void
@@ -93,12 +93,9 @@ package com.shrimp.framework.ui.controls
 			
 			if(selectedIndexChanged)
 			{
-				var btn:Button=Button(getChildAt(_selectedIndex));
-				btn.selected = true;
-				btn.invalidateProperties();
 				if(hasEventListener(Event.SELECT))
 				{
-					dispatchEvent(new Event("select"));
+					dispatchEvent(new Event(Event.SELECT));
 				}
 				selectedIndexChanged=false;
 				invalidateDisplayList();
@@ -114,7 +111,6 @@ package com.shrimp.framework.ui.controls
 				btn=new Button(this);
 				btn.selectedSkinClass=selectedSkin;
 				btn.skinClass = normalSkin;
-				btn.validateNow();
 				btn.toggle=true;
 				if(data.source[i].hasOwnProperty("name"))
 				{
@@ -128,9 +124,7 @@ package com.shrimp.framework.ui.controls
 				{
 					btn.label=data.source[i].toString();
 				}
-//				btn.labelFontName = _fontName;
 				btn.labelSize = _fontsize;
-//				btn.italic = _italic;
 				btn.bold=true;
 			}
 			if(numChildren>0)
@@ -174,6 +168,7 @@ package com.shrimp.framework.ui.controls
 			_data = value;
 			dataChanged=true;
 			invalidateProperties();
+			invalidateSize();
 		}
 
 		/**	选中的索引,from zero*/
@@ -181,21 +176,19 @@ package com.shrimp.framework.ui.controls
 		{
 			return _selectedIndex;
 		}
-
+		
 		public function set selectedIndex(value:int):void
 		{
 			if(value == _selectedIndex)
 				return;
-			//取消前一个选中的item的选中状态
-			if(_selectedIndex < numChildren &&　_selectedIndex　> -1)
-			{
-				var btn:Button=Button(getChildAt(_selectedIndex));
-				btn.selected = false;
-				btn.invalidateProperties();
-			}
+			
+			shrimp_internal::setSelected(value);
+			
 			_selectedIndex = value;
 			selectedIndexChanged=true;
 			invalidateProperties();
+			invalidateSize();
+			invalidateDisplayList();
 		}
 
 		public function set normalSkin(value:Object):void
@@ -246,6 +239,21 @@ package com.shrimp.framework.ui.controls
 				result+="tab"+i+": "+Button(getChildAt(i)).selected+", ";
 			}
 			return result;
+		}
+		
+		shrimp_internal function setSelected(index:int):void
+		{
+			var btn:Button;
+			//取消前一个选中的item的选中状态
+			if(selectedIndex < numChildren &&　selectedIndex　> -1)
+			{
+				btn=Button(getChildAt(selectedIndex));
+				btn.selected = false;
+			}
+			
+			btn = getChildAt(index) as Button;
+			btn.selected = true;
+			_selectedIndex = index; 
 		}
 		
 		private var _fontName:String="Microsoft YaHei";
