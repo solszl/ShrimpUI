@@ -5,9 +5,9 @@ package com.shrimp.framework.ui.controls
 
 	public class TextArea extends TextInput
 	{
-		public function TextArea(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0, text:String="")
+		public function TextArea(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
 		{
-			super(parent, xpos, ypos, text);
+			super(parent, xpos, ypos);
 			setActualSize(100, 100);
 		}
 

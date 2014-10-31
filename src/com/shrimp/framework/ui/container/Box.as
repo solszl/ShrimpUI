@@ -71,7 +71,6 @@ package com.shrimp.framework.ui.container
 			_layout=value;
 			invalidateProperties();
 			invalidateSize();
-			invalidateDisplayList();
 		}
 
 		override protected function updateDisplayList():void

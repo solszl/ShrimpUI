@@ -2,6 +2,7 @@ package com.shrimp.framework.ui.controls
 {
 	import com.shrimp.framework.interfaces.IItemRenderer;
 	import com.shrimp.framework.ui.container.Box;
+	import com.shrimp.framework.ui.controls.core.Component;
 	import com.shrimp.framework.utils.ArrayList;
 	
 	import flash.display.DisplayObject;
@@ -188,7 +189,6 @@ package com.shrimp.framework.ui.controls
 				_listItemClassChanged= false;
 				
 				invalidateSize();
-				invalidateDisplayList();
 			}
 			
 			if(_selectedIndexChanged || _selectedIndexChangedManually)
@@ -344,7 +344,6 @@ package com.shrimp.framework.ui.controls
 			addChild(DisplayObject(createItemRender(item,_dataProvider.length)));
 			
 			invalidateSize();
-			invalidateDisplayList();
 		}
 		
 		private function addItemAt(item:Object, index:int):void
@@ -352,7 +351,6 @@ package com.shrimp.framework.ui.controls
 			addChildAt(DisplayObject(createItemRender(item,index)), index);
 			
 			invalidateSize();
-			invalidateDisplayList();
 		}
 		
 		private function removeAll():void
@@ -361,6 +359,7 @@ package com.shrimp.framework.ui.controls
 			selectedIndex=-1;
 			
 			invalidateProperties();
+			invalidateSize();
 		}
 		
 		private function removeItemAt(index:int):void
@@ -381,7 +380,7 @@ package com.shrimp.framework.ui.controls
 				disposeCall(item,item.data)
 			}
 			
-			invalidateDisplayList();
+			invalidateSize();
 		}
 		
 		private function updataItemAt(index:int):void
@@ -389,6 +388,7 @@ package com.shrimp.framework.ui.controls
 			if (index >= 0 && _dataProvider != null && index < _dataProvider.length)
 			{
 				IItemRenderer(getChildAt(index)).data = _dataProvider.getItemAt(index);
+				Object(getChildAt(index)).updateDisplayList();
 			}
 		}
 	}

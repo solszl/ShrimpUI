@@ -40,7 +40,7 @@ package com.shrimp.framework.ui.layout
 // 			target.setActualSize(_measureWidth,_measureHeight);
 			target.width = _measureWidth;
 			target.height = _measureHeight;
-			target.invalidateDisplayList();
+//			target.invalidateDisplayList();
 		}
 		
 		override protected function validataAlignH():void

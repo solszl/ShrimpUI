@@ -20,9 +20,8 @@ package com.shrimp.framework.ui.controls
 	 */	
 	public class Label extends Component
 	{
-		public function Label(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0, text:String="")
+		public function Label(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
 		{
-			this.text=text;
 			super(parent, xpos, ypos);
 			stroke=Style.stroke;
 		}
@@ -41,6 +40,7 @@ package com.shrimp.framework.ui.controls
 
 		override protected function createChildren():void
 		{
+			super.createChildren();
 			_textField=new TextField();
 			_textField.defaultTextFormat=new TextFormat(Style.fontFamily, Style.fontSize, Style.LABEL_COLOR);
 			_textField.height = 10;
@@ -49,7 +49,6 @@ package com.shrimp.framework.ui.controls
 			_format.size=Style.fontSize;
 			_format.color=Style.LABEL_COLOR;
 			_textField.selectable=false;
-			_textField.text=text;
 			addChild(_textField);
 		}
 
@@ -69,6 +68,8 @@ package com.shrimp.framework.ui.controls
 				_text="";
 
 			_textChanged=true;
+			
+			html ? _textField.htmlText=_text : _textField.text=_text;
 
 			if (hasEventListener(Event.CHANGE))
 			{
@@ -371,6 +372,8 @@ package com.shrimp.framework.ui.controls
 				_textField.defaultTextFormat=_format;
 			}
 
+			//因为组件存在显示列表刷新时机问题,可能导致,updateDisplaylist比commitProperties提前.在此,设置text的时候,就设定一次文本
+			//此处防测漏
 			if (_textChanged)
 			{
 				_textChanged=false;
@@ -405,7 +408,6 @@ package com.shrimp.framework.ui.controls
 				}
 			}
 		}
-
 	}
 }
 

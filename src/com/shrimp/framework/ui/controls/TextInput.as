@@ -15,9 +15,9 @@ package com.shrimp.framework.ui.controls
 	[Event(name="textInput", type="flash.events.Event")]
 	public class TextInput extends Label
 	{
-		public function TextInput(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0, text:String="")
+		public function TextInput(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
 		{
-			super(parent, xpos, ypos, text);
+			super(parent, xpos, ypos);
 			setActualSize(128, 22);
 			selectable=true;
 			_textField.type=TextFieldType.INPUT;
