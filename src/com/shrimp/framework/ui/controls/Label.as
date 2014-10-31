@@ -69,7 +69,7 @@ package com.shrimp.framework.ui.controls
 
 			_textChanged=true;
 			
-			html ? _textField.htmlText=_text : _textField.text=_text;
+//			html ? _textField.htmlText=_text : _textField.text=_text;
 
 			if (hasEventListener(Event.CHANGE))
 			{
@@ -379,6 +379,8 @@ package com.shrimp.framework.ui.controls
 				_textChanged=false;
 				html ? _textField.htmlText=_text : _textField.text=_text;
 			}
+			
+			commited=true;
 		}
 
 		override protected function measure():void
@@ -388,8 +390,14 @@ package com.shrimp.framework.ui.controls
 			measuredHeight=Math.max(_textField.textHeight + 4, 15);
 		}
 
+		protected var commited:Boolean=false;
 		override protected function updateDisplayList():void
 		{
+			if(commited==false)
+			{
+				commitProperties();
+			}
+			
 			super.updateDisplayList();
 			_textField.width=width;
 			_textField.height=height;
