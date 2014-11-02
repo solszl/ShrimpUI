@@ -100,7 +100,7 @@ package com.shrimp.framework.ui.layout
 //			target.invalidateSize();
 			target.width = measureWidth;
 			target.height = measureHeight;
-			target.invalidateDisplayList();
+//			target.invalidateDisplayList();
 		}
 
 		override public function get measureHeight():Number

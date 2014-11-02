@@ -90,13 +90,11 @@ package com.shrimp.framework.ui.controls
 
 		protected function measure():void
 		{
-//			addEventListener(Event.ENTER_FRAME,updateDisplayList);
 			updateDisplayList();
 		}
 
 		public function updateDisplayList(e:Event = null):void
 		{
-//			removeEventListener(Event.ENTER_FRAME,updateDisplayList);
 			if (bitmapData)
 			{
 				if (useScale9Rect)

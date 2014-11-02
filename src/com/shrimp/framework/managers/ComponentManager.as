@@ -1,7 +1,8 @@
 package com.shrimp.framework.managers
 {
 	import com.shrimp.framework.ui.controls.core.Component;
-
+	import com.shrimp.framework.ui.controls.core.PriorityQueue;
+	
 	import flash.display.Shape;
 	import flash.events.Event;
 	import flash.utils.Dictionary;
@@ -14,59 +15,52 @@ package com.shrimp.framework.managers
 	public class ComponentManager
 	{
 		private static var _preInitComponentList:Dictionary = new Dictionary(true);
-		private static var _paddingPropertyList:Dictionary = new Dictionary(true);
-		private static var _paddingDisplayList:Dictionary = new Dictionary(true);
-		private static var _paddingSizeList:Dictionary = new Dictionary(true);
+		private static var _validatePropertyQueue:PriorityQueue = new PriorityQueue();
+		private static var _validateDisplayQueue:PriorityQueue = new PriorityQueue();
+		private static var _validateSizeQueue:PriorityQueue = new PriorityQueue();
 
-		private static var _paddingSize:Boolean = false;
-		private static var _paddingProperty:Boolean = false;
-		private static var _paddingDisplay:Boolean = false;
+		private static var hadAttachListener:Boolean=false;
 
 		public static function addPreInitComponent(target:Component):void
 		{
 			if (!(target in _preInitComponentList))
 			{
-				requireUpdate();
 				_preInitComponentList[target] = {propertiesReady:false, displayListReady:false, changeSize:false};
 			}
 		}
 
 		public static function addPaddingDisplay(target:Component):void
 		{
-			_paddingDisplay = true
-			if (!(target in _paddingDisplayList))
+			_validateDisplayQueue.addElement(target);
+			if(!hadAttachListener)
 			{
-				requireUpdate();
-				_paddingDisplayList[target] = 1;
+				attachListener();
+				hadAttachListener=true;
 			}
 		}
 
 		public static function addPaddingProperty(target:Component):void
 		{
-			_paddingProperty = true;
-			if (!(target in _paddingPropertyList))
+			_validatePropertyQueue.addElement(target);
+			if(!hadAttachListener)
 			{
-				requireUpdate();
-				_paddingPropertyList[target] = 1;
+				attachListener();
+				hadAttachListener=true;
 			}
 		}
 
 		public static function addPaddingSize(target:Component):void
 		{
-			_paddingSize = true;
-			if (!(target in _paddingSizeList))
+			_validateSizeQueue.addElement(target);
+			if(!hadAttachListener)
 			{
-				requireUpdate();
-				_paddingSizeList[target] = 1;
+				attachListener();
+				hadAttachListener=true;
 			}
 		}
 
 		public static function removePaddingDisplay(target:Component):void
 		{
-			if (target in _paddingDisplayList)
-			{
-				delete _paddingDisplayList[target];
-			}
 			if (target in _preInitComponentList)
 			{
 				_preInitComponentList[target]["displayListReady"] = true;
@@ -75,10 +69,6 @@ package com.shrimp.framework.managers
 
 		public static function removePaddingProperty(target:Component):void
 		{
-			if (target in _paddingPropertyList)
-			{
-				delete _paddingPropertyList[target];
-			}
 			if (target in _preInitComponentList)
 			{
 				_preInitComponentList[target]["propertiesReady"] = true;
@@ -87,48 +77,44 @@ package com.shrimp.framework.managers
 
 		public static function removePaddingSize(target:Component):void
 		{
-			if (target in _paddingSizeList)
-			{
-				delete _paddingSizeList[target];
-			}
-
 			if (target in _preInitComponentList)
 			{
 				_preInitComponentList[target]["changeSize"] = true;
 			}
 		}
-
-		private static function run():void
+		
+		private static function attachListener():void
 		{
+			StageManager.stage.addEventListener(Event.RENDER,onRenderHandler);
+			StageManager.stage.invalidate();
+		}
+		
+		/**
+		 * 渲染的逻辑
+		 * <p>首先将提交阶段的全部方法执行完毕 然后开始执行 测量 最后执行布局的逻辑</p>
+		 */
+		protected static function onRenderHandler(event:Event):void
+		{
+			StageManager.stage.removeEventListener(Event.RENDER,onRenderHandler);
+			_validatePropertyQueue.sortElements();
+			while(_validatePropertyQueue.length)
+			{
+				_validatePropertyQueue.minNestLevelElement.validateProperties();
+			}
+			
+			_validateSizeQueue.sortElements();
+			while(_validateSizeQueue.length)
+			{
+				_validateSizeQueue.maxNestLevelElement.validateSize();
+			}
+			
+			_validateDisplayQueue.sortElements();
+			while(_validateDisplayQueue.length)
+			{
+				_validateDisplayQueue.minNestLevelElement.validateDisplayList();
+			}
+			
 			var target:*;
-			for (target in _paddingPropertyList)
-			{
-				target.validateProperties();
-			}
-
-			_paddingProperty = false;
-
-			for (target in _paddingSizeList)
-			{
-				target.validateSize();
-			}
-
-			_paddingSize = false;
-
-			for (target in _paddingDisplayList)
-			{
-				target.validateDisplayList();
-			}
-
-			_paddingDisplay = false;
-
-			if (_paddingSize || _paddingProperty || _paddingDisplay)
-			{
-				run();
-				return;
-			}
-
-
 			for (target in _preInitComponentList)
 			{
 				if (_preInitComponentList[target]["displayListReady"] && _preInitComponentList[target]["propertiesReady"] && _preInitComponentList[target]["changeSize"])
@@ -137,35 +123,12 @@ package com.shrimp.framework.managers
 					delete _preInitComponentList[target];
 				}
 			}
-
-			count++;
-			trace(count);
+			hadAttachListener=false;
+			
+			counter++;
+			trace(counter);
 		}
-
-		private static var rn:Shape;
-		private static var ispaddingUpdate:Boolean = false;
-
-		private static function requireUpdate():void
-		{
-			if (!rn)
-				rn = new Shape();
-
-			if (ispaddingUpdate)
-				return;
-
-			ispaddingUpdate = true;
-			rn.addEventListener(Event.RENDER, onEnterFrame);
-			rn.addEventListener(Event.ENTER_FRAME, onEnterFrame);
-		}
-
-		private static var count:int;
-
-		private static function onEnterFrame(e:Event):void
-		{
-			run();
-			ispaddingUpdate = false;
-			rn.removeEventListener(Event.ENTER_FRAME, onEnterFrame);
-			rn.removeEventListener(Event.RENDER, onEnterFrame);
-		}
+		//帧计数器
+		private static var counter:Number=0;
 	}
 }
