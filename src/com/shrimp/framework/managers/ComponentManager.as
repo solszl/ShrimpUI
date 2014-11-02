@@ -97,21 +97,24 @@ package com.shrimp.framework.managers
 		{
 			StageManager.stage.removeEventListener(Event.RENDER,onRenderHandler);
 			_validatePropertyQueue.sortElements();
+			//从外面到内开始计算属性
 			while(_validatePropertyQueue.length)
 			{
 				_validatePropertyQueue.minNestLevelElement.validateProperties();
 			}
 			
 			_validateSizeQueue.sortElements();
+			//从内到外度量尺寸
 			while(_validateSizeQueue.length)
 			{
 				_validateSizeQueue.maxNestLevelElement.validateSize();
 			}
 			
 			_validateDisplayQueue.sortElements();
+			//从外到内摆放
 			while(_validateDisplayQueue.length)
 			{
-				_validateDisplayQueue.minNestLevelElement.validateDisplayList();
+				_validateDisplayQueue.minNestLevelElement.validateDisplayList(); 
 			}
 			
 			var target:*;

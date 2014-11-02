@@ -1,5 +1,7 @@
 package com.shrimp.framework.ui.layout
 {
+	import com.shrimp.framework.ui.controls.core.Component;
+	
 	import flash.display.DisplayObject;
 
 	/**
@@ -37,10 +39,24 @@ package com.shrimp.framework.ui.layout
 				}
 			}
 			_measureHeight+=_gap * (numChildren - 1);
-// 			target.setActualSize(_measureWidth,_measureHeight);
-			target.width = _measureWidth;
-			target.height = _measureHeight;
-//			target.invalidateDisplayList();
+			
+			if(target.width!=measureWidth)
+			{
+				target.width = measureWidth;
+				needUpdateDisplaylist=true;
+			}
+			
+			if(target.height!=measureHeight)
+			{
+				target.height = measureHeight;
+				needUpdateDisplaylist=true;
+			}
+			
+			if(needUpdateDisplaylist)
+			{
+				needUpdateDisplaylist=false;
+				target.invalidateDisplayList();
+			}
 		}
 		
 		override protected function validataAlignH():void

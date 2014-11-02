@@ -71,12 +71,24 @@ package com.shrimp.framework.ui.layout
 				}
 			}
 			_measureWidth+=_gap * (numChildren - 1);
-//			target.setActualSize(_measureWidth,_measureHeight);
-			target.width = _measureWidth;
-			target.height = _measureHeight;
-//			target.invalidateDisplayList();
 			
-			trace("target::",target,target.width);
+			if(target.width!=measureWidth)
+			{
+				target.width = measureWidth;
+				needUpdateDisplaylist=true;
+			}
+			
+			if(target.height!=measureHeight)
+			{
+				target.height = measureHeight;
+				needUpdateDisplaylist=true;
+			}
+			
+			if(needUpdateDisplaylist)
+			{
+				needUpdateDisplaylist=false;
+				target.invalidateDisplayList();
+			}
 		}
 
 		protected function validataAlignH():void

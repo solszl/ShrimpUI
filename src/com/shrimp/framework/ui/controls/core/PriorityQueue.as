@@ -12,6 +12,7 @@ package com.shrimp.framework.ui.controls.core
 		public function sortElements():void
 		{
 			priorityArr.sortOn("nestLevel",Array.NUMERIC);
+//			priorityArr.sort(sortFun);
 		}
 		
 		public function get length():Number
@@ -37,6 +38,19 @@ package com.shrimp.framework.ui.controls.core
 			}
 			
 			priorityArr.push(comp);
+		}
+		
+		/** @private 对UIComponent的实例 根据nestLevel属性进行排序 **/
+		private function sortFun(ui1:Component,ui2:Component):Number
+		{
+			if(ui1.nestLevel>ui2.nestLevel){	
+				return 1;
+			}else if(ui1.nestLevel==ui2.nestLevel){
+				return 0;
+			}else if(ui1.nestLevel<ui2.nestLevel){
+				return -1;
+			}
+			return 0;
 		}
 	}
 }

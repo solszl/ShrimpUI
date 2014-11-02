@@ -33,6 +33,9 @@ package com.shrimp.framework.ui.layout
 		
 		protected var _gap:Number=5;
 		
+		/**	由于度量关系,导致目标宽高与度量宽高不符,则进行刷新一次*/
+		protected var needUpdateDisplaylist:Boolean=false;
+		
 		public function AbstractLayout()
 		{
 

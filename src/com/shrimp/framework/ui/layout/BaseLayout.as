@@ -97,10 +97,24 @@ package com.shrimp.framework.ui.layout
 					}
 				}
 			}
-//			target.invalidateSize();
-			target.width = measureWidth;
-			target.height = measureHeight;
-//			target.invalidateDisplayList();
+			
+			if(target.width!=measureWidth)
+			{
+				target.width = measureWidth;
+				needUpdateDisplaylist=true;
+			}
+			
+			if(target.height!=measureHeight)
+			{
+				target.height = measureHeight;
+				needUpdateDisplaylist=true;
+			}
+			
+			if(needUpdateDisplaylist)
+			{
+				needUpdateDisplaylist=false;
+				target.invalidateDisplayList();
+			}
 		}
 
 		override public function get measureHeight():Number
