@@ -106,8 +106,11 @@ package com.shrimp.framework.ui.layout
 			
 			if(target.height!=measureHeight)
 			{
-				target.height = measureHeight;
-				needUpdateDisplaylist=true;
+				if(target.explicitHeight<measureHeight)
+				{
+					target.height = measureHeight;
+					needUpdateDisplaylist=true;
+				}
 			}
 			
 			if(needUpdateDisplaylist)

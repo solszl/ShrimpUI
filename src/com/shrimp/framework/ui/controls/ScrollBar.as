@@ -315,5 +315,6 @@ package com.shrimp.framework.ui.controls
 			_slider.maximum=max;
 			this.value=value;
 		}
+		
 	}
 }
