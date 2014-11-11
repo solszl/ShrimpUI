@@ -111,7 +111,6 @@ package com.shrimp.framework.ui.controls
 			{
 				loadComplete();
 			}
-			
 		}
 
 		/**	当动态加载资源为空的时候, 在图片左上角画一个 红色4x4的红点*/
@@ -201,6 +200,17 @@ package com.shrimp.framework.ui.controls
 				AssetsManager.getInstance().cacheBitmapData(String(_source), _img.bitmapData);
 			}
 
+			//将加载完成的图片宽高设定给图片
+			if(width==0)
+			{
+				width = _img.bitmapData.width;
+			}
+			
+			if(height==0)
+			{
+				this.height = _img.bitmapData.height;
+			}
+			
 			invalidateProperties();
 			invalidateSize();
 			invalidateDisplayList();

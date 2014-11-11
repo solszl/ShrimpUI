@@ -17,7 +17,6 @@ package com.shrimp.framework.ui.controls
 		public function Button(parent:DisplayObjectContainer = null, xpos:Number = 0, ypos:Number = 0, label:String = "")
 		{
 			super(parent, xpos, ypos);
-//			setActualSize(100,30);
 			this.label = label;
 
 		}
@@ -82,7 +81,6 @@ package com.shrimp.framework.ui.controls
 		public function get label():String
 		{
 			return _label.text;
-//			return _labelText;
 		}
 
 		public function set label(value:String):void
@@ -208,7 +206,7 @@ package com.shrimp.framework.ui.controls
 			super.updateDisplayList();
 			bg.width = width;
 			bg.height = height;
-			
+
 			//对label进行布局
 			doLabelAlign();
 		}
