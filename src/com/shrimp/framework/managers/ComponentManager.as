@@ -131,6 +131,7 @@ package com.shrimp.framework.managers
 			counter++;
 			trace(counter);
 		}
+		
 		//帧计数器
 		private static var counter:Number=0;
 	}

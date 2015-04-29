@@ -1,10 +1,9 @@
 package com.shrimp.framework.ui.controls
 {
 	import com.shrimp.framework.utils.DisplayObjectUtils;
-
+	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
-	import flash.display.DisplayObject;
 	import flash.events.Event;
 	import flash.geom.Rectangle;
 
@@ -52,7 +51,6 @@ package com.shrimp.framework.ui.controls
 		override public function get width():Number
 		{
 			return isNaN(_width) ? super.width : _width;
-
 		}
 
 		override public function set width(value:Number):void

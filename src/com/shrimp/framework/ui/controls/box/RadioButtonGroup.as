@@ -12,7 +12,8 @@ package com.shrimp.framework.ui.controls.box
 	 *	单选框组 
 	 * @author Sol
 	 * 
-	 */	
+	 */
+	[Event(name="change", type="flash.events.Event")]
 	public class RadioButtonGroup extends Box
 	{
 		private var _groupName:String;
@@ -139,7 +140,9 @@ package com.shrimp.framework.ui.controls.box
 			var target:RadioButton = event.target as RadioButton;
 			
 			if(target != null)
-				clear(target);
+				selectedItem = target;
+			
+			dispatchEvent(new Event(Event.CHANGE));
 		}
 		
 		/**	选中索引*/
@@ -158,6 +161,7 @@ package com.shrimp.framework.ui.controls.box
 			
 			_selectedIndex = value;
 			selectedItem = getChildAt(value) as RadioButton;
+			dispatchEvent(new Event(Event.CHANGE));
 		}
 
 		/**	选中项*/

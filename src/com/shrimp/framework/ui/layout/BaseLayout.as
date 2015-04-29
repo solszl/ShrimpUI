@@ -98,20 +98,32 @@ package com.shrimp.framework.ui.layout
 				}
 			}
 			
-			if(target.width!=measureWidth)
+			if(!isNaN(target.explicitWidth) && target.width!=target.explicitWidth)
 			{
-				target.width = measureWidth;
-				needUpdateDisplaylist=true;
+				target.width = target.explicitWidth;
+				needUpdateDisplaylist = true;
 			}
 			
-			if(target.height!=measureHeight)
+//			if(target.width!=measureWidth)
+//			{
+//				target.width = measureWidth;
+//				needUpdateDisplaylist=true;
+//			}
+
+			if(!isNaN(target.explicitHeight) && target.height != target.explicitHeight)
 			{
-				if(target.explicitHeight<measureHeight)
-				{
-					target.height = measureHeight;
-					needUpdateDisplaylist=true;
-				}
+				target.height = target.explicitHeight;
+				needUpdateDisplaylist = true;
 			}
+			
+//			if(target.height!=measureHeight)
+//			{
+//				if(target.explicitHeight<measureHeight)
+//				{
+//					target.height = measureHeight;
+//					needUpdateDisplaylist=true;
+//				}
+//			}
 			
 			if(needUpdateDisplaylist)
 			{

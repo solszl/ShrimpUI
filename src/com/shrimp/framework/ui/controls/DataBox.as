@@ -11,7 +11,7 @@ package com.shrimp.framework.ui.controls
 	import flash.events.MouseEvent;
 	
 	import mx.core.IFactory;
-	
+	[Event(name="renderComplete", type="flash.events.Event")]
 	public class DataBox extends Box
 	{
 		public function DataBox(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)

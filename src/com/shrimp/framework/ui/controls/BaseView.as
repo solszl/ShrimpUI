@@ -85,6 +85,7 @@ package com.shrimp.framework.ui.controls
 
 		protected function onStageResize(e:Event=null):void
 		{
+			setActualSize(StageManager.getStageWidth(),StageManager.getStageHeight());
 			invalidateDisplayList();
 		}
 	}

@@ -57,7 +57,7 @@ package com.shrimp.framework.ui.controls.core
 		/**	默认字体 SimSun*/
 		public static var fontFamily:String="SimSun";
 		/**	描边颜色*/
-		public static const stroke:String="0x292317,1,2,2,16,1"; //color,alpha,blurX,blurY,strength,quality
+		public static const stroke:String="0x292317,1,2,2,8,1"; //color,alpha,blurX,blurY,strength,quality
 
 		/**	文本字 颜色*/
 		public static const LABEL_COLOR:uint=0xFFFFFF;

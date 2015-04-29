@@ -86,8 +86,6 @@ package com.shrimp.framework.ui.controls
 			super.updateDisplayList();
 			lbl.move(icon.width + gap, 0);
 			icon.move(0, Math.abs(icon.height - lbl.height>>1));
-			
-			trace("icon.width",icon.width);
 		}
 
 		public function get label():String

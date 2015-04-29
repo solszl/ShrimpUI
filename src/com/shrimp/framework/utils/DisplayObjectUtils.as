@@ -118,25 +118,25 @@ package com.shrimp.framework.utils
 				return source;
 			}
 			
-			if((w<rect.left+source.width - rect.right)||h<rect.top+source.height-rect.bottom)
-			{
-				return source;
-			}
+//			if((w<rect.left+source.width - rect.right)||h<rect.top+source.height-rect.bottom)
+//			{
+//				return source;
+//			}
 			
 			var m:Matrix=new Matrix();
 			var result:BitmapData=new BitmapData(w, h, true, 0x000000);
 			var origin:Rectangle;
 			var draw:Rectangle;
 			//缩小
-			if (source.height > h && source.width > w)
-			{
-				m.identity();
-				m.scale(w / source.width, h / source.height);
-				draw=new Rectangle(0, 0, w, h);
-				result.draw(source, m, null, null, draw, true);
-			}
-			//放大
-			else
+//			if (source.height > h || source.width > w)
+//			{
+//				m.identity();
+//				m.scale(w / source.width, h / source.height);
+//				draw=new Rectangle(0, 0, w, h);
+//				result.draw(source, m, null, null, draw, true);
+//			}
+//			//放大
+//			else
 			{
 				var rows:Array=[0, rect.top, rect.bottom, source.height];
 				var cols:Array=[0, rect.left, rect.right, source.width];
