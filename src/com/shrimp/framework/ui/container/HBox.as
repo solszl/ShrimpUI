@@ -41,7 +41,6 @@ package com.shrimp.framework.ui.container
 		public function get verticalAlign():String
 		{
 			return HorizontalLayout(_layout).verticalAlign;
-			;
 		}
 
 		public function set verticalAlign(value:String):void

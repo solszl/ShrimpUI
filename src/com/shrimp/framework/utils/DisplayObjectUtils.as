@@ -1,7 +1,7 @@
 package com.shrimp.framework.utils
 {
 	import com.shrimp.framework.managers.StageManager;
-	
+
 	import flash.display.BitmapData;
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
@@ -117,12 +117,12 @@ package com.shrimp.framework.utils
 			{
 				return source;
 			}
-			
+
 //			if((w<rect.left+source.width - rect.right)||h<rect.top+source.height-rect.bottom)
 //			{
 //				return source;
 //			}
-			
+
 			var m:Matrix=new Matrix();
 			var result:BitmapData=new BitmapData(w, h, true, 0x000000);
 			var origin:Rectangle;
@@ -137,41 +137,41 @@ package com.shrimp.framework.utils
 //			}
 //			//放大
 //			else
+//			{
+			var rows:Array=[0, rect.top, rect.bottom, source.height];
+			var cols:Array=[0, rect.left, rect.right, source.width];
+			var newRows:Array=[0, rect.top, h - (source.height - rect.bottom), h];
+			var newCols:Array=[0, rect.left, w - (source.width - rect.right), w];
+			for (var cx:int=0; cx < 3; cx++)
 			{
-				var rows:Array=[0, rect.top, rect.bottom, source.height];
-				var cols:Array=[0, rect.left, rect.right, source.width];
-				var newRows:Array=[0, rect.top, h - (source.height - rect.bottom), h];
-				var newCols:Array=[0, rect.left, w - (source.width - rect.right), w];
-				for (var cx:int=0; cx < 3; cx++)
+				for (var cy:int=0; cy < 3; cy++)
 				{
-					for (var cy:int=0; cy < 3; cy++)
-					{
-						origin=new Rectangle(cols[cx], rows[cy], cols[cx + 1] - cols[cx], rows[cy + 1] - rows[cy]);
-						draw=new Rectangle(newCols[cx], newRows[cy], newCols[cx + 1] - newCols[cx], newRows[cy + 1] - newRows[cy]);
-						m.identity();
-						m.a=draw.width / origin.width;
-						m.d=draw.height / origin.height;
-						m.tx=draw.x - origin.x * m.a;
-						m.ty=draw.y - origin.y * m.d;
-						result.draw(source, m, null, null, draw, true);
-					}
+					origin=new Rectangle(cols[cx], rows[cy], cols[cx + 1] - cols[cx], rows[cy + 1] - rows[cy]);
+					draw=new Rectangle(newCols[cx], newRows[cy], newCols[cx + 1] - newCols[cx], newRows[cy + 1] - newRows[cy]);
+					m.identity();
+					m.a=draw.width / origin.width;
+					m.d=draw.height / origin.height;
+					m.tx=draw.x - origin.x * m.a;
+					m.ty=draw.y - origin.y * m.d;
+					result.draw(source, m, null, null, draw, true);
 				}
 			}
+//			}
 
 			return result;
 		}
-		
+
 		/**
-		 *	根据传入的点,返回该点下所有显示对象 
+		 *	根据传入的点,返回该点下所有显示对象
 		 * @param xpos	横坐标
 		 * @param ypos	纵坐标
 		 * @return 	返回该点层级对应关系的组件列表
-		 * 
-		 */		
-		public static function getUnderObjects(xpos:Number,ypos:Number):Array
+		 *
+		 */
+		public static function getUnderObjects(xpos:Number, ypos:Number):Array
 		{
-			var arr:Array = [];
-			DisplayObjectUtils.getObjectsUnderPoint(StageManager.stage,new Point(xpos,ypos),arr);
+			var arr:Array=[];
+			DisplayObjectUtils.getObjectsUnderPoint(StageManager.stage, new Point(xpos, ypos), arr);
 			return arr;
 		}
 	}

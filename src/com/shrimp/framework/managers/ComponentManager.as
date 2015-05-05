@@ -3,7 +3,6 @@ package com.shrimp.framework.managers
 	import com.shrimp.framework.ui.controls.core.Component;
 	import com.shrimp.framework.ui.controls.core.PriorityQueue;
 	
-	import flash.display.Shape;
 	import flash.events.Event;
 	import flash.utils.Dictionary;
 
@@ -86,6 +85,7 @@ package com.shrimp.framework.managers
 		private static function attachListener():void
 		{
 			StageManager.stage.addEventListener(Event.RENDER,onRenderHandler);
+			StageManager.stage.addEventListener(Event.ENTER_FRAME,onRenderHandler);
 			StageManager.stage.invalidate();
 		}
 		
@@ -93,9 +93,10 @@ package com.shrimp.framework.managers
 		 * 渲染的逻辑
 		 * <p>首先将提交阶段的全部方法执行完毕 然后开始执行 测量 最后执行布局的逻辑</p>
 		 */
-		protected static function onRenderHandler(event:Event):void
+		protected static function onRenderHandler(event:Event = null):void
 		{
 			StageManager.stage.removeEventListener(Event.RENDER,onRenderHandler);
+			StageManager.stage.removeEventListener(Event.ENTER_FRAME,onRenderHandler);
 			_validatePropertyQueue.sortElements();
 			//从外面到内开始计算属性
 			while(_validatePropertyQueue.length)

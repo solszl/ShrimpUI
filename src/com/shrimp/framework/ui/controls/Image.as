@@ -11,6 +11,7 @@ package com.shrimp.framework.ui.controls
 	import flash.display.BitmapData;
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
+	import flash.events.Event;
 	import flash.geom.Matrix;
 	import flash.geom.Rectangle;
 	import flash.system.ApplicationDomain;
@@ -34,6 +35,10 @@ package com.shrimp.framework.ui.controls
 			super.createChildren();
 			_img = new AutoBitmap();
 			addChildAt(_img, 0);
+			
+			
+			//子 autoBitmap 渲染完成过后 通知父容器,计算属性, 度量尺寸
+			_img.addEventListener(Event.RENDER,validateSizeInternal);
 		}
 
 		private var _source:Object;
@@ -224,6 +229,12 @@ package com.shrimp.framework.ui.controls
 		{
 			_img.destory();
 			loadComplete=null;
+		}
+		
+		protected function validateSizeInternal(e:Event = null):void
+		{
+			validateProperties();
+			validateSize();
 		}
 	}
 }

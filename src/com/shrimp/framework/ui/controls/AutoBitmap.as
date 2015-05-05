@@ -107,6 +107,9 @@ package com.shrimp.framework.ui.controls
 					super.width = width;
 					super.height = height;
 				}
+				
+				//修改自身宽高过后, 通知父容器 进行重新度量
+				dispatchEvent(new Event(Event.RENDER));
 			}
 		}
 
