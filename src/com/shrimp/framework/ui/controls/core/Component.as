@@ -581,20 +581,6 @@ package com.shrimp.framework.ui.controls.core
 			invalidateDisplayList();
 		}
 		
-		//新手引导名字
-		private var _guideName:String;
-		
-		/**	新手引导名字*/
-		public function get guideName():String
-		{
-			return _guideName;
-		}
-		
-		public function set guideName(value:String):void
-		{
-			_guideName = value;
-		}
-		
 		private var _nestLevel:Number = 0;
 		
 		public function get nestLevel():Number
