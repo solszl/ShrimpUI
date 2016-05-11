@@ -9,8 +9,6 @@ package com.shrimp.framework.load
 	{
 		/**	资源*/
 		public static var resourceMap:Dictionary=new Dictionary();
-		/**	特效*/
-		public static var effectMap:Dictionary=new Dictionary();
 
 		/**
 		 * 向资源集合中添加资源
@@ -48,55 +46,9 @@ package com.shrimp.framework.load
 			ResourceLibrary.removeFromLibrary(key);
 		}
 
-		/**
-		 * 向资源集合中添加特效资源
-		 * @param key 通常为 PANEL{0}	通配为面板ID, DOMAIN207 
-		 * @param domain
-		 * 
-		 */		
-		public static function addDomain(domainName:String, domain:ApplicationDomain):void
-		{
-			effectMap[domainName]=domain;
-		}
-
-		public static function removeDomain(domainName:String):void
-		{
-			if (domainName in effectMap)
-			{
-				delete effectMap[domainName];
-			}
-		}
-
-		public static function getDomainClass(domainName:String, linkName:String):Class
-		{
-			var domain:ApplicationDomain;
-			if (domainName in effectMap)
-			{
-				domain=effectMap[domainName];
-			}
-
-			return ClassUtils.getClass(linkName, domain);
-		}
-
-		public static function getDomainInstance(domainName:String, linkName:String):*
-		{
-			var domain:ApplicationDomain;
-			if (domainName in effectMap)
-			{
-				domain=effectMap[domainName];
-			}
-
-			return ClassUtils.getClassInstance(linkName, domain);
-		}
-
 		public static function hasResource(domainName:String):Boolean
 		{
 			return resourceMap[domainName] != null;
-		}
-
-		public static function hasDomain(domainName:String):Boolean
-		{
-			return effectMap[domainName] != null
 		}
 	}
 
